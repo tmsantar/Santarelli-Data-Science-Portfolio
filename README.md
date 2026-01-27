@@ -1,10 +1,10 @@
 # Santarelli Data Science Portfolio
 
-Welcome to my data science portfolio! This repository includes a collection of my projects and learning experiences throughout my Data Science journey. Here, you'll find various projects that showcase my work in **Exploratory Data Analysis (EDA)**, **data visualization**, **machine learning**, and more.
+Welcome to my data science portfolio! This repository includes a collection of my projects and learning experiences throughout my Data Science journey. Here you'll find projects showcasing my work in **Exploratory Data Analysis (EDA)**, **data visualization**, **machine learning**, and more.
 
 ## 💻 Purpose
 
-The purpose of this repository is to demonstrate my skills in data science and provide a clear structure for my ongoing work. This repository will contain several projects, from basic analysis to advanced machine learning models, with each project organized into its own folder for clarity.
+The purpose of this repository is to demonstrate my data science skills and provide a clear structure for my ongoing work. This repository will contain several projects, from basic analysis to advanced machine learning models, with each project organized into its own folder for clarity.
 
 ## 📂 Folder Structure
 
