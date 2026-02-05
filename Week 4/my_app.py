@@ -20,6 +20,7 @@ st.subheader("Exploring our Dataset")
 # Load in the CSV file
 df = pd.read_csv("data/sample_data-1.csv")
 
+
 st.write("Here's our data!")
 st.dataframe(df)
 
@@ -31,3 +32,11 @@ st.dataframe(filtered_df)
 
 ## Add bar chart
 st.bar_chart(df["Salary"])
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+st.subheader("Salary Distribution by City")
+box_plot1 = sns.boxplot(x="City", y="Salary", data=df)
+plt.title("Salary Distribution by City")
+st.pyplot(box_plot1.get_figure())
