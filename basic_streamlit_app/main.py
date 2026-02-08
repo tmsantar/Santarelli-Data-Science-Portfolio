@@ -5,18 +5,81 @@ import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import numpy as np
 
-# Set page config for wide layout
 st.set_page_config(page_title="NFL Receiving Stats Explorer", page_icon="🏈", layout="wide")
 
+# Custom CSS for styling (for overall look and footer)
+st.markdown(
+    """
+    <style>
+        /* Footer */
+        .footer {
+            margin-top: 2.5rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(148,163,184,0.35);
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .footer a {
+            color: #0066cc;
+            text-decoration: none;
+            margin-right: 1rem;
+        }
+        .footer a:hover {
+            text-decoration: none;
+        }
+        .social-icon {
+            vertical-align: middle;
+            margin-right: 0.30rem;
+        }
+        
+        /* Left-align sidebar buttons */
+        section[data-testid="stSidebar"] .stButton > button {
+            text-align: left !important;
+            padding-left: 1rem !important;
+            justify-content: flex-start !important;
+        }
+        
+        section[data-testid="stSidebar"] .stButton > button > div {
+            text-align: left !important;
+            justify-content: flex-start !important;
+        }
+        
+        section[data-testid="stSidebar"] .stButton > button p {
+            text-align: left !important;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 # Title of the app
 st.title("🏈 NFL Receiving Stats Explorer")
 
 # Load the dataset
 receiving_df = pd.read_csv("data/nextgen_receiving_stats.csv")
 
-# Sidebar navigation
 st.sidebar.title("📊 Navigation")
-page = st.sidebar.radio("Select Page", ["🏠 Home", "📈 Season Stats", "📅 Weekly Stats", "🎯 Advanced Stats"])
+
+# Initialize session state for page if it doesn't exist
+if 'page' not in st.session_state:
+    st.session_state.page = "🏠 Home"
+
+# Update page based on button clicks
+if st.sidebar.button("🏠 Home", use_container_width=True):
+    st.session_state.page = "🏠 Home"
+if st.sidebar.button("📈 Season Stats", use_container_width=True):
+    st.session_state.page = "📈 Season Stats"
+if st.sidebar.button("📅 Weekly Stats", use_container_width=True):
+    st.session_state.page = "📅 Weekly Stats"
+if st.sidebar.button("🎯 Advanced Stats", use_container_width=True):
+    st.session_state.page = "🎯 Advanced Stats"
+
+# Get the current page from session state
+page = st.session_state.page
+
+# Set default if no button clicked
+if 'page' not in locals():
+    page = "🏠 Home"
+
 
 # HOME PAGE
 if page == "🏠 Home":
@@ -65,7 +128,7 @@ if page == "🏠 Home":
     Get started by selecting a page from the sidebar! 👈
     """)
     
-    # Optional: Display dataset overview
+    # Extra dataset overview section with key metrics
     st.subheader("📋 Dataset Overview")
     col1, col2, col3 = st.columns(3)
     
@@ -76,6 +139,29 @@ if page == "🏠 Home":
         st.metric("📅 Total Weeks", 18)
     with col3:
         st.metric("📊 Next Gen Stats Tracked", 12)
+
+    # Footer with contact info and dataset source
+    st.markdown(
+        """
+        <div class="footer">
+            <div>
+                Built by <strong>Tommy Santarelli</strong> — Business Analytics Major at Notre Dame<br/>
+                This dashboard is powered by NFL Next Gen Stats dataset saved to
+                <code>data/nextgen_receiving_stats.csv</code>.
+            </div>
+            <br/>
+            <div>
+                <a href="https://www.linkedin.com/in/tommy-santarelli-792651329/" target="_blank">
+                    <span class="social-icon">🔗</span>LinkedIn
+                </a>
+                <a href="https://github.com/tmsantar" target="_blank">
+                    <span class="social-icon">🐙</span>GitHub
+                </a>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 # SEASON STATS PAGE
 elif page == "📈 Season Stats":
@@ -113,7 +199,7 @@ elif page == "📈 Season Stats":
     fig, ax = plt.subplots(figsize=(12, 6))
     colors = sns.color_palette("viridis", 10)
     sns.barplot(x='Player Name', y=stat_column, data=top_10_data, ax=ax, palette=colors)
-    ax.set_title(f"🏆 Top 10 Players Based on {stat_column}", fontsize=16, fontweight='bold')
+    ax.set_title(f"Top 10 Players Based on {stat_column}", fontsize=16, fontweight='bold')
     ax.set_xlabel("Player Name", fontsize=12)
     ax.set_ylabel(stat_column, fontsize=12)
     ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
@@ -122,16 +208,31 @@ elif page == "📈 Season Stats":
     
     st.markdown("---")
     
-    # Display full season dataframe
+   # Display full season dataframe
     st.subheader("📋 Complete Season Statistics")
-    
+
+    # Add searchable dropdown
+    all_players = ['All Players'] + sorted(season_data_clean['Player Name'].unique().tolist())
+    selected_player = st.selectbox(
+        "🔍 Search or Select Player", 
+        options=all_players,
+        index=0,
+        key="season_search"
+    )
+
     # Reorder columns for better display
     priority_cols = ['Player Name', 'Position', 'Team Abbreviation', 'Yards', 'Targets', 
-                     'Receptions', 'Receiving Touchdowns', 'Catch Percentage']
+                    'Receptions', 'Receiving Touchdowns', 'Catch Percentage']
     other_cols = [col for col in season_data_clean.columns if col not in priority_cols]
     ordered_cols = priority_cols + other_cols
     season_data_display = season_data_clean[ordered_cols]
-    
+
+    # Filter by selected player
+    if selected_player != 'All Players':
+        season_data_display = season_data_display[
+            season_data_display['Player Name'] == selected_player
+        ]
+
     st.dataframe(season_data_display, hide_index=True, use_container_width=True, height=600)
 
 # WEEKLY STATS PAGE
@@ -174,7 +275,7 @@ elif page == "📅 Weekly Stats":
     fig, ax = plt.subplots(figsize=(12, 6))
     colors = sns.color_palette("rocket", 10)
     sns.barplot(x='Player Name', y=weekly_stat_column, data=top_10_weekly, ax=ax, palette=colors)
-    ax.set_title(f"🏆 Top 10 Players in Week {week} Based on {weekly_stat_column}", fontsize=16, fontweight='bold')
+    ax.set_title(f"Top 10 Players in Week {week} Based on {weekly_stat_column}", fontsize=16, fontweight='bold')
     ax.set_xlabel("Player Name", fontsize=12)
     ax.set_ylabel(weekly_stat_column, fontsize=12)
     ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
@@ -182,17 +283,32 @@ elif page == "📅 Weekly Stats":
     st.pyplot(fig)
     
     st.markdown("---")
-    
+
     # Display full weekly dataframe
     st.subheader(f"📋 Complete Week {week} Statistics")
-    
+
+    # Add searchable dropdown
+    all_players = ['All Players'] + sorted(week_data_clean['Player Name'].unique().tolist())
+    selected_player = st.selectbox(
+        "🔍 Search or Select Player", 
+        options=all_players,
+        index=0,
+        key="weekly_search"
+    )
+
     # Reorder columns for better display (no Week column)
     priority_cols = ['Player Name', 'Position', 'Team Abbreviation', 'Yards', 'Targets', 
-                     'Receptions', 'Receiving Touchdowns', 'Catch Percentage']
+                    'Receptions', 'Receiving Touchdowns', 'Catch Percentage']
     other_cols = [col for col in week_data_clean.columns if col not in priority_cols]
     ordered_cols = [col for col in priority_cols if col in week_data_clean.columns] + other_cols
     week_data_display = week_data_clean[ordered_cols]
-    
+
+    # Filter by selected player
+    if selected_player != 'All Players':
+        week_data_display = week_data_display[
+            week_data_display['Player Name'] == selected_player
+        ]
+
     st.dataframe(week_data_display, hide_index=True, use_container_width=True, height=600)
     
     # Add some stats summary
@@ -277,9 +393,9 @@ elif page == "🎯 Advanced Stats":
     else:
         # Player selection
         selected_players = st.multiselect(
-            "Select Players to Compare (up to 2 players) 👇",
+            "Select Players to Compare (up to 2 players)",
             options=sorted(comparison_data['Player Name'].unique()),
-            default=comparison_data.nlargest(2, 'Yards')['Player Name'].tolist(),
+            default=comparison_data.nlargest(2, 'Receiving Touchdowns')['Player Name'].tolist(),
             max_selections=2,
             key="advanced_players"
         )
@@ -322,22 +438,35 @@ elif page == "🎯 Advanced Stats":
             
             # Sort by average value (descending) so larger polygons are drawn first
             player_traces.sort(key=lambda x: x['avg_value'], reverse=True)
-        
-            # Add traces in order (largest first, so smallest is on top and clickable)
+
+            fig.update_layout(hovermode="closest")
+
             for trace_data in player_traces:
+                theta_closed = radar_labels + [radar_labels[0]]
+                r_closed = trace_data['normalized_values'] + [trace_data['normalized_values'][0]]
+                actual_closed = trace_data['actual_values'] + [trace_data['actual_values'][0]]
+                customdata_closed = [[v] for v in actual_closed]
+
                 fig.add_trace(go.Scatterpolar(
-                    r=trace_data['normalized_values'],
-                    theta=radar_labels,
+                    r=r_closed,
+                    theta=theta_closed,
                     fill='toself',
                     name=trace_data['player'],
-                    fillcolor=colors[trace_data['idx']],
+                    fillcolor=colors[trace_data['idx']],  # ideally rgba(..., 0.20-0.35)
                     line=dict(width=3, color=line_colors[trace_data['idx']]),
-                    hovertemplate='<b>%{theta}</b><br>Actual: %{customdata[0]:.1f}<br>Percentile: %{r:.1f}%<extra></extra>',
-                    customdata=[[val] for val in trace_data['actual_values']]
+                    mode="lines+markers",
+                    marker=dict(size=8),
+                    hoveron="points",
+                    hovertemplate=(
+                        "<b>%{theta}</b><br>"
+                        "Actual: %{customdata[0]:.1f}<br>"
+                        "Percentile: %{r:.1f}%<extra></extra>"
+                    ),
+                    customdata=customdata_closed
                 ))
         
             fig.update_layout(
-                title="⚔️ Player Comparison (Percentile of Maximum Performance)",
+                title="Player Comparison (Percentile of Maximum Performance)",
                 polar=dict(
                     radialaxis=dict(
                         visible=True,
@@ -366,7 +495,9 @@ elif page == "🎯 Advanced Stats":
             
             if len(selected_players) == 2:
                 comparison_table = radar_data[['Player Name', 'Position', 'Team Abbreviation'] + selected_stats]
-                st.dataframe(comparison_table.T, use_container_width=True)
+                # Set player names as columns and transpose
+                comparison_table = comparison_table.set_index('Player Name').T
+                st.dataframe(comparison_table, use_container_width=True)
             else:
                 comparison_table = radar_data[['Player Name', 'Position', 'Team Abbreviation'] + selected_stats]
                 st.dataframe(comparison_table, hide_index=True, use_container_width=True)
