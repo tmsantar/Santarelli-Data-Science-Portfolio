@@ -51,13 +51,12 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-# Title of the app
-st.title("🏈 NFL Receiving Stats Explorer")
+
 
 # Load the dataset
 receiving_df = pd.read_csv("data/nextgen_receiving_stats.csv")
 
-st.sidebar.title("📊 Navigation")
+st.sidebar.title("Navigation")
 
 # Initialize session state for page if it doesn't exist
 if 'page' not in st.session_state:
@@ -83,14 +82,16 @@ if 'page' not in locals():
 
 # HOME PAGE
 if page == "🏠 Home":
-    st.header("Welcome to the NFL Receiving Stats Explorer! 🎉")
+    st.title("NFL Receiving Stats Explorer 🏈")
+
+    st.header("Welcome to the NFL Receiving Stats Explorer!")
     
     st.write("""
-    ### 📖 About This Dataset
+    ### About This Dataset:
     
     This application allows you to explore comprehensive receiving statistics for NFL players 
-    from the 2025 regular season using **Next Generation Stats** tracking data. The data includes 
-    performance metrics for wide receivers, tight ends, running backs, and fullbacks. 🏃‍♂️
+    from the 2025 regular season using **NFL Next Gen Stats** tracking data. The data includes 
+    performance metrics for wide receivers, and tight ends.
     
     Next Gen Stats uses real-time location data captured by sensors throughout the stadium 
     that track tags on players' shoulder pads, measuring speed, acceleration, and positioning 
@@ -209,12 +210,12 @@ elif page == "📈 Season Stats":
     st.markdown("---")
     
    # Display full season dataframe
-    st.subheader("📋 Complete Season Statistics")
+    st.subheader("Complete Season Statistics")
 
     # Add searchable dropdown
     all_players = ['All Players'] + sorted(season_data_clean['Player Name'].unique().tolist())
     selected_player = st.selectbox(
-        "🔍 Search or Select Player", 
+        "🔍Search or Select Player", 
         options=all_players,
         index=0,
         key="season_search"
@@ -234,6 +235,22 @@ elif page == "📈 Season Stats":
         ]
 
     st.dataframe(season_data_display, hide_index=True, use_container_width=True, height=600)
+
+        # Add some stats summary
+    st.markdown("---")
+    st.subheader(f"📈 2025 Season Summary")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric("🎯 Total Yards", f"{season_data['Yards'].sum():,.0f}")
+    with col2:
+        st.metric("✋ Total Receptions", f"{season_data['Receptions'].sum():,.0f}")
+    with col3:
+        st.metric("🔥 Total TDs", f"{season_data['Receiving Touchdowns'].sum():,.0f}")
+    with col4:
+        avg_catch_pct = season_data['Catch Percentage'].mean()
+        st.metric("📈 Avg Catch %", f"{avg_catch_pct:.1f}%")
 
 # WEEKLY STATS PAGE
 elif page == "📅 Weekly Stats":
@@ -285,7 +302,7 @@ elif page == "📅 Weekly Stats":
     st.markdown("---")
 
     # Display full weekly dataframe
-    st.subheader(f"📋 Complete Week {week} Statistics")
+    st.subheader(f"Complete Week {week} Statistics")
 
     # Add searchable dropdown
     all_players = ['All Players'] + sorted(week_data_clean['Player Name'].unique().tolist())
@@ -313,7 +330,7 @@ elif page == "📅 Weekly Stats":
     
     # Add some stats summary
     st.markdown("---")
-    st.subheader(f"📈 Week {week} Summary")
+    st.subheader(f"📅 Week {week} Summary")
     
     col1, col2, col3, col4 = st.columns(4)
     
@@ -332,8 +349,8 @@ elif page == "🎯 Advanced Stats":
     st.header("🎯 Advanced Player Analysis with Next Gen Stats")
     
     st.write("""
-    Compare players using **Next Generation Stats** advanced metrics in an interactive radar chart. 
-    Select your comparison type and up to 2 players to see how they stack up! 📊
+    Compare players using **Next Gen Stats** advanced metrics in an interactive radar chart. 
+    Select your comparison type and up to 2 players to see how they stack up!
     """)
     
     # Filters
