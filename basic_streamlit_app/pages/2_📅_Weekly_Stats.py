@@ -17,7 +17,7 @@ st.header("📅 Weekly Statistics")
 # Filters
 st.subheader("🎯 Filters")
 
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3 = st.columns(3)
 
 with col1:
     week = st.slider("Select Week 📆", min_value=1, max_value=18, value=1, key="weekly_week")
@@ -34,16 +34,8 @@ with col2:
 # Get week data
 week_data = receiving_df[receiving_df['Week'] == week].copy()
 
-with col3:
-    # Team filter
-    all_teams = ['All Teams'] + sorted(week_data['Team Abbreviation'].unique().tolist())
-    selected_team = st.selectbox(
-        "Filter by Team",
-        options=all_teams,
-        key="weekly_team_filter"
-    )
 
-with col4:
+with col3:
     # Position filter
     all_positions = ['All Positions'] + sorted(week_data['Position'].unique().tolist())
     selected_position = st.selectbox(
@@ -58,8 +50,6 @@ week_data_clean = week_data.drop(columns=[col for col in columns_to_drop if col 
 
 # Apply filters
 filtered_data = week_data_clean.copy()
-if selected_team != 'All Teams':
-    filtered_data = filtered_data[filtered_data['Team Abbreviation'] == selected_team]
 if selected_position != 'All Positions':
     filtered_data = filtered_data[filtered_data['Position'] == selected_position]
 
@@ -74,8 +64,6 @@ if len(top_10_weekly) > 0:
     sns.barplot(x='Player Name', y=weekly_stat_column, data=top_10_weekly, ax=ax, palette=colors)
     
     filter_text = ""
-    if selected_team != 'All Teams':
-        filter_text += f" - {selected_team}"
     if selected_position != 'All Positions':
         filter_text += f" - {selected_position}"
     

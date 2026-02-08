@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 
 st.set_page_config(page_title="Advanced Stats", page_icon="🎯", layout="wide")
 
-# Load data
+# Load data in a cached function for performance
 @st.cache_data
 def load_data():
     return pd.read_csv("data/nextgen_receiving_stats.csv")
@@ -18,7 +18,7 @@ Compare players using **Next Gen Stats** advanced metrics in an interactive rada
 Select your comparison type and up to 2 players to see how they stack up!
 """)
 
-# Settings
+# Settings for comparison
 st.subheader("⚙️ Settings")
 
 col1, col2 = st.columns(2)
@@ -101,11 +101,17 @@ else:
         for idx, player in enumerate(selected_players):
             player_data = radar_data[radar_data['Player Name'] == player].iloc[0]
             
-            # Get the actual values and normalize them to 0-100 scale (percentile)
+            # Get the actual values
             actual_values = [player_data[stat] for stat in selected_stats]
-            max_values = [comparison_data[stat].max() for stat in selected_stats]
-            normalized_values = [(actual / max_val * 100) if max_val > 0 else 0 
-                                for actual, max_val in zip(actual_values, max_values)]
+            
+            # Calculate true percentile rankings for each stat
+            normalized_values = []
+            for stat, actual_val in zip(selected_stats, actual_values):
+                # Get all values for this stat
+                all_values = comparison_data[stat].dropna()
+                # Calculate percentile rank (percentage of players this player is better than)
+                percentile = (all_values < actual_val).sum() / len(all_values) * 100
+                normalized_values.append(percentile)
             
             # Calculate average to determine which player should be drawn first
             avg_value = sum(normalized_values) / len(normalized_values)
@@ -148,7 +154,7 @@ else:
             ))
     
         fig.update_layout(
-            title="Player Comparison (Percentile of Maximum Performance)",
+            title="Player Comparison (Percentile Rankings - Higher is Better)",
             polar=dict(
                 radialaxis=dict(
                     visible=True,
@@ -176,12 +182,23 @@ else:
         st.subheader("📊 Side-by-Side Comparison")
         
         if len(selected_players) == 2:
-            comparison_table = radar_data[['Player Name', 'Position', 'Team Abbreviation'] + selected_stats]
+            comparison_table = radar_data[['Player Name', 'Position', 'Team Abbreviation'] + selected_stats].copy()
+            
+            # Round all numeric columns to 1 decimal place
+            for col in selected_stats:
+                comparison_table[col] = comparison_table[col].round(1)
+            
             # Set player names as columns and transpose
             comparison_table = comparison_table.set_index('Player Name').T
+            
             st.dataframe(comparison_table, use_container_width=True)
         else:
-            comparison_table = radar_data[['Player Name', 'Position', 'Team Abbreviation'] + selected_stats]
+            comparison_table = radar_data[['Player Name', 'Position', 'Team Abbreviation'] + selected_stats].copy()
+            
+            # Round all numeric columns to 1 decimal place
+            for col in selected_stats:
+                comparison_table[col] = comparison_table[col].round(1)
+            
             st.dataframe(comparison_table, hide_index=True, use_container_width=True)
             
     else:
