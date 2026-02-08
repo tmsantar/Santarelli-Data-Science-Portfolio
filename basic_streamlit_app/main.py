@@ -40,9 +40,17 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("Built by **Tommy Santarelli**")
     st.caption("Business Analytics Major at Notre Dame")
+    st.markdown("---")
+    st.markdown("The dataset used is sourced from the [NFL Next Gen Stats]"
+    "(https://nextgenstats.nfl.com/stats/receiving#yards) for the 2025 regular season.")
+
 
 # Main page content
-st.title("NFL Receiving Stats Explorer 🏈")
+col1, col2 = st.columns([3, 1])
+with col1:
+    st.title("NFL Receiving Stats Explorer 🏈")
+with col2:
+    st.image("images/Next_Gen_Logo.jpg", use_container_width=True)
 
 st.write("""
 ### About This Dashboard
