@@ -1,4 +1,4 @@
-# 📊 Santarelli Data Science Portfolio
+# Santarelli Data Science Portfolio
 
 Welcome to my data science portfolio! This repository highlights the projects and learning experiences I’m completing throughout my data science journey. You'll find work related to exploratory data analysis, visualizations, machine learning and more!
 
