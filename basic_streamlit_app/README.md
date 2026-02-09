@@ -33,27 +33,27 @@ This dashboard provides comprehensive analysis of NFL wide receiver and tight en
 
 ## 📋 Available Statistics
 
-### Basic Receiving Stats
+### Basic Stats:
 - **Yards**: Total receiving yards
 - **Targets**: Number of times the player was targeted
 - **Receptions**: Number of successful catches
 - **Receiving Touchdowns**: Touchdowns scored from receptions
 - **Catch Percentage**: Percentage of targets that resulted in catches
 
-### Next Gen Advanced Metrics
-- **Avg Cushion**: Average distance (yards) between WR/TE and defender at snap on all targets
-- **Avg Separation**: Average distance (yards) between WR/TE and nearest defender at time of catch/incompletion
-- **Avg Intended Air Yards**: Average air yards on all passing attempts where the receiver is targeted
+### Next Gen Advanced Metrics:
+- **Avg Cushion**: Average distance (yards) between WR/TE and defender at snap
+- **Avg Separation**: Average distance (yards) between WR/TE and nearest defender at catch
+- **Avg Intended Air Yards**: Average air yards on all targets
 - **Share of Intended Air Yards (%)**: Percentage of team's total intended air yards
 - **Avg Yards After Catch**: Average yards gained after the catch
-- **Avg Expected YAC**: Expected yards after catch based on tracking data (openness, speed, defenders in space)
+- **Avg Expected YAC**: Expected yards after catch based on tracking data
 - **YAC Above Expectation**: Actual YAC compared to Expected YAC
 
 ## 📁 Project Structure
 
 ```
 basic_streamlit_app/
-├── main.py                      # Main home page
+├── main.py                     # Main home page
 ├── pages/                      # Multi-page app structure
 │   ├── 1_📈_Season_Stats.py   # Season statistics page
 │   ├── 2_📅_Weekly_Stats.py   # Weekly statistics page
@@ -62,7 +62,7 @@ basic_streamlit_app/
     ├── nfl_data.py             # Dataset creation using nflreadpy package        
 │   └── nextgen_receiving_stats.csv
 ├── images/                     # Images 
-│   └── nextgen_logo.png
+│   └── Next_Gen_Logo.jpg
 └── README.md                   # This file
 ```
 
