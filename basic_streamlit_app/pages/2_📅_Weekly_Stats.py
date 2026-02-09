@@ -3,9 +3,10 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+# Set page configuration which gives the browser tab a title and icon, and sets the layout to wide.
 st.set_page_config(page_title="Weekly Stats", page_icon="📅", layout="wide")
 
-# Load data
+# Load data in a cached function for performance
 @st.cache_data
 def load_data():
     return pd.read_csv("data/nextgen_receiving_stats.csv")
@@ -14,7 +15,7 @@ receiving_df = load_data()
 
 st.header("📅 Weekly Statistics")
 
-# Filters
+# Create filters for weekly stats
 st.subheader("🎯 Filters")
 
 col1, col2, col3 = st.columns(3)
@@ -31,7 +32,7 @@ with col2:
         key="weekly_stat"
     )
 
-# Get week data
+# Get week data for the selected week
 week_data = receiving_df[receiving_df['Week'] == week].copy()
 
 
@@ -48,25 +49,28 @@ with col3:
 columns_to_drop = ['Season', 'Season Type', 'Week', 'Player GSIS ID']
 week_data_clean = week_data.drop(columns=[col for col in columns_to_drop if col in week_data.columns])
 
-# Apply filters
+# Apply filters when user selects them
 filtered_data = week_data_clean.copy()
 if selected_position != 'All Positions':
     filtered_data = filtered_data[filtered_data['Position'] == selected_position]
 
 st.markdown("---")
 
-# Top 10 Bar Chart
+# Top 10 Bar Chart for the selected stat and week
 top_10_weekly = filtered_data.nlargest(10, weekly_stat_column)
 
+# Create a bar chart using seaborn
 if len(top_10_weekly) > 0:
     fig, ax = plt.subplots(figsize=(12, 6))
     colors = sns.color_palette("rocket", len(top_10_weekly))
     sns.barplot(x='Player Name', y=weekly_stat_column, data=top_10_weekly, ax=ax, palette=colors)
     
+    # Add filter information to the title
     filter_text = ""
     if selected_position != 'All Positions':
         filter_text += f" - {selected_position}"
-    
+
+    # Set title and labels of the chart    
     ax.set_title(f"Top {len(top_10_weekly)} Players in Week {week} Based on {weekly_stat_column}{filter_text}", 
                  fontsize=16, fontweight='bold')
     ax.set_xlabel("Player Name", fontsize=12)
@@ -85,7 +89,7 @@ st.subheader(f"Complete Week {week} Statistics")
 col1, col2 = st.columns(2)
 
 with col1:
-    # Add searchable dropdown for player
+    # Add searchable dropdown for a specific player
     all_players = ['All Players'] + sorted(week_data_clean['Player Name'].unique().tolist())
     selected_player = st.selectbox(
         "🔍 Search or Select Player", 
@@ -122,9 +126,9 @@ if selected_team_df != 'All Teams':
         week_data_display['Team Abbreviation'] == selected_team_df
     ]
 
-st.dataframe(week_data_display, hide_index=True, use_container_width=True, height=600)
+st.dataframe(week_data_display, hide_index=True, width="stretch", height=600)
 
-# Stats summary
+# Stats summary for the selected week
 st.markdown("---")
 st.subheader(f"📅 Week {week} Summary")
 

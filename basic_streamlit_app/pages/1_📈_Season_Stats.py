@@ -3,9 +3,10 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+# Set page configuration which gives the browser tab a title and icon, and sets the layout to wide.
 st.set_page_config(page_title="Season Stats", page_icon="📈", layout="wide")
 
-# Load data
+# Load data in a cached function for performance
 @st.cache_data
 def load_data():
     return pd.read_csv("data/nextgen_receiving_stats.csv")
@@ -14,14 +15,14 @@ receiving_df = load_data()
 
 st.header("📈 Season Statistics")
 
-# Filter for season stats (Week 0)
+# Filter for season stats (Week 0 in the dataset represents season totals)
 season_data = receiving_df[receiving_df['Week'] == 0].copy()
 
-# Drop unnecessary columns
+# Drop unnecessary columns for season stats
 columns_to_drop = ['Season', 'Season Type', 'Week', 'Player GSIS ID']
 season_data_clean = season_data.drop(columns=[col for col in columns_to_drop if col in season_data.columns])
 
-# Filters
+# Create filters for season stats
 st.subheader("🎯 Filters")
 
 col1, col2, col3 = st.columns(3)
@@ -53,7 +54,7 @@ with col3:
         key="season_position_filter"
     )
 
-# Apply filters
+# Apply filters when user selects them
 filtered_data = season_data_clean.copy()
 if selected_team != 'All Teams':
     filtered_data = filtered_data[filtered_data['Team Abbreviation'] == selected_team]
@@ -62,20 +63,23 @@ if selected_position != 'All Positions':
 
 st.markdown("---")
 
-# Top 10 Bar Chart
+# Top 10 Bar Chart for the selected stat
 top_10_data = filtered_data.nlargest(10, stat_column)
 
+# Create a bar chart using seaborn
 if len(top_10_data) > 0:
     fig, ax = plt.subplots(figsize=(12, 6))
     colors = sns.color_palette("viridis", len(top_10_data))
     sns.barplot(x='Player Name', y=stat_column, data=top_10_data, ax=ax, palette=colors)
     
+    # Add filter information to the title
     filter_text = ""
     if selected_team != 'All Teams':
         filter_text += f" - {selected_team}"
     if selected_position != 'All Positions':
         filter_text += f" - {selected_position}"
     
+    # Set title and labels of the chart
     ax.set_title(f"Top {len(top_10_data)} Players Based on {stat_column}{filter_text}", fontsize=16, fontweight='bold')
     ax.set_xlabel("Player Name", fontsize=12)
     ax.set_ylabel(stat_column, fontsize=12)
@@ -93,7 +97,7 @@ st.subheader("Complete Season Statistics")
 col1, col2 = st.columns(2)
 
 with col1:
-    # Add searchable dropdown for player
+    # Add searchable dropdown for a specific player
     all_players = ['All Players'] + sorted(season_data_clean['Player Name'].unique().tolist())
     selected_player = st.selectbox(
         "🔍 Search or Select Player", 
@@ -130,9 +134,9 @@ if selected_team_df != 'All Teams':
         season_data_display['Team Abbreviation'] == selected_team_df
     ]
 
-st.dataframe(season_data_display, hide_index=True, use_container_width=True, height=600)
+st.dataframe(season_data_display, hide_index=True, width="stretch", height=600)
 
-# Stats summary
+# Stats summary for 2025 season
 st.markdown("---")
 st.subheader(f"📈 2025 Season Summary")
 

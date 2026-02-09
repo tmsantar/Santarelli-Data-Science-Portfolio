@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
+# Set page configuration which gives the browser tab a title and icon, and sets the layout to wide.
 st.set_page_config(page_title="Advanced Stats", page_icon="🎯", layout="wide")
 
 # Load data in a cached function for performance
@@ -18,7 +19,7 @@ Compare players using **Next Gen Stats** advanced metrics in an interactive rada
 Select your comparison type and up to 2 players to see how they stack up!
 """)
 
-# Settings for comparison
+# Settings for comparison season vs weekly stats and player selection
 st.subheader("⚙️ Settings")
 
 col1, col2 = st.columns(2)
@@ -44,7 +45,7 @@ st.markdown("---")
 # Radar chart for comparing players
 st.subheader("⚔️ Player Comparison Radar Chart")
 
-# Stat selection
+# Stat selection for radar chart
 st.write("**Choose which stats to compare:**")
 
 available_stats = {
@@ -129,12 +130,14 @@ else:
 
         fig.update_layout(hovermode="closest")
 
+        # Add traces for each player to the radar chart with hover templates showing actual values
         for trace_data in player_traces:
             theta_closed = radar_labels + [radar_labels[0]]
             r_closed = trace_data['normalized_values'] + [trace_data['normalized_values'][0]]
             actual_closed = trace_data['actual_values'] + [trace_data['actual_values'][0]]
             customdata_closed = [[v] for v in actual_closed]
 
+            # Add trace for the player with hovertemplate showing actual values and percentile rank
             fig.add_trace(go.Scatterpolar(
                 r=r_closed,
                 theta=theta_closed,
@@ -145,14 +148,11 @@ else:
                 mode="lines+markers",
                 marker=dict(size=8),
                 hoveron="points",
-                hovertemplate=(
-                    "<b>%{theta}</b><br>"
-                    "Actual: %{customdata[0]:.1f}<br>"
-                    "Percentile: %{r:.1f}%<extra></extra>"
-                ),
+                hovertemplate=("<b>%{theta}</b><br>" "Actual: %{customdata[0]:.1f}<br>" "Percentile: %{r:.1f}%<extra></extra>"),
                 customdata=customdata_closed
             ))
     
+        # Update layout for better aesthetics
         fig.update_layout(
             title="Player Comparison (Percentile Rankings - Higher is Better)",
             polar=dict(
@@ -175,7 +175,7 @@ else:
             hovermode='closest'
         )
     
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
         
         # Show comparison table
         st.markdown("---")
@@ -191,7 +191,7 @@ else:
             # Set player names as columns and transpose
             comparison_table = comparison_table.set_index('Player Name').T
             
-            st.dataframe(comparison_table, use_container_width=True)
+            st.dataframe(comparison_table, width="stretch")
         else:
             comparison_table = radar_data[['Player Name', 'Position', 'Team Abbreviation'] + selected_stats].copy()
             
@@ -199,7 +199,8 @@ else:
             for col in selected_stats:
                 comparison_table[col] = comparison_table[col].round(1)
             
-            st.dataframe(comparison_table, hide_index=True, use_container_width=True)
-            
+            st.dataframe(comparison_table, hide_index=True, width="stretch")
+
+            st.write("Select a second player to see the side-by-side comparison table!")
     else:
         st.info("👆 Please select at least one player to see the comparison chart!")

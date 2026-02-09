@@ -1,15 +1,10 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 
-st.set_page_config(
-    page_title="NFL Receiving Stats Explorer", 
-    page_icon="🏈", 
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# Set page configuration which gives the browser tab a title and icon, and sets the layout to wide.
+st.set_page_config( page_title="NFL Receiving Stats Explorer", page_icon="🏈", layout="wide")
 
-# Load the dataset (cached for performance)
+# Load data in a cached function for performance
 @st.cache_data
 def load_data():
     return pd.read_csv("data/nextgen_receiving_stats.csv")
@@ -17,52 +12,38 @@ def load_data():
 receiving_df = load_data()
 
 # Sidebar content
-with st.sidebar:    
-    # Social links
-    st.markdown("### Connect")
-    st.markdown(
-        """
-        <a href="https://www.linkedin.com/in/tommy-santarelli-792651329/" target="_blank" style="text-decoration: none;">
-            <span style="font-size: 1.1rem;">🔗 LinkedIn</span>
-        </a>
-        """,
-        unsafe_allow_html=True
-    )
-    st.markdown(
-        """
-        <a href="https://github.com/tmsantar" target="_blank" style="text-decoration: none;">
-            <span style="font-size: 1.1rem;">🐙 GitHub</span>
-        </a>
-        """,
-        unsafe_allow_html=True
-    )
-    
-    st.markdown("---")
+with st.sidebar:   
+
+    # About me portion of the sidebar with links to LinkedIn and GitHub
     st.markdown("Built by **Tommy Santarelli**")
     st.caption("Business Analytics Major at Notre Dame")
+    st.markdown("🔗 [LinkedIn](https://www.linkedin.com/in/tommy-santarelli-792651329/)")
+    st.markdown("🐙 [GitHub](https://github.com/tmsantar)")
     st.markdown("---")
+
+    # Description of where the data is sourced from
     st.markdown("The dataset used is sourced from the [NFL Next Gen Stats]"
     "(https://nextgenstats.nfl.com/stats/receiving#yards) for the 2025 regular season.")
 
-
-# Main page content
+# Header section with title and logo
 col1, col2 = st.columns([3, 1])
 with col1:
     st.title("NFL Receiving Stats Explorer 🏈")
 with col2:
-    st.image("images/Next_Gen_Logo.jpg", use_container_width=True)
+    st.image("images/Next_Gen_Logo.jpg", width="stretch")
 
+# Introduction and app description
 st.write("""
-### About This Dashboard
+### About This App
 
-Explore comprehensive receiving statistics for NFL players from the 2025 regular season using **NFL Next Gen Stats** tracking data.
+Explore NFL receiving statistics for wide receivers and tight ends during 2025 regular season using **NFL Next Gen Stats**.
 
-Next Gen Stats uses real-time location data captured by sensors throughout the stadium that track tags on players' shoulder pads, measuring speed, acceleration, and positioning within inches on every play.
+Next Gen Stats uses real-time player tracking to capture detailed movement and positioning data throughout each game. This dataset only includes players who recorded at least 45 targets during the 2025 regular season.
 """)
 
-st.markdown("***")
+st.markdown("---")
 
-# Dataset overview section
+# Dataset overview section with broad statistics about the dataset
 st.subheader("Dataset Overview")
 col1, col2, col3 = st.columns(3)
 
@@ -74,8 +55,9 @@ with col2:
 with col3:
     st.metric("📊 Next Gen Stats Tracked", 12)
 
-st.markdown("***")
+st.markdown("---")
 
+# Available statistics section with descriptions of the different stats available in the dataset
 st.subheader("Available Statistics")
 
 col1, col2 = st.columns(2)
@@ -86,7 +68,7 @@ with col1:
     st.write("- **👀 Targets**: Number of times the player was targeted")
     st.write("- **✋ Receptions**: Number of successful catches")
     st.write("- **🔥 Receiving Touchdowns**: Touchdowns scored from receptions")
-    st.write("- **📈 Catch Percentage**: Percentage of targets that resulted in catches")
+    st.write("- **💯 Catch Percentage**: Percentage of targets that resulted in catches")
 
 with col2:
     st.markdown("**Next Gen Advanced Metrics:**")
@@ -98,8 +80,9 @@ with col2:
     st.write("- **📈 Avg Expected YAC**: Expected yards after catch based on tracking data")
     st.write("- **⚡ YAC Above Expectation**: Actual YAC compared to Expected YAC")
 
-st.markdown("***")
+st.markdown("---")
 
+# Available pages section with descriptions of the different pages available in the app
 st.subheader("Available Pages")
 
 col1, col2, col3 = st.columns(3)
@@ -116,6 +99,7 @@ with col3:
     st.markdown("### 🎯 Advanced Stats")
     st.write("Compare up to 2 players with interactive radar charts using Next Gen metrics.")
 
-st.markdown("***")
+st.markdown("---")
 
+# Final note encouraging users to explore the app
 st.info("👈 Use the sidebar to navigate between pages and start exploring the data!")

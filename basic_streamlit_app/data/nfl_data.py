@@ -42,4 +42,5 @@ ng = ng.rename(columns={
 print("\nRenamed columns:")
 print(list(ng.columns))
 
+# Save the cleaned and renamed DataFrame to a new CSV file
 ng.to_csv("basic_streamlit_app/data/nextgen_receiving_stats.csv", index=False)
