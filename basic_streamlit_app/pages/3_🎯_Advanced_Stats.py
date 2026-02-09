@@ -111,7 +111,7 @@ else:
                 # Get all values for this stat
                 all_values = comparison_data[stat].dropna()
                 # Calculate percentile rank (percentage of players this player is better than)
-                percentile = (all_values < actual_val).sum() / len(all_values) * 100
+                percentile = (all_values <= actual_val).sum() / len(all_values) * 100
                 normalized_values.append(percentile)
             
             # Calculate average to determine which player should be drawn first
