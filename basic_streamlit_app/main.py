@@ -71,7 +71,7 @@ with col1:
     st.write("- **💯 Catch Percentage**: Percentage of targets that resulted in catches")
 
 with col2:
-    st.markdown("**Next Gen Advanced Metrics:**")
+    st.markdown("**Next Gen Stats:**")
     st.write("- **📏 Avg Cushion**: Average distance (yards) between WR/TE and defender at snap")
     st.write("- **🏃 Avg Separation**: Average distance (yards) between WR/TE and nearest defender at catch")
     st.write("- **✈️ Avg Intended Air Yards**: Average air yards on all targets")
