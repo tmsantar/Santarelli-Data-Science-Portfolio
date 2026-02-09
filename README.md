@@ -1,15 +1,17 @@
-# Santarelli Data Science Portfolio
+# 📊 Santarelli Data Science Portfolio
 
-Welcome to my data science portfolio! This repository includes a collection of my projects and learning experiences throughout my Data Science journey. Here you'll find projects showcasing my work in **Exploratory Data Analysis (EDA)**, **data visualization**, **machine learning**, and more.
+Welcome to my data science portfolio! This repository highlights the projects and learning experiences I’m completing throughout my data science journey. You'll find work related to exploratory data analysis, visualizations, machine learning and more!
 
-## 💻 Purpose
+## 🎯 Purpose
+The purpose of this repository is to organize and showcase the skills I’m developing in data analysis, programming, and building interactive tools. Each project is meant to demonstrate clear thinking, strong problem-solving, and clean execution.
 
-The purpose of this repository is to demonstrate my data science skills and provide a clear structure for my ongoing work. This repository will contain several projects, from basic analysis to advanced machine learning models, with each project organized into its own folder for clarity.
+## 🚀 Projects
+- **📁 basic_streamlit_app/** – *NFL Receiving Stats Explorer*  
+  🔗 **Live App:** [Click Here](http://10.24.199.63:8502)
+- More projects will be added throughout the semester.
+
+---
 
 ## 📂 Folder Structure
-
-- **[EDA](./EDA/)**: This folder will contain any exploratory data analysis I do.
-- **[visualizations](./visualizations/)**: Any data visualizations created through my projects will go here.
-- **[models](./models/)**: This folder will contain any models used in my projects.
-- **[assets](./assets/)**: This folder contains datasets, images, and other resources that are used across the projects.
-
+- [`basic_streamlit_app/`](basic_streamlit_app/): Contains all files for my first Streamlit project, including datasets, code scripts, and images.
+- Additional folders will be created as new projects are developed.
