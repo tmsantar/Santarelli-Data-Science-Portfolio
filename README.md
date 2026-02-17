@@ -7,7 +7,7 @@ The purpose of this repository is to organize and showcase the skills I’m deve
 
 ## 🚀 Projects
 - **📁 basic_streamlit_app/** – *NFL Receiving Stats Explorer*  
-  🔗 **Live App:** [Click Here](http://10.24.199.63:8502)
+  🔗 **Live App:** [Click Here](http://10.24.199.63:8501)
 - More projects will be added throughout the semester.
 
 ---
