@@ -1,6 +1,6 @@
 # NFL Receiving Stats Explorer 🏈
 
-🔗 **Open the Live App:** [Click Here](http://10.24.199.63:8502)
+🔗 **Open the Live App:** [Click Here](http://10.24.199.63:8501)
 
 An interactive Streamlit dashboard for exploring NFL receiving statistics from the 2025 regular season using Next Gen Stats tracking data.
 
