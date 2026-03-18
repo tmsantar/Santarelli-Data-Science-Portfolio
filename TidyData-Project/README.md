@@ -1,8 +1,34 @@
-# 📊 Tidy Data Project – Federal R&D Spending Analysis
+# 📊 Tidy Data Project: Federal R&D and GDP Analysis
 
 ## 📌 Project Overview
 
-The goal of this project is to analyze federal research and development (R&D) spending across 
+The goal of this project is to clean, transform and analyze U.S. federal department R&D spending and GDP data using tidy data principles. Tidy data ensures that each variable is stored in its own column, each observation forms its own row, and each type of observational unit is contained in a single table. 
+
+By restructuring the dataset from a wide format into a long, tidy format, the data becomes easier to interpret.
+
+## 🧹 Tidy Data Process
+The dataset was cleaned and transformed using the following steps:
+- Loaded the dataset using `pd.read_csv()`
+- Reshaped the data from wide to long format using `pd.melt()`
+- Split combined variables using `str.split()` to create separate columns for each variable
+- Cleaned string values using `str.replace()` to remove unnecessary text
+- Renamed columns for clarity
+- Converted variables to numeric format using `pd.to_numeric()`
+- Reordered columns to improve structure and readability
+
+These steps ensure the dataset follows tidy data principles and is ready for analysis.
+
+## 📂 Dataset Description
+The dataset used in this project contains federal R&D budget data by department and year. The data was adapted from the following source:
+
+- Federal R&D Budgets: [Download Data](data/fed_rd_year&gdp.csv)  
+- Original Source (GitHub): [View Repository](https://github.com/rfordatascience/tidytuesday/tree/main/data/2019/2019-02-12)
+
+The dataset includes the variables department, year, R&D budget, and GDP. It was cleaned and transformed using tidy data principles in order to get each variable in its own column.
+
+### 🛠 Pre-processing
+The dataset required several pre-processing steps to prepare it for analysis. These included reshaping the data from wide to long format using `pd.melt()`, splitting combined variables using `str.split()`, cleaning string values with `str.replace()`, renaming columns for clarity, and converting variables to numeric format. These steps ensured the data followed tidy data principles and was ready for analysis.
+
 
 ## 📁 Project Structure
 
