@@ -43,21 +43,21 @@ The dataset required several pre-processing steps to prepare it for analysis. Th
 ### 📈 GDP Trend Visualization
 Shows the growth of U.S. GDP over time in trillions of dollars.
 
-![GDP Trend](images/gdp_trend.png)
+![GDP Trend](images/GDP_Growth.png)
 
 ---
 
 ### 🔥 R&D Budget Heatmap (Full Timeline)
 Displays R&D spending across departments and years.
 
-![Heatmap Full](images/heatmap_full.png)
+![Heatmap Full](images/heatmap1.png)
 
 ---
 
 ### 🔍 R&D Budget Heatmap (Last 10 Years)
 Highlights recent trends and short-term changes in spending.
 
-![Heatmap Recent](images/heatmap_recent.png)
+![Heatmap Recent](images/heatmap2.png)
 
 ---
 
