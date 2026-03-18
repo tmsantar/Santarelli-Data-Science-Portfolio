@@ -18,6 +18,8 @@ The dataset was cleaned and transformed using the following steps:
 
 These steps ensure the dataset follows tidy data principles and is ready for analysis.
 
+## Instructions
+
 ## 📂 Dataset Description
 The dataset used in this project contains federal R&D budget data by department and year. The data was adapted from the following source:
 
@@ -29,19 +31,35 @@ The dataset includes the variables department, year, R&D budget, and GDP. It was
 ### 🛠 Pre-processing
 The dataset required several pre-processing steps to prepare it for analysis. These included reshaping the data from wide to long format using `pd.melt()`, splitting combined variables using `str.split()`, cleaning string values with `str.replace()`, renaming columns for clarity, and converting variables to numeric format. These steps ensured the data followed tidy data principles and was ready for analysis.
 
+## 📚 References
 
-## 📁 Project Structure
+- Tidy Data Paper: [Download PDF](references/tidy-data.pdf)  
+- Pandas Cheat Sheet: [Download PDF](references/Pandas_Cheat_Sheet.pdf)
 
-```
-basic_streamlit_app/
-├── main.py                     # Main home page
-├── data/                       # Dataset storage
-    ├── nfl_data.py             # Dataset creation using nflreadpy package        
-│   └── nextgen_receiving_stats.csv
-├── images/                     # Images 
-│   └── Next_Gen_Logo.jpg
-└── README.md                   # This file
-```
+---
+
+## 🖼️ Visual Examples
+
+### 📈 GDP Trend Visualization
+Shows the growth of U.S. GDP over time in trillions of dollars.
+
+![GDP Trend](images/gdp_trend.png)
+
+---
+
+### 🔥 R&D Budget Heatmap (Full Timeline)
+Displays R&D spending across departments and years.
+
+![Heatmap Full](images/heatmap_full.png)
+
+---
+
+### 🔍 R&D Budget Heatmap (Last 10 Years)
+Highlights recent trends and short-term changes in spending.
+
+![Heatmap Recent](images/heatmap_recent.png)
+
+---
 
 ## 💡 How to Use
 
