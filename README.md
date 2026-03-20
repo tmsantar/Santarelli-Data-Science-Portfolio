@@ -27,9 +27,3 @@ The Tidy Data Project is a Jupyter Notebook in which Federal R&D and GDP data is
 This project complements my overall coding portfolio by exposing me to an unclean and broken dataset. In the business world, I will often be exposed to spreadsheets that do not have tidy data principles applied to them. Being able to go through this process swiftly will help any analytics I do in the business world. This project demonstrates my ability to clean, structure, and analyze real-world data.
 
 - 📁 [`TidyData-Project/`](TidyData-Project/)
-
----
-
-## 📂 Folder Structure
-- [`basic_streamlit_app/`](basic_streamlit_app/): Contains all files for the NFL Receiving Stats Explorer, including datasets, code scripts, and images  
-- [`TidyData-Project/`](TidyData-Project/): Contains the Jupyter Notebook, cleaned dataset, and visualizations for the Tidy Data project  
