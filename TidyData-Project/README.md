@@ -1,75 +1,76 @@
-# 📊 Tidy Data Project: Federal R&D and GDP Analysis
+# Tidy Data Project: Federal R&D and GDP Analysis
 
-## 📌 Project Overview
+## Project Overview
 
-The goal of this project is to clean, transform and analyze U.S. federal department R&D spending and GDP data using tidy data principles. Tidy data ensures that each variable is stored in its own column, each observation forms its own row, and each type of observational unit is contained in a single table. 
+This project cleans, reshapes, and analyzes U.S. federal department R&D spending and GDP data using tidy data principles. The goal is to turn the original wide dataset into a structure where each variable has its own column, each observation has its own row, and the data is easier to summarize and visualize.
 
-By restructuring the dataset from a wide format into a long, tidy format, the data becomes easier to interpret.
+The final notebook focuses on how federal R&D funding changed over time, with special attention to the Department of Defense and how its spending compares with other major departments.
 
-## 🧹 Tidy Data Process
-The dataset was cleaned and transformed using the following steps:
-- Loaded the dataset using `pd.read_csv()`
+## Tidy Data Process
+
+The dataset was cleaned and transformed with the following steps:
+
+- Loaded the original dataset with `pd.read_csv()`
 - Reshaped the data from wide to long format using `pd.melt()`
-- Split combined variables using `str.split()` to create separate columns for each variable
-- Cleaned string values using `str.replace()` to remove unnecessary text
+- Split the combined year/GDP field into separate variables using `str.split()`
+- Removed extra text with `str.replace()`
 - Renamed columns for clarity
-- Converted variables to numeric format using `pd.to_numeric()`
-- Reordered columns to improve structure and readability
+- Converted variables to numeric format with `pd.to_numeric()`
+- Reordered columns into a tidy structure
 
-These steps ensure the dataset follows tidy data principles and is ready for analysis.
+These steps produce a final table with one row per department-year observation and separate columns for `Department`, `Year`, `RD_Budget`, and `GDP`.
 
-## Instructions
+## Dataset Description
 
-## 📂 Dataset Description
-The dataset used in this project contains federal R&D budget data by department and year. The data was adapted from the following source:
+The dataset contains federal R&D budget data by department and year.
 
-- Federal R&D Budgets: [Download Data](data/fed_rd_year&gdp.csv)  
+- Federal R&D Budgets: [Download Data](data/fed_rd_year&gdp.csv)
 - Original Source (GitHub): [View Repository](https://github.com/rfordatascience/tidytuesday/tree/main/data/2019/2019-02-12)
 
-The dataset includes the variables department, year, R&D budget, and GDP. It was cleaned and transformed using tidy data principles in order to get each variable in its own column.
+## Pre-processing
 
-### 🛠 Pre-processing
-The dataset required several pre-processing steps to prepare it for analysis. These included reshaping the data from wide to long format using `pd.melt()`, splitting combined variables using `str.split()`, cleaning string values with `str.replace()`, renaming columns for clarity, and converting variables to numeric format. These steps ensured the data followed tidy data principles and was ready for analysis.
+The raw dataset stored both year and GDP information inside the original column names, so it required reshaping before analysis. Using tidy data principles made the dataset easier to filter, aggregate, and visualize.
 
-## 📚 References
+## References
 
-- Tidy Data Paper: [Download PDF](references/tidy-data.pdf)  
+- Tidy Data Paper: [Download PDF](references/tidy-data.pdf)
 - Pandas Cheat Sheet: [Download PDF](references/Pandas_Cheat_Sheet.pdf)
 
 ---
 
-## 🖼️ Visual Examples
+## Visual Examples
 
-### 📈 GDP Trend Visualization
-Shows the growth of U.S. GDP over time in trillions of dollars.
+### DOD Compared with HHS and NIH
 
-![GDP Trend](images/GDP_Growth.png)
+This line chart compares the Department of Defense with HHS and NIH, the two departments that come closest to it in later years. It highlights that DOD remained the largest federal R&D spender, while the gap narrowed over time.
 
----
-
-### 🔥 R&D Budget Heatmap (Full Timeline)
-Displays R&D spending across departments and years.
-
-![Heatmap Full](images/heatmap1.png)
+![Budget Over Time](images/budget_over_time.png)
 
 ---
 
-### 🔍 R&D Budget Heatmap (Last 10 Years)
-Highlights recent trends and short-term changes in spending.
+### DOD Share of the Federal R&D Budget
 
-![Heatmap Recent](images/heatmap2.png)
+This chart shows how much of the total federal R&D budget was controlled by DOD each year. It adds context beyond raw spending by showing DOD's relative dominance within total federal R&D.
+
+![Share of Budget](images/share_of_budget.png)
 
 ---
 
-## 💡 How to Use
+### R&D Budget as a Share of GDP
 
-1. **Navigate**: Use the sidebar to switch between different pages
-2. **Filter**: Use dropdown menus and sliders to filter data by player, team, position, or week
-3. **Search**: Use the search boxes in dataframe sections to find specific players or teams
-4. **Compare**: On the Advanced Stats page, select 2 players and choose metrics to compare
-5. **Analyze**: View interactive charts and tables to gain insights into player performance
+This final comparison shows how large each department's R&D budget was relative to U.S. GDP in the most recent year of the dataset. It helps show where DOD stood compared with other departments once the size of the economy is taken into account.
 
-## 👨‍💻 Author
+![R&D as Percent of GDP](images/%_GDP.png)
+
+---
+
+## How to Use
+
+1. Open [main.ipynb](main.ipynb).
+2. Run the notebook cells in order to view the cleaning steps and updated visuals.
+3. Review the final pivot table to compare average R&D budgets by department.
+
+## Author
 
 **Tommy Santarelli**  
 Business Analytics Major, University of Notre Dame
