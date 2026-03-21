@@ -66,9 +66,21 @@ This final comparison shows how large each department's R&D budget was relative 
 
 ## ▶️ How to Use
 
-1. Open [main.ipynb](main.ipynb)
-2. Run the notebook cells in order to view the cleaning steps and updated visuals
-3. Review the final pivot table to compare average R&D budgets by department
+### ⚙️ Requirements
+
+- Python
+- Jupyter Notebook
+- pandas
+- matplotlib
+- seaborn
+
+### 📋 Steps
+
+1. Clone or download this repository.
+2. Open the `TidyData-Project` folder.
+3. Launch Jupyter Notebook or open [main.ipynb](main.ipynb) in VS Code.
+4. Run the notebook cells in order to view the cleaning process, tidy-data transformations, and visuals.
+5. Review the final pivot table to compare average R&D budgets by department.
 
 ## 👨‍💻 Author
 
