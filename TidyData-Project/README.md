@@ -60,7 +60,7 @@ This chart shows how much of the total federal R&D budget was controlled by DOD 
 
 This final comparison shows how large each department's R&D budget was relative to U.S. GDP in the most recent year of the dataset. It helps show where DOD stood compared with other departments once the size of the economy is taken into account.
 
-![R&D as Percent of GDP](rd_as_gdp.png)
+![R&D as Percent of GDP](images/rd_as_gdp.png)
 
 ---
 
