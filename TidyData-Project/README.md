@@ -1,12 +1,12 @@
-# Tidy Data Project: Federal R&D and GDP Analysis
+# 📊 Tidy Data Project: Federal R&D and GDP Analysis
 
-## Project Overview
+## 📌 Project Overview
 
 This project cleans, reshapes, and analyzes U.S. federal department R&D spending and GDP data using tidy data principles. The goal is to turn the original wide dataset into a structure where each variable has its own column, each observation has its own row, and the data is easier to summarize and visualize.
 
 The final notebook focuses on how federal R&D funding changed over time, with special attention to the Department of Defense and how its spending compares with other major departments.
 
-## Tidy Data Process
+## 🧹 Tidy Data Process
 
 The dataset was cleaned and transformed with the following steps:
 
@@ -20,27 +20,27 @@ The dataset was cleaned and transformed with the following steps:
 
 These steps produce a final table with one row per department-year observation and separate columns for `Department`, `Year`, `RD_Budget`, and `GDP`.
 
-## Dataset Description
+## 📂 Dataset Description
 
 The dataset contains federal R&D budget data by department and year.
 
 - Federal R&D Budgets: [Download Data](data/fed_rd_year&gdp.csv)
 - Original Source (GitHub): [View Repository](https://github.com/rfordatascience/tidytuesday/tree/main/data/2019/2019-02-12)
 
-## Pre-processing
+## ⚙️ Pre-processing
 
 The raw dataset stored both year and GDP information inside the original column names, so it required reshaping before analysis. Using tidy data principles made the dataset easier to filter, aggregate, and visualize.
 
-## References
+## 📚 References
 
 - Tidy Data Paper: [Download PDF](references/tidy-data.pdf)
 - Pandas Cheat Sheet: [Download PDF](references/Pandas_Cheat_Sheet.pdf)
 
 ---
 
-## Visual Examples
+## 🖼️ Visual Examples
 
-### DOD Compared with HHS and NIH
+### 📈 DOD Compared with HHS and NIH
 
 This line chart compares the Department of Defense with HHS and NIH, the two departments that come closest to it in later years. It highlights that DOD remained the largest federal R&D spender, while the gap narrowed over time.
 
@@ -48,7 +48,7 @@ This line chart compares the Department of Defense with HHS and NIH, the two dep
 
 ---
 
-### DOD Share of the Federal R&D Budget
+### 📊 DOD Share of the Federal R&D Budget
 
 This chart shows how much of the total federal R&D budget was controlled by DOD each year. It adds context beyond raw spending by showing DOD's relative dominance within total federal R&D.
 
@@ -56,7 +56,7 @@ This chart shows how much of the total federal R&D budget was controlled by DOD 
 
 ---
 
-### R&D Budget as a Share of GDP
+### 📉 R&D Budget as a Share of GDP
 
 This final comparison shows how large each department's R&D budget was relative to U.S. GDP in the most recent year of the dataset. It helps show where DOD stood compared with other departments once the size of the economy is taken into account.
 
@@ -64,17 +64,17 @@ This final comparison shows how large each department's R&D budget was relative 
 
 ---
 
-## How to Use
+## ▶️ How to Use
 
-### Requirements
+### ⚙️ Requirements
 
-- Python 3.x
+- Python
 - Jupyter Notebook
 - pandas
 - matplotlib
 - seaborn
 
-### Steps
+### 📋 Steps
 
 1. Clone or download this repository.
 2. Open the `TidyData-Project` folder.
@@ -82,7 +82,7 @@ This final comparison shows how large each department's R&D budget was relative 
 4. Run the notebook cells in order to view the cleaning process, tidy-data transformations, and visuals.
 5. Review the final pivot table to compare average R&D budgets by department.
 
-## Author
+## 👨‍💻 Author
 
 **Tommy Santarelli**  
 Business Analytics Major, University of Notre Dame
