@@ -30,11 +30,11 @@ Here are some of the projects I’ve built:
 
 **Description**: The Tidy Data Project is a Jupyter Notebook in which Federal R&D and GDP data is cleaned and transformed into a usable format using Python and pandas. The initial dataframe has several variables in the same columns, and the values are difficult to interpret. However, tidy data principles are applied so that each variable is in its own column, each observation forms its own row, and each observational unit forms its own table. Finally, visualizations exploring the newly cleaned data were created.
 
-**Portfolio Impact**: This project complements my overall data science portfolio by exposing me to an unclean and broken dataset. In the business world, I will often be exposed to spreadsheets that do not have tidy data principles applied to them. Being able to go through this process swiftly will help any analytics I do in the business world. This project demonstrates my ability to clean, structure, and analyze real-world data.
+**Portfolio Impact**: This project complements my overall data science portfolio by showing that I can work with messy, untidy real-world data rather than only polished datasets. It strengthens my portfolio by demonstrating data cleaning, reshaping, exploratory analysis, and clear documentation in a Jupyter Notebook workflow. Along with my NFL dashboard project, it shows both sides of my skill set: building interactive tools and preparing raw data for analysis.
 
 **Skills**: Python, Pandas, Data Cleaning, Data Wrangling, Tidy Data Principles, Data Transformation, Data Visualization (Matplotlib, Seaborn), Jupyter Notebook
 
-**Link to Notebook**: https://github.com/tmsantar/Santarelli-Data-Science-Portfolio/tree/main/TidyData-Project/main.ipynb
+**Link to Notebook**: https://github.com/tmsantar/Santarelli-Data-Science-Portfolio/blob/main/TidyData-Project/main.ipynb
 
 <img width="400" src="https://raw.githubusercontent.com/tmsantar/Santarelli-Data-Science-Portfolio/main/images/govt.avif">
 
