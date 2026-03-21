@@ -32,7 +32,7 @@ Here are some of the projects I’ve built:
 
 **Portfolio Impact**: This project complements my overall data science portfolio by exposing me to an unclean and broken dataset. In the business world, I will often be exposed to spreadsheets that do not have tidy data principles applied to them. Being able to go through this process swiftly will help any analytics I do in the business world. This project demonstrates my ability to clean, structure, and analyze real-world data.
 
-**Skills**: Python, Pandas, Data Cleaning, Data Wrangling, Tidy Data Principles, Data Transformation, Data Visualization (Matplotlib, Seaborn)  
+**Skills**: Python, Pandas, Data Cleaning, Data Wrangling, Tidy Data Principles, Data Transformation, Data Visualization (Matplotlib, Seaborn), Jupyter Notebook
 
 **Link to Notebook**: https://github.com/tmsantar/Santarelli-Data-Science-Portfolio/tree/main/TidyData-Project/main.ipynb
 
