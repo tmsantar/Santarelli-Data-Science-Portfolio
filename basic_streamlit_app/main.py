@@ -1,8 +1,6 @@
 import pandas as pd
 import streamlit as st
 
-logo_file = "basic_streamlit_app/images/Next_Gen_Logo.jpg"
-
 # Set page configuration which gives the browser tab a title and icon, and sets the layout to wide.
 st.set_page_config( page_title="NFL Receiving Stats Explorer", page_icon="🏈", layout="wide")
 
@@ -28,10 +26,12 @@ with st.sidebar:
     st.markdown("The dataset used is sourced from the [NFL Next Gen Stats]"
     "(https://nextgenstats.nfl.com/stats/receiving#yards) for the 2025 regular season.")
 
-# Header section with title and cover image
-st.title("NFL Receiving Stats Explorer 🏈")
-st.image(logo_file, width="stretch")
-st.caption("NFL Next Gen Stats cover image")
+# Header section with title and logo
+col1, col2 = st.columns([3, 1])
+with col1:
+    st.title("NFL Receiving Stats Explorer 🏈")
+with col2:
+    st.image("basic_streamlit_app/images/Next_Gen_Logo.jpg", width="stretch")
 
 # Introduction and app description
 st.write("""
