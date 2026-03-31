@@ -1,5 +1,5 @@
-import streamlit as st
 import pandas as pd
+import streamlit as st
 
 # Set page configuration which gives the browser tab a title and icon, and sets the layout to wide.
 st.set_page_config( page_title="NFL Receiving Stats Explorer", page_icon="🏈", layout="wide")
@@ -7,7 +7,8 @@ st.set_page_config( page_title="NFL Receiving Stats Explorer", page_icon="🏈",
 # Load data in a cached function for performance
 @st.cache_data
 def load_data():
-    return pd.read_csv("data/nextgen_receiving_stats.csv")
+    data_file = "basic_streamlit_app/data/nextgen_receiving_stats.csv"
+    return pd.read_csv(data_file)
 
 receiving_df = load_data()
 
@@ -30,7 +31,7 @@ col1, col2 = st.columns([3, 1])
 with col1:
     st.title("NFL Receiving Stats Explorer 🏈")
 with col2:
-    st.image("images/Next_Gen_Logo.jpg", width="stretch")
+    st.image("basic_streamlit_app/images/Next_Gen_Logo.jpg", width="stretch")
 
 # Introduction and app description
 st.write("""
