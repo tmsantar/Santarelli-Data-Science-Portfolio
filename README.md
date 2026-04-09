@@ -49,7 +49,7 @@ Here are some of the projects I’ve built:
 
 **Link to Notebook**: https://github.com/tmsantar/Santarelli-Data-Science-Portfolio/blob/main/TidyData-Project/main.ipynb
 
-<img width="400" src="https://raw.githubusercontent.com/tmsantar/Santarelli-Data-Science-Portfolio/main/images/Machine_Learning.jpeg">
+<img width="400" src="https://raw.githubusercontent.com/tmsantar/Santarelli-Data-Science-Portfolio/main/images/Machine_Learning .jpeg">
 
 <br>
 
