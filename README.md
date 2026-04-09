@@ -37,5 +37,20 @@ Here are some of the projects I’ve built:
 **Link to Notebook**: https://github.com/tmsantar/Santarelli-Data-Science-Portfolio/blob/main/TidyData-Project/main.ipynb
 
 <img width="400" src="https://raw.githubusercontent.com/tmsantar/Santarelli-Data-Science-Portfolio/main/images/govt.avif">
+<br>
+
+### 📊 [Machine Learning Streamlit App](MLStreamlitApp/)
+
+**Description**: The Machine Learning Streamlit App takes a csv file and allows the users to run a model to predict a target variable. 
+
+**Portfolio Impact**: This project complements my overall data science portfolio by showcasing my ability to create an interactive app that listens and helps users. 
+
+**Skills**: Python, Pandas, Data Cleaning, Data Wrangling, Tidy Data Principles, Data Transformation, Data Visualization (Matplotlib, Seaborn), Jupyter Notebook, Sklearn
+
+**Link to Notebook**: https://github.com/tmsantar/Santarelli-Data-Science-Portfolio/blob/main/TidyData-Project/main.ipynb
+
+<img width="400" src="https://raw.githubusercontent.com/tmsantar/Santarelli-Data-Science-Portfolio/main/images/Machine_Learning.jpeg">
 
 <br>
+
+
