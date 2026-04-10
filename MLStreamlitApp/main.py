@@ -1,18 +1,15 @@
-import pandas as pd
 import streamlit as st
 
 
-st.set_page_config(page_title = "Machine Learning App", page_icon = "🤖", layout = "wide", )
+st.set_page_config(page_title="Machine Learning App", page_icon="🤖", layout="wide")
+
 
 st.title("Machine Learning App")
-st.write("This application is used to make predictions using different machine learning algorithms." \
-" Upload your CSV file, tidy up the data, and make your predictions!")
+st.markdown("### Welcome")
+st.write(
+    "Use the sidebar to move between pages for data cleaning and predictions."
+)
 
-uploaded_file = st.file_uploader("Choose a CSV file")
-
-if uploaded_file is not None:
-    dataframe = pd.read_csv(uploaded_file)
-    st.write(dataframe)
-
-st.write(f"There are {dataframe.isnull().sum()} null values")
-
+st.markdown("**Available Pages**")
+st.markdown("- **Data Cleaning:** Upload a CSV or choose a sample dataset and review missing values.")
+st.markdown("- **Predictions:** Placeholder page for your future model-building work.")
