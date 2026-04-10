@@ -27,10 +27,10 @@ with st.sidebar:
             ["Sample Dataset 1", "Sample Dataset 2"]
         )
 
-        if sample_choice == "Sample Dataset 1":
-            dataframe = pd.read_csv("MLStreamlitApp/data/sample_dataset_1.csv")
-        elif sample_choice == "Sample Dataset 2":
-            dataframe = pd.read_csv("MLStreamlitApp/data/sample_dataset_2.csv")
+        if sample_choice == "Sample Dataset 1: NFL Wide Receiver Stats":
+            dataframe = pd.read_csv("MLStreamlitApp/data/nextgen_receiving_stats.csv")
+        elif sample_choice == "Sample Dataset 2: Titanic Survival":
+            dataframe = pd.read_csv("MLStreamlitApp/data/titanic-1.csv")
 
 if dataframe is not None:
     st.session_state["dataframe"] = dataframe
