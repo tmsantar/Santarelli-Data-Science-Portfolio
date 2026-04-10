@@ -6,7 +6,7 @@ st.set_page_config(page_title="Data Cleaning", page_icon="🧹", layout="wide")
 
 
 st.title("Data Cleaning")
-st.markdown("Upload a dataset or choose one of your sample CSV files from the sidebar.")
+st.markdown("Upload a dataset or choose one of the sample CSV files from the sidebar.")
 
 with st.sidebar:
     st.subheader("Data Source")
@@ -16,33 +16,44 @@ with st.sidebar:
     )
 
     dataframe = None
+    dataset_key = None
 
     if source == "Upload CSV":
         uploaded_file = st.file_uploader("Upload a CSV file", type="csv")
         if uploaded_file is not None:
             dataframe = pd.read_csv(uploaded_file)
+            dataset_key = f"upload::{uploaded_file.name}"
     else:
         sample_choice = st.selectbox(
             "Choose a sample dataset",
-            ["Sample Dataset 1", "Sample Dataset 2"]
+            ["NFL Wide Receiver Stats", "Titanic Survival"]
         )
 
-        if sample_choice == "Sample Dataset 1: NFL Wide Receiver Stats":
-            dataframe = pd.read_csv("MLStreamlitApp/data/nextgen_receiving_stats.csv")
-        elif sample_choice == "Sample Dataset 2: Titanic Survival":
-            dataframe = pd.read_csv("MLStreamlitApp/data/titanic-1.csv")
+        if sample_choice == "NFL Wide Receiver Stats":
+            dataframe = pd.read_csv("data/nextgen_receiving_stats.csv")
+            dataset_key = "sample::nfl"
+        elif sample_choice == "Titanic Survival":
+            dataframe = pd.read_csv("data/titanic-1.csv")
+            dataset_key = "sample::titanic"
 
 if dataframe is not None:
-    st.session_state["dataframe"] = dataframe
+    if st.session_state.get("dataset_key") != dataset_key:
+        st.session_state["dataset_key"] = dataset_key
+        st.session_state["original_df"] = dataframe.copy()
+        st.session_state["working_df"] = dataframe.copy()
 
-    st.subheader("📊 Raw Data")
-    st.dataframe(dataframe)
+    original_df = st.session_state["original_df"]
+    working_df = st.session_state["working_df"]
+    st.session_state["dataframe"] = working_df
+
+    st.subheader("📊 Current Working Data")
+    st.dataframe(working_df)
 
     st.subheader("⚠️ Missing Data Overview")
-    st.write("Before building a model, it's important to handle missing values properly.")
+    st.write("These numbers reflect the current cleaned version of your dataset.")
 
-    missing_counts = dataframe.isnull().sum()
-    missing_percent = (missing_counts / len(dataframe)) * 100
+    missing_counts = working_df.isnull().sum()
+    missing_percent = (missing_counts / len(working_df)) * 100
 
     missing_df = pd.DataFrame({
         "Missing Values": missing_counts,
@@ -52,55 +63,85 @@ if dataframe is not None:
     missing_df = missing_df[missing_df["Missing Values"] > 0]
 
     if missing_df.empty:
-        st.success("✅ No missing values detected. Your dataset is clean!")
+        st.success("✅ No missing values detected in the current working dataset.")
     else:
-        st.write("The following columns have missing data:")
+        st.write("The following columns still have missing data:")
         st.dataframe(missing_df)
-
-        st.write(
-            "You should handle missing values before training a model.\n"
-            "Options include:\n"
-            "- Keep Original DataFrame\n"
-            "- Dropping rows or columns\n"
-            "- Filling with mean/median/mode\n"
-        )
-
         st.subheader("🔍 Preview Rows with Missing Data")
-        st.dataframe(dataframe[dataframe.isnull().any(axis=1)])
+        st.dataframe(working_df[working_df.isnull().any(axis=1)], height=200)
 
-        st.subheader("🛠️ Next Step: Handle Missing Values")
-        numeric_columns = dataframe.select_dtypes(include=["number"]).columns
+    metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
+    with metric_col1:
+        st.metric("Rows", working_df.shape[0], working_df.shape[0] - original_df.shape[0])
+    with metric_col2:
+        st.metric("Columns", working_df.shape[1], working_df.shape[1] - original_df.shape[1])
+    with metric_col3:
+        st.metric("Missing Before", int(original_df.isnull().sum().sum()))
+    with metric_col4:
+        st.metric("Missing Now", int(working_df.isnull().sum().sum()))
 
-        if len(numeric_columns) > 0:
-            column = st.selectbox("Choose a column to fill", numeric_columns)
+    st.subheader("🛠️ Apply a Cleaning Step")
+    st.write("Each time you click the button below, the change will be applied to the current working dataset.")
 
-            method = st.selectbox(
-                "Choose how to handle missing values:",
-                [
-                    "Keep Original DataFrame",
-                    "Drop Rows",
-                    "Drop Columns (>50% Missing)",
-                    "Fill with Mean",
-                    "Fill with Median",
-                    "Fill with Zero"
-                ]
-            )
+    numeric_columns = working_df.select_dtypes(include=["number"]).columns
+    numeric_missing_columns = [col for col in numeric_columns if working_df[col].isnull().sum() > 0]
 
-            df_clean = dataframe.copy()
+    method = st.selectbox(
+        "Choose how to handle missing values:",
+        ["Keep Current DataFrame", "Drop Rows", "Drop Columns (>50% Missing)",
+         "Drop Selected Columns", "Fill with Mean", "Fill with Median",
+         "Fill with Zero"]
+    )
 
-            if method == "Keep Original DataFrame":
-                pass
-            elif method == "Drop Rows":
-                df_clean = df_clean.dropna()
-            elif method == "Drop Columns (>50% Missing)":
-                df_clean = df_clean.drop(columns=df_clean.columns[df_clean.isnull().mean() > 0.5])
-            elif method == "Fill with Mean":
-                df_clean[column] = df_clean[column].fillna(dataframe[column].mean())
-            elif method == "Fill with Median":
-                df_clean[column] = df_clean[column].fillna(dataframe[column].median())
-            elif method == "Fill with Zero":
-                df_clean[column] = df_clean[column].fillna(0)
+    if method == "Drop Selected Columns":
+        selected_columns = st.multiselect(
+            "Choose columns to drop",
+            working_df.columns.tolist()
+        )
+    else:
+        selected_columns = []
+
+    if method in ["Fill with Mean", "Fill with Median", "Fill with Zero"]:
+        if len(numeric_missing_columns) > 0:
+            column = st.selectbox("Choose a numeric column to fill", numeric_missing_columns)
         else:
-            st.info("This dataset has no numeric columns available for the current fill options.")
+            column = None
+            st.info("There are no numeric columns with missing values to fill right now.")
+    else:
+        column = None
+
+    button_col1, button_col2 = st.columns(2)
+
+    with button_col1:
+        if st.button("Apply Cleaning Step", type="primary"):
+            updated_df = working_df.copy()
+
+            if method == "Drop Rows":
+                updated_df = updated_df.dropna()
+            elif method == "Drop Columns (>50% Missing)":
+                updated_df = updated_df.drop(columns=updated_df.columns
+                                             [updated_df.isnull().mean() > 0.5])
+            elif method == "Drop Selected Columns" and selected_columns:
+                updated_df = updated_df.drop(columns=selected_columns)
+            elif method == "Fill with Mean" and column is not None:
+                updated_df[column] = updated_df[column].fillna(updated_df[column].mean())
+            elif method == "Fill with Median" and column is not None:
+                updated_df[column] = updated_df[column].fillna(updated_df[column].median())
+            elif method == "Fill with Zero" and column is not None:
+                updated_df[column] = updated_df[column].fillna(0)
+
+            st.session_state["working_df"] = updated_df
+            st.session_state["dataframe"] = updated_df
+            st.rerun()
+
+    with button_col2:
+        if st.button("Reset to Original Data"):
+            st.session_state["working_df"] = original_df.copy()
+            st.session_state["dataframe"] = original_df.copy()
+            st.rerun()
+
+    st.subheader("Current Cleaned Data")
+    st.dataframe(working_df.head(10), height=250)
+    st.success("Your data is clean and ready for modeling! Select the predictions tab from the sidebar 👈")
 else:
     st.info("Upload a CSV file or choose a sample dataset from the sidebar to begin.")
