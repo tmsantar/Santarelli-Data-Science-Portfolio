@@ -16,13 +16,13 @@ with st.sidebar:
     )
 
     dataframe = None
-    dataset_key = None
+    dataset_name = None
 
     if source == "Upload CSV":
         uploaded_file = st.file_uploader("Upload a CSV file", type="csv")
         if uploaded_file is not None:
             dataframe = pd.read_csv(uploaded_file)
-            dataset_key = f"upload::{uploaded_file.name}"
+            dataset_name = uploaded_file.name
     else:
         sample_choice = st.selectbox(
             "Choose a sample dataset",
@@ -31,14 +31,18 @@ with st.sidebar:
 
         if sample_choice == "NFL Wide Receiver Stats":
             dataframe = pd.read_csv("data/nextgen_receiving_stats.csv")
-            dataset_key = "sample::nfl"
+            dataset_name = "NFL Wide Receiver Stats"
         elif sample_choice == "Titanic Survival":
             dataframe = pd.read_csv("data/titanic-1.csv")
-            dataset_key = "sample::titanic"
+            dataset_name = "Titanic Survival"
+
+if dataframe is None and "working_df" in st.session_state:
+    dataframe = st.session_state["working_df"].copy()
+    dataset_name = st.session_state.get("dataset_name")
 
 if dataframe is not None:
-    if st.session_state.get("dataset_key") != dataset_key:
-        st.session_state["dataset_key"] = dataset_key
+    if st.session_state.get("dataset_name") != dataset_name:
+        st.session_state["dataset_name"] = dataset_name
         st.session_state["original_df"] = dataframe.copy()
         st.session_state["working_df"] = dataframe.copy()
 
@@ -48,6 +52,15 @@ if dataframe is not None:
 
     st.subheader("📊 Current Working Data")
     st.dataframe(working_df)
+
+    st.subheader("Data Types Overview")
+    dtype_df = pd.DataFrame({
+        "Column": working_df.columns,
+        "Data Type": working_df.dtypes.astype(str).values,
+        "Non-Null Values": working_df.notnull().sum().values,
+        "Missing Values": working_df.isnull().sum().values
+    })
+    st.dataframe(dtype_df, height=250)
 
     st.subheader("⚠️ Missing Data Overview")
     st.write("These numbers reflect the current cleaned version of your dataset.")
