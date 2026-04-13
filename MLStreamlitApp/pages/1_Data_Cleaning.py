@@ -26,22 +26,22 @@ with st.sidebar:
     else:
         sample_choice = st.selectbox(
             "Choose a sample dataset",
-            ["Student Performance", "NFL Wide Receiver Stats", 
-            "Titanic Survival", "Job Salary Prediction"]
+            ["Student Performance", "Soccer Injury Predictor", 
+            "Titanic Survival", "Teen Mental Health"]
         )
 
         if sample_choice == "Student Performance":
             dataframe = pd.read_csv("data/Student_Performance.csv")
             dataset_name = "Student Performance"
-        elif sample_choice == "NFL Wide Receiver Stats":
-            dataframe = pd.read_csv("data/nextgen_receiving_stats.csv")
-            dataset_name = "NFL Wide Receiver Stats"
+        elif sample_choice == "Soccer Injury Predictor":
+            dataframe = pd.read_csv("data/Soccer_injuries.csv")
+            dataset_name = "Soccer Injury Predictor"
         elif sample_choice == "Titanic Survival":
             dataframe = pd.read_csv("data/titanic-1.csv")
             dataset_name = "Titanic Survival"
-        elif sample_choice == "Job Salary Prediction":
-            dataframe = pd.read_csv("data/job_salary_prediction_dataset.csv")
-            dataset_name = "Job Salary Prediction"
+        elif sample_choice == "Teen Mental Health":
+            dataframe = pd.read_csv("data/Teen_Mental_Health_Dataset.csv")
+            dataset_name = "Teen Mental Health"
 
 if dataframe is None and "working_df" in st.session_state:
     dataframe = st.session_state["working_df"].copy()
