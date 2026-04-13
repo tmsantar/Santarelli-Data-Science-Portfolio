@@ -26,7 +26,7 @@ with st.sidebar:
     else:
         sample_choice = st.selectbox(
             "Choose a sample dataset",
-            ["NFL Wide Receiver Stats", "Titanic Survival"]
+            ["NFL Wide Receiver Stats", "Titanic Survival", "Job Salary Prediction"]
         )
 
         if sample_choice == "NFL Wide Receiver Stats":
@@ -35,6 +35,9 @@ with st.sidebar:
         elif sample_choice == "Titanic Survival":
             dataframe = pd.read_csv("data/titanic-1.csv")
             dataset_name = "Titanic Survival"
+        elif sample_choice == "Job Salary Prediction":
+            dataframe = pd.read_csv("data/job_salary_prediction_dataset.csv")
+            dataset_name = "Job Salary Prediction"
 
 if dataframe is None and "working_df" in st.session_state:
     dataframe = st.session_state["working_df"].copy()
