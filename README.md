@@ -45,9 +45,9 @@ Here are some of the projects I’ve built:
 
 **Portfolio Impact**: This project complements my overall data science portfolio by showcasing my ability to create an interactive app that listens and helps users. 
 
-**Skills**: Python, Pandas, Data Cleaning, Data Wrangling, Tidy Data Principles, Data Transformation, Data Visualization (Matplotlib, Seaborn), Jupyter Notebook, Sklearn
+**Skills**: Python, Pandas, Sklearn, Streamlit, Data Cleaning, Data Wrangling, Tidy Data Principles, Data Transformation, Data Visualization (Matplotlib, Seaborn)
 
-**Link to Notebook**: https://github.com/tmsantar/Santarelli-Data-Science-Portfolio/blob/main/TidyData-Project/main.ipynb
+**Link to Project**: https://github.com/tmsantar/Santarelli-Data-Science-Portfolio/tree/main/MLStreamlitApp
 
 <img width="400" src="https://raw.githubusercontent.com/tmsantar/Santarelli-Data-Science-Portfolio/main/images/Machine_Learning .jpeg">
 
