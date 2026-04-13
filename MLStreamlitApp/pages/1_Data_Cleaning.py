@@ -108,10 +108,18 @@ if dataframe is not None:
 
     method = st.selectbox(
         "Choose how to handle missing values:",
-        ["Keep Current DataFrame", "Drop Rows", "Drop Columns (>50% Missing)",
-         "Drop Selected Columns", "Fill with Mean", "Fill with Median",
-         "Fill with Zero"]
+        ["Keep Current DataFrame", "Drop Rows", "Drop Rows for Specific Missing Variables",
+         "Drop Columns (>50% Missing)", "Drop Selected Columns", "Fill with Mean",
+         "Fill with Median", "Fill with Zero"]
     )
+
+    if method == "Drop Rows for Specific Missing Variables":
+        selected_missing_columns = st.multiselect(
+            "Choose columns whose missing values should trigger row removal",
+            missing_df.index.tolist() if not missing_df.empty else []
+        )
+    else:
+        selected_missing_columns = []
 
     if method == "Drop Selected Columns":
         selected_columns = st.multiselect(
@@ -138,6 +146,8 @@ if dataframe is not None:
 
             if method == "Drop Rows":
                 updated_df = updated_df.dropna()
+            elif method == "Drop Rows for Specific Missing Variables" and selected_missing_columns:
+                updated_df = updated_df.dropna(subset=selected_missing_columns)
             elif method == "Drop Columns (>50% Missing)":
                 updated_df = updated_df.drop(columns=updated_df.columns
                                              [updated_df.isnull().mean() > 0.5])
