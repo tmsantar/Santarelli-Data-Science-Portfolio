@@ -41,9 +41,9 @@ Here are some of the projects I’ve built:
 
 ### 📊 [Machine Learning Streamlit App](MLStreamlitApp/)
 
-**Description**: The Machine Learning Streamlit App takes a csv file and allows the users to run a model to predict a target variable. 
+**Description**: The Machine Learning Streamlit App takes a csv file and allows the users to run a model to predict a target variable. First, users upload a csv file or select from a few sample datasets. Then, users have the ability to view their dataset and then can remove or impute missing values. After cleaning the data, users can then make predictions using their new dataset. The predictions can be regression problems or classification problems and users can choose from a variety of machine learning models. After selecting the target variable, choosing the model, and selecting imput variables users can then review their models performance. Overall, this application is useful for anyone who has a csv file and is in need of a quick prediction.
 
-**Portfolio Impact**: This project complements my overall data science portfolio by showcasing my ability to create an interactive app that listens and helps users. 
+**Portfolio Impact**: This project complements my overall data science portfolio by showcasing my ability to create an interactive app that listens and helps users. It demonstrates my ability to create an application that helps and adapts users based on their inputs. Additionally, this project showcases my ability to incorporate and build machine learning models. This interactive app utilizes both regression and classification models and has four different options total. 
 
 **Skills**: Python, Pandas, Sklearn, Streamlit, Data Cleaning, Data Wrangling, Tidy Data Principles, Data Transformation, Data Visualization (Matplotlib, Seaborn)
 
