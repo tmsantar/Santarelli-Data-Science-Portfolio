@@ -26,10 +26,14 @@ with st.sidebar:
     else:
         sample_choice = st.selectbox(
             "Choose a sample dataset",
-            ["NFL Wide Receiver Stats", "Titanic Survival", "Job Salary Prediction"]
+            ["Student Performance", "NFL Wide Receiver Stats", 
+            "Titanic Survival", "Job Salary Prediction"]
         )
 
-        if sample_choice == "NFL Wide Receiver Stats":
+        if sample_choice == "Student Performance":
+            dataframe = pd.read_csv("data/Student_Performance.csv")
+            dataset_name = "Student Performance"
+        elif sample_choice == "NFL Wide Receiver Stats":
             dataframe = pd.read_csv("data/nextgen_receiving_stats.csv")
             dataset_name = "NFL Wide Receiver Stats"
         elif sample_choice == "Titanic Survival":
