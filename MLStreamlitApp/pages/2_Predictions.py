@@ -3,7 +3,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from pandas.api.types import is_numeric_dtype
 from sklearn.linear_model import LinearRegression, LogisticRegression
-from sklearn.metrics import accuracy_score, mean_squared_error, root_mean_squared_error, r2_score, precision_score
+from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay, f1_score, mean_squared_error, precision_score, recall_score, roc_auc_score, roc_curve, root_mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.tree import DecisionTreeClassifier, plot_tree
@@ -108,12 +108,46 @@ def show_regression_results(y_test, y_pred):
     st.dataframe(results_df.head(10), use_container_width=True, height=250)
 
 
-def show_classification_results(y_test, y_pred):
+def show_classification_results(y_test, y_pred, y_score=None):
     st.markdown("### 📊 Classification Results")
 
-    col1, col2 = st.columns(2)
+    col1, col2, col3, col4 = st.columns(4)
     col1.metric("Accuracy", f"{accuracy_score(y_test, y_pred):.2f}")
     col2.metric("Precision", f"{precision_score(y_test, y_pred, average='weighted', zero_division=0):.2f}")
+    col3.metric("Recall", f"{recall_score(y_test, y_pred, average='weighted', zero_division=0):.2f}")
+    col4.metric("F1 Score", f"{f1_score(y_test, y_pred, average='weighted', zero_division=0):.2f}")
+
+    labels = sorted(pd.Series(pd.concat([pd.Series(y_test), pd.Series(y_pred)])).astype(str).unique().tolist())
+    chart_col1, chart_col2 = st.columns(2)
+
+    with chart_col1:
+        st.markdown("### 🧾 Confusion Matrix")
+        cm = confusion_matrix(pd.Series(y_test).astype(str), pd.Series(y_pred).astype(str), labels=labels)
+        fig, ax = plt.subplots(figsize=(7, 5))
+        disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
+        disp.plot(ax=ax, cmap="Blues", colorbar=False, xticks_rotation=45)
+        st.pyplot(fig)
+        plt.close(fig)
+
+    with chart_col2:
+        st.markdown("### 📈 ROC Curve")
+        if y_score is not None and len(pd.Series(y_test).unique()) == 2:
+            positive_label = sorted(pd.Series(y_test).unique())[-1]
+            y_true_binary = (pd.Series(y_test) == positive_label).astype(int)
+            fpr, tpr, _ = roc_curve(y_true_binary, y_score)
+            auc_score = roc_auc_score(y_true_binary, y_score)
+
+            fig, ax = plt.subplots(figsize=(7, 5))
+            ax.plot(fpr, tpr, label=f"AUC = {auc_score:.2f}")
+            ax.plot([0, 1], [0, 1], linestyle="--")
+            ax.set_xlabel("False Positive Rate")
+            ax.set_ylabel("True Positive Rate")
+            ax.set_title("ROC Curve")
+            ax.legend(loc="lower right")
+            st.pyplot(fig)
+            plt.close(fig)
+        else:
+            st.info("ROC curve is shown for binary classification models when probability scores are available.")
 
     st.markdown("### 🔍 Actual vs Predicted")
     results_df = pd.DataFrame({
@@ -293,7 +327,9 @@ elif model == "Logistic Regression":
 
         model_obj = LogisticRegression(max_iter=1000).fit(X_train, y_train)
 
-        show_classification_results(y_test, model_obj.predict(X_test))
+        y_pred = model_obj.predict(X_test)
+        y_score = model_obj.predict_proba(X_test)[:, 1] if y.nunique() == 2 else None
+        show_classification_results(y_test, y_pred, y_score)
 
         if len(model_obj.coef_) == 1:
             show_coefficients(X.columns, model_obj.coef_[0], model_obj.intercept_[0])
@@ -345,7 +381,9 @@ elif model == "Decision Tree Classifier":
 
         model_obj = DecisionTreeClassifier(max_depth=max_depth, random_state=42).fit(X_train, y_train)
 
-        show_classification_results(y_test, model_obj.predict(X_test))
+        y_pred = model_obj.predict(X_test)
+        y_score = model_obj.predict_proba(X_test)[:, 1] if y.nunique() == 2 else None
+        show_classification_results(y_test, y_pred, y_score)
         show_importances(X.columns, model_obj.feature_importances_)
 
         st.success("✅ Decision Tree model trained successfully.")
@@ -390,10 +428,11 @@ elif model == "XGBoost Classifier":
             random_state=42
         ).fit(X_train, y_train)
 
-        show_classification_results(
-            pd.Series(le.inverse_transform(y_test)),
-            pd.Series(le.inverse_transform(model_obj.predict(X_test)))
-        )
+        y_pred = model_obj.predict(X_test)
+        y_pred_labels = pd.Series(le.inverse_transform(y_pred))
+        y_test_labels = pd.Series(le.inverse_transform(y_test))
+        y_score = model_obj.predict_proba(X_test)[:, 1] if len(le.classes_) == 2 else None
+        show_classification_results(y_test_labels, y_pred_labels, y_score)
         show_importances(X.columns, model_obj.feature_importances_)
 
         st.success("✅ XGBoost model trained successfully.")
