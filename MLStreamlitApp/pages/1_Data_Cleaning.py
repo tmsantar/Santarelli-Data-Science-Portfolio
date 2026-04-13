@@ -27,7 +27,7 @@ with st.sidebar:
         sample_choice = st.selectbox(
             "Choose a sample dataset",
             ["Student Performance", "Soccer Injury Predictor", 
-            "Titanic Survival", "Teen Mental Health"]
+            "Titanic Survival", "Baseball Success", "Teen Mental Health"]
         )
 
         if sample_choice == "Student Performance":
@@ -39,6 +39,9 @@ with st.sidebar:
         elif sample_choice == "Titanic Survival":
             dataframe = pd.read_csv("data/titanic-1.csv")
             dataset_name = "Titanic Survival"
+        elif sample_choice == "Baseball Success":
+            dataframe = pd.read_csv("data/baseball.csv")
+            dataset_name = "Baseball Success"
         elif sample_choice == "Teen Mental Health":
             dataframe = pd.read_csv("data/Teen_Mental_Health_Dataset.csv")
             dataset_name = "Teen Mental Health"
