@@ -96,9 +96,12 @@ def show_regression_results(y_test, y_pred):
     st.markdown("### 📊 Regression Results")
 
     col1, col2, col3 = st.columns(3)
-    col1.metric("MSE", f"{mean_squared_error(y_test, y_pred):.2f}")
-    col2.metric("RMSE", f"{root_mean_squared_error(y_test, y_pred):.2f}")
-    col3.metric("R²", f"{r2_score(y_test, y_pred):.2f}")
+    col1.metric("MSE", f"{mean_squared_error(y_test, y_pred):.2f}", help = 
+    "The average squared difference between estimated values and the actual value")
+    col2.metric("RMSE", f"{root_mean_squared_error(y_test, y_pred):.2f}", help=
+    "The average difference between values predicted by a model and the actual observed values")
+    col3.metric("R²", f"{r2_score(y_test, y_pred):.2f}", help=
+    "The proportion of variance in a dependent variable explained by a regression model's independent variable(s)")
 
     st.markdown("### 🔍 Actual vs Predicted")
     results_df = pd.DataFrame({
@@ -112,10 +115,14 @@ def show_classification_results(y_test, y_pred, y_score=None):
     st.markdown("### 📊 Classification Results")
 
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Accuracy", f"{accuracy_score(y_test, y_pred):.2f}")
-    col2.metric("Precision", f"{precision_score(y_test, y_pred, average='weighted', zero_division=0):.2f}")
-    col3.metric("Recall", f"{recall_score(y_test, y_pred, average='weighted', zero_division=0):.2f}")
-    col4.metric("F1 Score", f"{f1_score(y_test, y_pred, average='weighted', zero_division=0):.2f}")
+    col1.metric("Accuracy", f"{accuracy_score(y_test, y_pred):.2f}", help =
+    "The proportion of correct predictions made by a model out of the total number of predictions made")
+    col2.metric("Precision", f"{precision_score(y_test, y_pred, average='weighted', zero_division=0):.2f}", help=
+    "The accuracy of positive predictions")
+    col3.metric("Recall", f"{recall_score(y_test, y_pred, average='weighted', zero_division=0):.2f}", help=
+    "The ability of the model to identify all relevant instances of a positive class")
+    col4.metric("F1 Score", f"{f1_score(y_test, y_pred, average='weighted', zero_division=0):.2f}", help=
+    "The harmonic mean of precision and recall")
 
     labels = sorted(pd.Series(pd.concat([pd.Series(y_test), pd.Series(y_pred)])).astype(str).unique().tolist())
     chart_col1, chart_col2 = st.columns(2)
@@ -125,7 +132,7 @@ def show_classification_results(y_test, y_pred, y_score=None):
         cm = confusion_matrix(pd.Series(y_test).astype(str), pd.Series(y_pred).astype(str), labels=labels)
         fig, ax = plt.subplots(figsize=(7, 5))
         disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
-        disp.plot(ax=ax, cmap="Blues", colorbar=False, xticks_rotation=45)
+        disp.plot(ax=ax, cmap="Blues", colorbar=False)
         st.pyplot(fig)
         plt.close(fig)
 
