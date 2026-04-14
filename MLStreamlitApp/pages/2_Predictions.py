@@ -126,7 +126,7 @@ def show_regression_results(y_test, y_pred):
     col1.metric("MSE", f"{mean_squared_error(y_test, y_pred):.2f}",
     help="The average squared difference between estimated values and the actual value")
     col2.metric("RMSE", f"{root_mean_squared_error(y_test, y_pred):.2f}",
-    help="The average difference between values predicted by a model and the actual observed values")
+    help="The average difference between values predicted by the model and the actual observed values")
     col3.metric("R²", f"{r2_score(y_test, y_pred):.2f}",
     help="The proportion of variance in a dependent variable explained by a regression model's independent variable(s)")
 
