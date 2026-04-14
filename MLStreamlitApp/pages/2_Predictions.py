@@ -154,7 +154,7 @@ def show_classification_results(y_test, y_pred, y_score=None):
     with chart_col1:
         # Confusion matrix shows where the classifier was correct and incorrect.
         st.markdown("### 🧾 Confusion Matrix")
-        cm = confusion_matrix(pd.Series(y_test).astype(str), pd.Series(y_pred).astype(str), labels=[1, 0])
+        cm = confusion_matrix(y_test, y_pred, labels=[1, 0])
         disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels, )
         disp.plot(ax=ax, cmap="Blues", colorbar=False)
         ax.set_aspect("equal", adjustable="box")
