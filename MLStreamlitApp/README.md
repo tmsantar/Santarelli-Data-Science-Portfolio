@@ -1,83 +1,187 @@
-# NFL Receiving Stats Explorer 🏈
+# Machine Learning Streamlit App
 
-🔗 **Open the Live App:** [Click Here](https://santarelli-data-science-portfolio-npyaadvr3rdd7mlympdfeh.streamlit.app/Data_Cleaning/)
+Interactive Streamlit application for supervised machine learning. Users can upload their own CSV files or choose from sample datasets, clean the data, select a target variable, train a model, adjust settings, and review model performance.
 
-An interactive Streamlit dashboard for exploring NFL receiving statistics from the 2025 regular season using Next Gen Stats tracking data.
+## Project Overview
 
-![Next Gen Stats](images/Next_Gen_Logo.jpg)
+The goal of this project is to give users a simple, hands-on way to explore supervised machine learning. The app is designed to walk users through a practical workflow:
 
-## 📊 About This Application
+1. Load a dataset
+2. Clean missing values and inspect data types
+3. Choose a target variable
+4. Select a model
+5. Adjust model settings and preprocessing options
+6. Review training results and model evaluation
 
-This dashboard provides comprehensive analysis of NFL wide receiver and tight end performance using advanced tracking metrics. Next Gen Stats uses real-time location data captured by sensors throughout NFL stadiums, tracking player movements with precision down to inches on every play.
+The app currently supports both regression and classification tasks depending on the selected target variable.
 
-## ✨ Features
+## Live App
 
-### 📈 Season Statistics
-- View complete season statistics for all receivers and tight ends
-- Filter top 10 performers by any statistical category
-- Search and filter by player, team, or position
-- Interactive bar charts showing league leaders
+Add your deployed Streamlit Community Cloud URL here:
 
-### 📅 Weekly Statistics  
-- Analyze week-by-week performance across all 18 weeks
-- Compare player performances in specific weeks
-- Track consistency and trend patterns
-- Filter by team and position for targeted analysis
+`PASTE_DEPLOYED_APP_URL_HERE`
 
-### 🎯 Advanced Player Comparisons
-- Compare up to 2 players side-by-side
-- Interactive radar charts with true percentile rankings
-- Customize which statistics to compare (3-7 metrics)
-- Choose between season-long or weekly performance comparisons
-- View detailed comparison tables with rounded statistics
+## Features
 
-## 📋 Available Statistics
+### Data Cleaning Page
 
-### Basic Stats:
-- **Yards**: Total receiving yards
-- **Targets**: Number of times the player was targeted
-- **Receptions**: Number of successful catches
-- **Receiving Touchdowns**: Touchdowns scored from receptions
-- **Catch Percentage**: Percentage of targets that resulted in catches
+- Upload a CSV file or choose a sample dataset
+- View the current working dataset
+- Inspect column data types, non-null counts, and missing values
+- Apply multiple cleaning steps in sequence
+- Reset back to the original dataset at any time
+- Handle missing data by:
+  - dropping rows
+  - dropping rows for specific missing variables
+  - dropping columns with more than 50% missing values
+  - dropping selected columns
+  - filling numeric columns with mean, median, or zero
 
-### Next Gen Advanced Metrics:
-- **Avg Cushion**: Average distance (yards) between WR/TE and defender at snap
-- **Avg Separation**: Average distance (yards) between WR/TE and nearest defender at catch
-- **Avg Intended Air Yards**: Average air yards on all targets
-- **Share of Intended Air Yards (%)**: Percentage of team's total intended air yards
-- **Avg Yards After Catch**: Average yards gained after the catch
-- **Avg Expected YAC**: Expected yards after catch based on tracking data
-- **YAC Above Expectation**: Actual YAC compared to Expected YAC
+### Predictions Page
 
-## 📁 Project Structure
+- Automatically detect whether the target looks like a regression or classification problem
+- Allow the user to keep the detected problem type or switch it manually
+- Select predictor columns
+- Optionally include categorical predictors through dummy coding
+- Optionally scale numeric features for linear and logistic regression
+- Train and evaluate multiple supervised learning models
 
+## Models Used
+
+### Regression
+
+- Linear Regression
+
+### Classification
+
+- Logistic Regression
+- Decision Tree Classifier
+- XGBoost Classifier
+
+## Model Settings and Hyperparameters
+
+Users can experiment with model behavior through Streamlit widgets.
+
+### Shared Settings
+
+- test set size
+- input variable selection
+- target variable selection
+- optional dummy coding for categorical predictors
+
+### Linear Regression
+
+- optional feature scaling with `StandardScaler`
+
+### Logistic Regression
+
+- optional feature scaling with `StandardScaler`
+
+### Decision Tree Classifier
+
+- max depth
+
+### XGBoost Classifier
+
+- number of trees
+- max depth
+
+## Evaluation Metrics
+
+### Regression Metrics
+
+- Mean Squared Error (MSE)
+- Root Mean Squared Error (RMSE)
+- R-squared Score
+- actual vs predicted table
+- feature coefficient table with intercept
+
+### Classification Metrics
+
+- Accuracy
+- Precision
+- Recall
+- F1 Score
+- Confusion Matrix
+- ROC Curve and AUC for binary classification
+- actual vs predicted table
+- feature importance or coefficient output depending on the model
+
+## How to Run Locally
+
+1. Open a terminal in the portfolio repository.
+2. Move into the app folder:
+
+```powershell
+cd MLStreamlitApp
 ```
-basic_streamlit_app/
-├── main.py                     # Main home page
-├── pages/                      # Multi-page app structure
-│   ├── 1_📈_Season_Stats.py   # Season statistics page
-│   ├── 2_📅_Weekly_Stats.py   # Weekly statistics page
-│   └── 3_🎯_Advanced_Stats.py # Advanced player comparisons
-├── data/                       # Dataset storage
-    ├── nfl_data.py             # Dataset creation using nflreadpy package        
-│   └── nextgen_receiving_stats.csv
-├── images/                     # Images 
-│   └── Next_Gen_Logo.jpg
-└── README.md                   # This file
+
+3. Install the required libraries:
+
+```powershell
+pip install -r requirements.txt
 ```
 
-## 💡 How to Use
+4. Run the app:
 
-1. **Navigate**: Use the sidebar to switch between different pages
-2. **Filter**: Use dropdown menus and sliders to filter data by player, team, position, or week
-3. **Search**: Use the search boxes in dataframe sections to find specific players or teams
-4. **Compare**: On the Advanced Stats page, select 2 players and choose metrics to compare
-5. **Analyze**: View interactive charts and tables to gain insights into player performance
+```powershell
+streamlit run main.py
+```
 
-## 👨‍💻 Author
+5. Open the local URL shown in the terminal, usually:
 
-**Tommy Santarelli**  
+`http://localhost:8501`
+
+## Required Libraries
+
+These are the main libraries used by the app:
+
+- `streamlit==1.53.0`
+- `pandas==2.3.3`
+- `matplotlib==3.10.8`
+- `scikit-learn==1.8.0`
+- `xgboost==3.2.0`
+
+## Project Structure
+
+```text
+MLStreamlitApp/
+|-- main.py
+|-- README.md
+|-- requirements.txt
+|-- data/
+|-- pages/
+|   |-- 1_Data_Cleaning.py
+|   |-- 2_Predictions.py
+```
+
+## References
+
+These course notebooks helped guide the models and app logic used in this project:
+
+- [Week 7: Linear Regression](../Week%207/IDS_Week_7_FINAL.ipynb)
+- [Week 9: Logistic Regression](../Week%209/IDS%20Week%209_1_FINAL.ipynb)
+- [Week 9: Decision Tree Classifier](../Week%209/IDS%20Week%209_2_FINAL.ipynb)
+- [Week 10: XGBoost Classifier](../Week%2010/IDS%20Week%2010_1_FINAL.ipynb)
+
+## Visual Examples
+
+Add screenshots here before submitting. Good options would be:
+
+- the Data Cleaning page
+- the Predictions page with model metrics
+- a confusion matrix and ROC curve example
+- a decision tree diagram
+
+Placeholder section:
+
+`INSERT_SCREENSHOT_1_HERE`
+
+`INSERT_SCREENSHOT_2_HERE`
+
+`INSERT_SCREENSHOT_3_HERE`
+
+## Author
+
+Tommy Santarelli  
 Business Analytics Major, University of Notre Dame
-
-- LinkedIn: [Tommy Santarelli](https://www.linkedin.com/in/tommy-santarelli-792651329/)
-- GitHub: [@tmsantar](https://github.com/tmsantar)
