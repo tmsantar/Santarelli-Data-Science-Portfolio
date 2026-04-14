@@ -188,18 +188,21 @@ These course notebooks helped guide the models and app logic used in this projec
 
 ## 🖼️ Visual Examples
 
-Add screenshots here before submitting. Good options would be:
+### Dataset Upload and Selection
 
-- The Data Cleaning page
-- The Predictions page with model metrics
-- A confusion matrix and ROC curve example
-- A decision tree diagram
+![CSV Upload](images/Csv_upload.png)
 
-`INSERT_SCREENSHOT_1_HERE`
+### App Overview
 
-`INSERT_SCREENSHOT_2_HERE`
+![App Overview](images/Overview.png)
 
-`INSERT_SCREENSHOT_3_HERE`
+### Confusion Matrix Example
+
+![Confusion Matrix](images/confusion_matrix.png)
+
+### Decision Tree Example
+
+![Decision Tree](images/decision_tree.png)
 
 ---
 
