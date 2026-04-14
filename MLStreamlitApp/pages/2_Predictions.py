@@ -96,12 +96,12 @@ def show_regression_results(y_test, y_pred):
     st.markdown("### 📊 Regression Results")
 
     col1, col2, col3 = st.columns(3)
-    col1.metric("MSE", f"{mean_squared_error(y_test, y_pred):.2f}", help = 
-    "The average squared difference between estimated values and the actual value")
-    col2.metric("RMSE", f"{root_mean_squared_error(y_test, y_pred):.2f}", help=
-    "The average difference between values predicted by a model and the actual observed values")
-    col3.metric("R²", f"{r2_score(y_test, y_pred):.2f}", help=
-    "The proportion of variance in a dependent variable explained by a regression model's independent variable(s)")
+    col1.metric("MSE", f"{mean_squared_error(y_test, y_pred):.2f}", 
+    help = "The average squared difference between estimated values and the actual value")
+    col2.metric("RMSE", f"{root_mean_squared_error(y_test, y_pred):.2f}", 
+    help = "The average difference between values predicted by a model and the actual observed values")
+    col3.metric("R²", f"{r2_score(y_test, y_pred):.2f}", 
+    help = "The proportion of variance in a dependent variable explained by a regression model's independent variable(s)")
 
     st.markdown("### 🔍 Actual vs Predicted")
     results_df = pd.DataFrame({
@@ -115,46 +115,53 @@ def show_classification_results(y_test, y_pred, y_score=None):
     st.markdown("### 📊 Classification Results")
 
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Accuracy", f"{accuracy_score(y_test, y_pred):.2f}", help =
-    "The proportion of correct predictions made by a model out of the total number of predictions made")
-    col2.metric("Precision", f"{precision_score(y_test, y_pred, average='weighted', zero_division=0):.2f}", help=
-    "The accuracy of positive predictions")
-    col3.metric("Recall", f"{recall_score(y_test, y_pred, average='weighted', zero_division=0):.2f}", help=
-    "The ability of the model to identify all relevant instances of a positive class")
-    col4.metric("F1 Score", f"{f1_score(y_test, y_pred, average='weighted', zero_division=0):.2f}", help=
-    "The harmonic mean of precision and recall")
+    col1.metric("Accuracy", f"{accuracy_score(y_test, y_pred):.2f}", 
+    help = "The proportion of correct predictions made by a model out of the total number of predictions made")
+    col2.metric("Precision", f"{precision_score(y_test, y_pred, average='weighted', zero_division=0):.2f}", 
+    help = "The accuracy of positive predictions")
+    col3.metric("Recall", f"{recall_score(y_test, y_pred, average='weighted', zero_division=0):.2f}", 
+    help = "The ability of the model to identify all relevant instances of a positive class")
+    col4.metric("F1 Score", f"{f1_score(y_test, y_pred, average='weighted', zero_division=0):.2f}", 
+    help = "The harmonic mean of precision and recall")
+
+    st.divider()
 
     labels = sorted(pd.Series(pd.concat([pd.Series(y_test), pd.Series(y_pred)])).astype(str).unique().tolist())
     chart_col1, chart_col2 = st.columns(2)
 
     with chart_col1:
-        st.markdown("### 🧾 Confusion Matrix")
+        st.markdown("### 🧾 Confusion Matrix", text_alignment = "center")
         cm = confusion_matrix(pd.Series(y_test).astype(str), pd.Series(y_pred).astype(str), labels=labels)
-        fig, ax = plt.subplots(figsize=(7, 5))
+        fig, ax = plt.subplots(figsize=(6, 6), constrained_layout=True)
         disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
         disp.plot(ax=ax, cmap="Blues", colorbar=False)
+        ax.set_aspect("equal", adjustable="box")
         st.pyplot(fig)
         plt.close(fig)
 
     with chart_col2:
-        st.markdown("### 📈 ROC Curve")
+        st.markdown("### 📈 ROC Curve", text_alignment = "center")
         if y_score is not None and len(pd.Series(y_test).unique()) == 2:
             positive_label = sorted(pd.Series(y_test).unique())[-1]
             y_true_binary = (pd.Series(y_test) == positive_label).astype(int)
             fpr, tpr, _ = roc_curve(y_true_binary, y_score)
             auc_score = roc_auc_score(y_true_binary, y_score)
 
-            fig, ax = plt.subplots(figsize=(7, 5))
+            fig, ax = plt.subplots(figsize=(6, 6), constrained_layout=True)
             ax.plot(fpr, tpr, label=f"AUC = {auc_score:.2f}")
             ax.plot([0, 1], [0, 1], linestyle="--")
             ax.set_xlabel("False Positive Rate")
             ax.set_ylabel("True Positive Rate")
-            ax.set_title("ROC Curve")
+            ax.set_xlim(0, 1)
+            ax.set_ylim(0, 1)
+            ax.set_aspect("equal", adjustable="box")
             ax.legend(loc="lower right")
             st.pyplot(fig)
             plt.close(fig)
         else:
             st.info("ROC curve is shown for binary classification models when probability scores are available.")
+
+    st.divider()
 
     st.markdown("### 🔍 Actual vs Predicted")
     results_df = pd.DataFrame({
@@ -281,7 +288,6 @@ if model == "Linear Regression":
         if scale_data:
             X = apply_scaling(X, "linear")
 
-        st.markdown("### 🚀 Train Model")
         X_train, X_test, y_train, y_test = train_test_split(
             X, y,
             test_size=test_size,
@@ -324,7 +330,6 @@ elif model == "Logistic Regression":
         if scale_data:
             X = apply_scaling(X, "logistic")
 
-        st.markdown("### 🚀 Train Model")
         X_train, X_test, y_train, y_test = train_test_split(
             X, y,
             test_size=test_size,
@@ -376,9 +381,8 @@ elif model == "Decision Tree Classifier":
 
         st.markdown("### ⚙️ Training Settings")
         test_size = get_test_size("tree_clf_test_size")
-        max_depth = st.slider("🌲 Max depth", 1, 15, 4, key="tree_clf_depth")
+        max_depth = st.slider("🌲 Max depth", 1, 15, 3, key="tree_clf_depth")
 
-        st.markdown("### 🚀 Train Model")
         X_train, X_test, y_train, y_test = train_test_split(
             X, y,
             test_size=test_size,
@@ -419,9 +423,8 @@ elif model == "XGBoost Classifier":
         st.markdown("### ⚙️ Training Settings")
         test_size = get_test_size("xgb_clf_test_size")
         n_estimators = st.slider("🌲 Number of trees", 50, 300, 100, step=25, key="xgb_clf_estimators")
-        max_depth = st.slider("📏 Max depth", 1, 10, 4, key="xgb_clf_depth")
+        max_depth = st.slider("📏 Max depth", 1, 10, 3, key="xgb_clf_depth")
 
-        st.markdown("### 🚀 Train Model")
         X_train, X_test, y_train, y_test = train_test_split(
             X, y_enc,
             test_size=test_size,
