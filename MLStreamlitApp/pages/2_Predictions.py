@@ -18,11 +18,13 @@ st.set_page_config(page_title="Predictions", page_icon="📈", layout="wide")
 # Helper functions
 # -----------------------------------------------------------------------------
 
+# These functions are used in the main page code below to keep things organized and reusable.
+
 def prepare_model_data(df, target, key_prefix):
     # Every column except the target is a possible predictor.
     feature_candidates = [col for col in df.columns if col != target]
 
-    # Numeric columns can be used directly by the models.
+    # Only numeric predictors can be used without dummy coding, so we identify those here.
     numeric_features = df[feature_candidates].select_dtypes(include=["number"]).columns.tolist()
 
     st.markdown("### Choose Input Variables")
@@ -31,6 +33,7 @@ def prepare_model_data(df, target, key_prefix):
     dummy_code = st.radio(
         "Include categorical predictor columns?",
         ["No", "Yes"],
+        # key is needed to prevent this widget from resetting when the user switches between models.
         key=f"{key_prefix}_dummy_code",
         horizontal=True
     )
@@ -66,6 +69,7 @@ def prepare_model_data(df, target, key_prefix):
 
     if dummy_code == "Yes":
         # Convert text/category predictors into 0/1 dummy columns.
+        # drop_first=True avoids the dummy variable trap by leaving out one category as the baseline.
         X = pd.get_dummies(X, drop_first=True)
 
     return X, y
@@ -75,6 +79,7 @@ def handle_missing(modeling_df, target, key):
     # Count how many rows in the modeling dataset contain missing values.
     missing_rows = int(modeling_df.isnull().any(axis=1).sum())
 
+    # If there are no missing values, we can skip the rest of this function and return the original dataframe.
     if missing_rows == 0:
         st.success("✅ No missing values found in the data used for this model.")
         return modeling_df, False
@@ -89,6 +94,7 @@ def handle_missing(modeling_df, target, key):
         key=key
     )
 
+    # If the user chooses to drop rows with missing values, we do that just for this model run and return the cleaned dataframe.
     if choice == "Drop rows with missing values for this model":
         modeling_df = modeling_df.dropna()
         st.info(f"Removed {missing_rows} rows with missing values for this run.")
@@ -114,6 +120,8 @@ def show_regression_results(y_test, y_pred):
     # Display the main regression performance metrics.
     st.markdown("### 📊 Regression Results")
 
+    # These metrics are commonly used to evaluate regression models. Lower MSE and RMSE values 
+    # indicate better fit, while R² closer to 1 means the model explains more variance.
     col1, col2, col3 = st.columns(3)
     col1.metric("MSE", f"{mean_squared_error(y_test, y_pred):.2f}",
     help="The average squared difference between estimated values and the actual value")
@@ -126,6 +134,7 @@ def show_regression_results(y_test, y_pred):
     st.markdown("### 🔍 Actual vs Predicted")
     results_df = pd.DataFrame({
         "Actual": y_test.reset_index(drop=True),
+        # pd.series is used to align the indices of y_pred with y_test in case any rows were dropped due to missing values.
         "Predicted": pd.Series(y_pred).round(2)
     })
     st.dataframe(results_df.head(10), use_container_width=True, height=250)
@@ -135,6 +144,9 @@ def show_classification_results(y_test, y_pred, y_score=None):
     # Display the main classification performance metrics.
     st.markdown("### 📊 Classification Results")
 
+    # These metrics are commonly used to evaluate classification models. Accuracy is the overall correctness, 
+    # while precision and recall provide insight into the types of errors the model is making. 
+    # F1 Score balances precision and recall, especially useful for imbalanced classes.
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Accuracy", f"{accuracy_score(y_test, y_pred):.2f}",
     help="The proportion of correct predictions made by a model out of the total number of predictions made")
@@ -153,19 +165,26 @@ def show_classification_results(y_test, y_pred, y_score=None):
 
     with chart_col1:
         # Confusion matrix shows where the classifier was correct and incorrect.
+        # The rows of the confusion matrix represent the actual classes, while the columns represent the predicted classes.
         st.markdown("### 🧾 Confusion Matrix")
         cm = confusion_matrix(y_test, y_pred)
         disp = ConfusionMatrixDisplay(confusion_matrix=cm)
         fig, ax = plt.subplots()
+        # The confusion matrix is plotted using a blue color map, and the aspect ratio is set to 
+        # equal to ensure that the cells are square. The layout of the plot is adjusted to fit 
+        # well within the Streamlit app, and the plot is displayed using st.pyplot. 
         disp.plot(ax=ax, cmap="Blues", colorbar=False)
         ax.set_aspect("equal", adjustable="box")
         fig.subplots_adjust(left=0.16, right=0.96, bottom=0.16, top=0.92)
         st.pyplot(fig, use_container_width=True)
+        # Frees up memory by closing the figure after it's displayed.
         plt.close(fig)
 
 
     with chart_col2:
         # ROC/AUC is only shown for binary classification when probability scores exist.
+        # The ROC curve plots the true positive rate against the false positive rate at various threshold settings,
+        # while the AUC score summarizes the overall ability of the model to discriminate between classes.
         st.markdown("### 📈 ROC Curve")
         if y_score is not None and len(pd.Series(y_test).unique()) == 2:
             positive_label = sorted(pd.Series(y_test).unique())[-1]
@@ -173,6 +192,9 @@ def show_classification_results(y_test, y_pred, y_score=None):
             fpr, tpr, _ = roc_curve(y_true_binary, y_score)
             auc_score = roc_auc_score(y_true_binary, y_score)
 
+            # The ROC curve is plotted with the AUC score in the legend, and a dashed diagonal line is added to represent random guessing.
+            # The axes are labeled and the aspect ratio is set to equal to ensure a square plot. 
+            # The layout is adjusted for better fit in the Streamlit app, and the plot is displayed using st.pyplot. 
             fig, ax = plt.subplots(figsize=(6, 6))
             ax.plot(fpr, tpr, label=f"AUC = {auc_score:.2f}")
             ax.plot([0, 1], [0, 1], linestyle="--")
@@ -201,6 +223,8 @@ def show_classification_results(y_test, y_pred, y_score=None):
 
 def show_coefficients(feature_names, coefficients, intercept, title="Feature Coefficients"):
     # Build a coefficient table so the user can see how each feature contributes.
+    # list(feature_names) and list(coefficients) are used to ensure the data is in the correct 
+    # format for the dataframe, especially if they come from a numpy array or pandas series.
     df_coef = pd.DataFrame({
         "Feature": list(feature_names),
         "Coefficient": list(coefficients)
@@ -241,7 +265,6 @@ def apply_scaling(X, key_suffix):
     st.info("📐 Numeric features were scaled using StandardScaler.")
     return X_scaled
 
-
 # -----------------------------------------------------------------------------
 # Main page content
 # -----------------------------------------------------------------------------
@@ -276,6 +299,7 @@ st.info(f"Detected problem type: **{detected.title()}**")
 problem_type = st.radio(
     "Keep the detected type or switch manually:",
     ["Classification", "Regression"],
+    # index=0 means the first option (Classification) is selected if it's detected, otherwise index=1 selects Regression.
     index=0 if detected == "classification" else 1,
     horizontal=True
 )
@@ -319,9 +343,13 @@ if model == "Linear Regression":
     st.caption("Best for predicting continuous numeric outcomes.")
 
     # Build the predictors and target based on user selections.
+    # The prepare_model_data function handles the feature selection and dummy coding based on user inputs, 
+    # returning the predictor matrix X and target vector y ready for modeling.
     prepared = prepare_model_data(df, target, "linear")
 
+
     if prepared:
+        # X contains the predictor columns, and y contains the target column we are trying to predict.
         X, y = prepared
 
         st.markdown("### Missing Data Check")
@@ -339,6 +367,7 @@ if model == "Linear Regression":
         st.markdown("### ⚙️ Training Settings")
         test_size = get_test_size("linear_test_size")
 
+        # If the user chose to scale numeric features, we apply standard scaling to the predictor matrix X.
         if scale_data:
             X = apply_scaling(X, "linear")
 
@@ -353,7 +382,9 @@ if model == "Linear Regression":
         model_obj = LinearRegression().fit(X_train, y_train)
 
         # Show evaluation results and coefficients.
+        # show_regression_results calculates and displays key regression metrics like MSE, RMSE, and R²,
         show_regression_results(y_test, model_obj.predict(X_test))
+        # while show_coefficients displays the coefficients for each feature, indicating their influence on the predictions.
         show_coefficients(X.columns, model_obj.coef_, model_obj.intercept_)
 
         st.success("✅ Linear Regression model trained successfully.")
@@ -366,6 +397,8 @@ elif model == "Logistic Regression":
     st.caption("Best for classification problems with labeled categories.")
 
     # Build the predictors and target based on user selections.
+    # The prepare_model_data function handles the feature selection and dummy coding based on user inputs, 
+    # returning the predictor matrix X and target vector y ready for modeling.
     prepared = prepare_model_data(df, target, "logistic")
 
     if prepared:
@@ -400,6 +433,7 @@ elif model == "Logistic Regression":
         )
 
         # Train the logistic regression model.
+        # max_iter=1000 allows more iterations for convergence, which can be helpful for complex datasets.
         model_obj = LogisticRegression(max_iter=1000).fit(X_train, y_train)
 
         y_pred = model_obj.predict(X_test)
@@ -443,6 +477,7 @@ elif model == "Decision Tree Classifier":
         if should_stop:
             st.stop()
 
+        # Split the combined dataframe back into predictors and target after handling missing values.
         X, y = mdf.drop(columns=[target]), mdf[target]
 
         # A classifier still needs at least two target classes.
@@ -497,6 +532,7 @@ elif model == "XGBoost Classifier":
             st.stop()
 
         # XGBoost expects numeric class labels, so convert text labels to integers.
+        # LabelEncoder is used to convert the target variable y into numeric labels that XGBoost can work with.
         le = LabelEncoder()
         y_enc = le.fit_transform(y)
 

@@ -11,21 +11,21 @@ st.title("Data Cleaning")
 st.markdown("Upload a dataset or choose one of the sample CSV files from the sidebar.")
 
 with st.sidebar:
-    # Let the user decide whether to upload their own CSV
-    # or work from one of the sample datasets.
+    # Let the user decide whether to upload their own CSV or work from one of the sample datasets
     st.subheader("Data Source")
     source = st.radio(
         "Choose a dataset source",
         ["Upload CSV", "Use sample dataset"]
     )
 
-    # These stay empty until a dataset is loaded.
+    # These stay empty until a dataset is loaded so they can be used as fallbacks if the upload widget resets.
     dataframe = None
     dataset_name = None
 
     if source == "Upload CSV":
         # Read in a CSV file uploaded by the user.
         uploaded_file = st.file_uploader("Upload a CSV file", type="csv")
+        # If the user uploads a file, read it in. Otherwise, they'll choose from the sample datasets below.
         if uploaded_file is not None:
             dataframe = pd.read_csv(uploaded_file)
             dataset_name = uploaded_file.name
@@ -132,6 +132,8 @@ if dataframe is not None:
     st.write("Each time you click the button below, the change will be applied to the current working dataset.")
 
     # These lists are used for the fill operations later in the page.
+    # Only show numeric columns that still have missing values 
+    # since mean/median/zero filling only makes sense for those.
     numeric_columns = working_df.select_dtypes(include=["number"]).columns
     numeric_missing_columns = [col for col in numeric_columns if working_df[col].isnull().sum() > 0]
 
