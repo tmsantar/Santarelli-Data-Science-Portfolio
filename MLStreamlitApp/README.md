@@ -177,17 +177,17 @@ These course notebooks helped guide the models and app logic used in this projec
 
 ![CSV Upload](images/Csv_upload.png)
 
-### App Overview
+### Selecting Target Variable and Model
 
 ![App Overview](images/Overview.png)
-
-### Confusion Matrix Example
-
-![Confusion Matrix](images/confusion_matrix.png)
 
 ### Decision Tree Example
 
 ![Decision Tree](images/decision_tree.png)
+
+### Confusion Matrix Example (From Decision Tree Above)
+
+![Confusion Matrix](images/confusion_matrix.png)
 
 ---
 
