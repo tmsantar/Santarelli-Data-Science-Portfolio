@@ -19,7 +19,7 @@ def prepare_model_data(df, target, key_prefix):
     feature_candidates = [col for col in df.columns if col != target]
     numeric_features = df[feature_candidates].select_dtypes(include=["number"]).columns.tolist()
 
-    st.markdown("### 🧩 Choose Input Variables")
+    st.markdown("### Choose Input Variables")
 
     dummy_code = st.radio(
         "Include categorical predictor columns?",
@@ -273,7 +273,7 @@ if model == "Linear Regression":
     if prepared:
         X, y = prepared
 
-        st.markdown("### 🧼 Missing Data Check")
+        st.markdown("### Missing Data Check")
         mdf = pd.concat([X, y], axis=1)
         mdf, should_stop = handle_missing(mdf, target, "linear_missing")
 
@@ -311,7 +311,7 @@ elif model == "Logistic Regression":
     if prepared:
         X, y = prepared
 
-        st.markdown("### 🧼 Missing Data Check")
+        st.markdown("### Missing Data Check")
         mdf = pd.concat([X, y], axis=1)
         mdf, should_stop = handle_missing(mdf, target, "logistic_missing")
 
@@ -366,7 +366,7 @@ elif model == "Decision Tree Classifier":
     if prepared:
         X, y = prepared
 
-        st.markdown("### 🧼 Missing Data Check")
+        st.markdown("### Missing Data Check")
         mdf = pd.concat([X, y], axis=1)
         mdf, should_stop = handle_missing(mdf, target, "tree_missing")
 
