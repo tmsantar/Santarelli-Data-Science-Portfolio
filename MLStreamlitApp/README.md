@@ -1,29 +1,35 @@
-# Machine Learning Streamlit App
+# 🤖 Machine Learning Streamlit App
 
 Interactive Streamlit application for supervised machine learning. Users can upload their own CSV files or choose from sample datasets, clean the data, select a target variable, train a model, adjust settings, and review model performance.
 
-## Project Overview
+---
+
+## 📌 Project Overview
 
 The goal of this project is to give users a simple, hands-on way to explore supervised machine learning. The app is designed to walk users through a practical workflow:
 
-1. Load a dataset
-2. Clean missing values and inspect data types
-3. Choose a target variable
-4. Select a model
-5. Adjust model settings and preprocessing options
-6. Review training results and model evaluation
+1. 📂 Load a dataset
+2. 🧹 Clean missing values and inspect data types
+3. 🎯 Choose a target variable
+4. 🧠 Select a model
+5. ⚙️ Adjust model settings and preprocessing options
+6. 📊 Review training results and model evaluation
 
-The app currently supports both regression and classification tasks depending on the selected target variable.
+The app currently supports both **regression** and **classification** tasks depending on the selected target variable.
 
-## Live App
+---
+
+## 🌐 Live App
 
 Add your deployed Streamlit Community Cloud URL here:
 
 `PASTE_DEPLOYED_APP_URL_HERE`
 
-## Features
+---
 
-### Data Cleaning Page
+## ✨ Features
+
+### 🧹 Data Cleaning Page
 
 - Upload a CSV file or choose a sample dataset
 - View the current working dataset
@@ -31,13 +37,13 @@ Add your deployed Streamlit Community Cloud URL here:
 - Apply multiple cleaning steps in sequence
 - Reset back to the original dataset at any time
 - Handle missing data by:
-  - dropping rows
-  - dropping rows for specific missing variables
-  - dropping columns with more than 50% missing values
-  - dropping selected columns
-  - filling numeric columns with mean, median, or zero
+  - Dropping rows
+  - Dropping rows for specific missing variables
+  - Dropping columns with more than 50% missing values
+  - Dropping selected columns
+  - Filling numeric columns with mean, median, or zero
 
-### Predictions Page
+### 📈 Predictions Page
 
 - Automatically detect whether the target looks like a regression or classification problem
 - Allow the user to keep the detected problem type or switch it manually
@@ -46,57 +52,63 @@ Add your deployed Streamlit Community Cloud URL here:
 - Optionally scale numeric features for linear and logistic regression
 - Train and evaluate multiple supervised learning models
 
-## Models Used
+---
 
-### Regression
+## 🧠 Models Used
+
+### 📉 Regression
 
 - Linear Regression
 
-### Classification
+### 🗂️ Classification
 
 - Logistic Regression
 - Decision Tree Classifier
 - XGBoost Classifier
 
-## Model Settings and Hyperparameters
+---
+
+## ⚙️ Model Settings and Hyperparameters
 
 Users can experiment with model behavior through Streamlit widgets.
 
-### Shared Settings
+### 🔧 Shared Settings
 
-- test set size
-- input variable selection
-- target variable selection
-- optional dummy coding for categorical predictors
+- Test set size
+- Input variable selection
+- Target variable selection
+- Optional dummy coding for categorical predictors
 
-### Linear Regression
+### 📏 Linear Regression
 
-- optional feature scaling with `StandardScaler`
+- Optional feature scaling with `StandardScaler`
 
-### Logistic Regression
+### 📐 Logistic Regression
 
-- optional feature scaling with `StandardScaler`
+- Optional feature scaling with `StandardScaler`
 
-### Decision Tree Classifier
+### 🌳 Decision Tree Classifier
 
-- max depth
+- Max depth
 
-### XGBoost Classifier
+### 🚀 XGBoost Classifier
 
-- number of trees
-- max depth
+- Number of trees
+- Max depth
 
-## Evaluation Metrics
+---
 
-### Regression Metrics
+## 📊 Evaluation Metrics
+
+### 📉 Regression Metrics
 
 - Mean Squared Error (MSE)
 - Root Mean Squared Error (RMSE)
 - R-squared Score
-- actual vs predicted table
-- feature coefficient table with intercept
+- Actual vs predicted table
+- Feature coefficient table with intercept
 
-### Classification Metrics
+### 🗂️ Classification Metrics
 
 - Accuracy
 - Precision
@@ -104,10 +116,12 @@ Users can experiment with model behavior through Streamlit widgets.
 - F1 Score
 - Confusion Matrix
 - ROC Curve and AUC for binary classification
-- actual vs predicted table
-- feature importance or coefficient output depending on the model
+- Actual vs predicted table
+- Feature importance or coefficient output depending on the model
 
-## How to Run Locally
+---
+
+## 🚀 How to Run Locally
 
 1. Open a terminal in the portfolio repository.
 2. Move into the app folder:
@@ -132,7 +146,9 @@ streamlit run main.py
 
 `http://localhost:8501`
 
-## Required Libraries
+---
+
+## 📦 Required Libraries
 
 These are the main libraries used by the app:
 
@@ -142,7 +158,9 @@ These are the main libraries used by the app:
 - `scikit-learn==1.8.0`
 - `xgboost==3.2.0`
 
-## Project Structure
+---
+
+## 🗂️ Project Structure
 
 ```text
 MLStreamlitApp/
@@ -155,7 +173,9 @@ MLStreamlitApp/
 |   |-- 2_Predictions.py
 ```
 
-## References
+---
+
+## 📚 References
 
 These course notebooks helped guide the models and app logic used in this project:
 
@@ -164,16 +184,16 @@ These course notebooks helped guide the models and app logic used in this projec
 - [Week 9: Decision Tree Classifier](../Week%209/IDS%20Week%209_2_FINAL.ipynb)
 - [Week 10: XGBoost Classifier](../Week%2010/IDS%20Week%2010_1_FINAL.ipynb)
 
-## Visual Examples
+---
+
+## 🖼️ Visual Examples
 
 Add screenshots here before submitting. Good options would be:
 
-- the Data Cleaning page
-- the Predictions page with model metrics
-- a confusion matrix and ROC curve example
-- a decision tree diagram
-
-Placeholder section:
+- The Data Cleaning page
+- The Predictions page with model metrics
+- A confusion matrix and ROC curve example
+- A decision tree diagram
 
 `INSERT_SCREENSHOT_1_HERE`
 
@@ -181,7 +201,12 @@ Placeholder section:
 
 `INSERT_SCREENSHOT_3_HERE`
 
-## Author
+---
 
-Tommy Santarelli  
+## 👨‍💻 Author
+
+**Tommy Santarelli**  
 Business Analytics Major, University of Notre Dame
+
+- LinkedIn: [Tommy Santarelli](https://www.linkedin.com/in/tommy-santarelli-792651329/)
+- GitHub: [@tmsantar](https://github.com/tmsantar)
