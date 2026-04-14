@@ -128,7 +128,7 @@ def show_regression_results(y_test, y_pred):
     col2.metric("RMSE", f"{root_mean_squared_error(y_test, y_pred):.2f}",
     help="The average difference between values predicted by the model and the actual observed values")
     col3.metric("R²", f"{r2_score(y_test, y_pred):.2f}",
-    help="The proportion of variance in a dependent variable explained by a regression model's independent variable(s)")
+    help="The proportion of variance in the dependent variable explained by a regression model's independent variable(s)")
 
     # Show a few actual values next to their predicted values.
     st.markdown("### 🔍 Actual vs Predicted")
