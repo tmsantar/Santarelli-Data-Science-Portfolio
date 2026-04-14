@@ -154,14 +154,15 @@ def show_classification_results(y_test, y_pred, y_score=None):
     with chart_col1:
         # Confusion matrix shows where the classifier was correct and incorrect.
         st.markdown("### 🧾 Confusion Matrix")
-        cm = confusion_matrix(y_test, y_pred, labels=[1, 0])
-        disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels, )
+        cm = confusion_matrix(y_test, y_pred)
+        disp = ConfusionMatrixDisplay(confusion_matrix=cm)
         fig, ax = plt.subplots()
         disp.plot(ax=ax, cmap="Blues", colorbar=False)
         ax.set_aspect("equal", adjustable="box")
         fig.subplots_adjust(left=0.16, right=0.96, bottom=0.16, top=0.92)
         st.pyplot(fig, use_container_width=True)
         plt.close(fig)
+
 
     with chart_col2:
         # ROC/AUC is only shown for binary classification when probability scores exist.
