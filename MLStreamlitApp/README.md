@@ -23,7 +23,7 @@ The app currently supports both **regression** and **classification** tasks depe
 
 Add your deployed Streamlit Community Cloud URL here:
 
-`PASTE_DEPLOYED_APP_URL_HERE`
+[Click here](https://santarelli-data-science-portfolio-npyaadvr3rdd7mlympdfeh.streamlit.app/)
 
 ---
 
@@ -157,21 +157,6 @@ These are the main libraries used by the app:
 - `matplotlib==3.10.8`
 - `scikit-learn==1.8.0`
 - `xgboost==3.2.0`
-
----
-
-## 🗂️ Project Structure
-
-```text
-MLStreamlitApp/
-|-- main.py
-|-- README.md
-|-- requirements.txt
-|-- data/
-|-- pages/
-|   |-- 1_Data_Cleaning.py
-|   |-- 2_Predictions.py
-```
 
 ---
 
