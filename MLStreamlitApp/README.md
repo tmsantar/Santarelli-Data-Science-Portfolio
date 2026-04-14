@@ -21,7 +21,7 @@ The app currently supports both **regression** and **classification** tasks depe
 
 ## 🌐 Live App
 
-Add your deployed Streamlit Community Cloud URL here:
+Streamlit Community Cloud App:
 
 [Click here](https://santarelli-data-science-portfolio-npyaadvr3rdd7mlympdfeh.streamlit.app/)
 
