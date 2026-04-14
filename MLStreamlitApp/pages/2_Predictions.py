@@ -6,12 +6,12 @@ from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay, f1_score, mean_squared_error, precision_score, recall_score, roc_auc_score, roc_curve, root_mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.tree import DecisionTreeClassifier
 from xgboost import XGBClassifier
 
 
 # Configure the Predictions page.
-st.set_page_config(page_title="Predictions", page_icon="ðŸ“ˆ", layout="wide")
+st.set_page_config(page_title="Predictions", page_icon="📈", layout="wide")
 
 
 # -----------------------------------------------------------------------------
@@ -76,10 +76,10 @@ def handle_missing(modeling_df, target, key):
     missing_rows = int(modeling_df.isnull().any(axis=1).sum())
 
     if missing_rows == 0:
-        st.success("âœ… No missing values found in the data used for this model.")
+        st.success("✅ No missing values found in the data used for this model.")
         return modeling_df, False
 
-    st.warning(f"âš ï¸ {missing_rows} rows contain missing values.")
+    st.warning(f"⚠️ {missing_rows} rows contain missing values.")
 
     # Give the user a choice to stop and clean the data,
     # or drop missing rows just for this model run.
@@ -101,7 +101,7 @@ def handle_missing(modeling_df, target, key):
 def get_test_size(key):
     # This slider controls how much data is held out for testing.
     return st.slider(
-        "ðŸ“ Test set size",
+        "📏 Test set size",
         min_value=0.10,
         max_value=0.50,
         value=0.20,
@@ -112,18 +112,18 @@ def get_test_size(key):
 
 def show_regression_results(y_test, y_pred):
     # Display the main regression performance metrics.
-    st.markdown("### ðŸ“Š Regression Results")
+    st.markdown("### 📊 Regression Results")
 
     col1, col2, col3 = st.columns(3)
     col1.metric("MSE", f"{mean_squared_error(y_test, y_pred):.2f}",
     help="The average squared difference between estimated values and the actual value")
     col2.metric("RMSE", f"{root_mean_squared_error(y_test, y_pred):.2f}",
     help="The average difference between values predicted by a model and the actual observed values")
-    col3.metric("RÂ²", f"{r2_score(y_test, y_pred):.2f}",
+    col3.metric("R²", f"{r2_score(y_test, y_pred):.2f}",
     help="The proportion of variance in a dependent variable explained by a regression model's independent variable(s)")
 
     # Show a few actual values next to their predicted values.
-    st.markdown("### ðŸ” Actual vs Predicted")
+    st.markdown("### 🔍 Actual vs Predicted")
     results_df = pd.DataFrame({
         "Actual": y_test.reset_index(drop=True),
         "Predicted": pd.Series(y_pred).round(2)
@@ -133,7 +133,7 @@ def show_regression_results(y_test, y_pred):
 
 def show_classification_results(y_test, y_pred, y_score=None):
     # Display the main classification performance metrics.
-    st.markdown("### ðŸ“Š Classification Results")
+    st.markdown("### 📊 Classification Results")
 
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Accuracy", f"{accuracy_score(y_test, y_pred):.2f}",
@@ -153,7 +153,7 @@ def show_classification_results(y_test, y_pred, y_score=None):
 
     with chart_col1:
         # Confusion matrix shows where the classifier was correct and incorrect.
-        st.markdown("### ðŸ§¾ Confusion Matrix", text_alignment="center")
+        st.markdown("### 🧾 Confusion Matrix")
         cm = confusion_matrix(pd.Series(y_test).astype(str), pd.Series(y_pred).astype(str), labels=labels)
         fig, ax = plt.subplots(figsize=(6, 6))
         disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
@@ -165,7 +165,7 @@ def show_classification_results(y_test, y_pred, y_score=None):
 
     with chart_col2:
         # ROC/AUC is only shown for binary classification when probability scores exist.
-        st.markdown("### ðŸ“ˆ ROC Curve", text_alignment="center")
+        st.markdown("### 📈 ROC Curve")
         if y_score is not None and len(pd.Series(y_test).unique()) == 2:
             positive_label = sorted(pd.Series(y_test).unique())[-1]
             y_true_binary = (pd.Series(y_test) == positive_label).astype(int)
@@ -190,7 +190,7 @@ def show_classification_results(y_test, y_pred, y_score=None):
     st.divider()
 
     # Show a few actual labels next to the predicted labels.
-    st.markdown("### ðŸ” Actual vs Predicted")
+    st.markdown("### 🔍 Actual vs Predicted")
     results_df = pd.DataFrame({
         "Actual": y_test.reset_index(drop=True),
         "Predicted": pd.Series(y_pred).reset_index(drop=True)
@@ -215,7 +215,7 @@ def show_coefficients(feature_names, coefficients, intercept, title="Feature Coe
     df_coef = pd.concat([intercept_row, df_coef], ignore_index=True)
     df_coef = df_coef.reindex(df_coef["Coefficient"].abs().sort_values(ascending=False).index)
 
-    st.markdown(f"### ðŸ§  {title}")
+    st.markdown(f"### 🧠 {title}")
     st.caption("Larger absolute values usually mean a stronger effect on the prediction.")
     st.dataframe(df_coef[["Feature", "Coefficient"]].round(4), use_container_width=True, height=250)
 
@@ -227,7 +227,7 @@ def show_importances(feature_names, importances, title="Feature Importances"):
         "Importance": list(importances)
     }).sort_values("Importance", ascending=False)
 
-    st.markdown(f"### ðŸŒŸ {title}")
+    st.markdown(f"### 🌟 {title}")
     st.caption("Higher values indicate features the model relied on more heavily.")
     st.dataframe(df_imp.round(4), use_container_width=True, height=250)
 
@@ -237,7 +237,7 @@ def apply_scaling(X, key_suffix):
     # This is most useful for linear and logistic regression.
     scaler = StandardScaler()
     X_scaled = pd.DataFrame(scaler.fit_transform(X), columns=X.columns, index=X.index)
-    st.info("ðŸ“ Numeric features were scaled using StandardScaler.")
+    st.info("📐 Numeric features were scaled using StandardScaler.")
     return X_scaled
 
 
@@ -246,7 +246,7 @@ def apply_scaling(X, key_suffix):
 # -----------------------------------------------------------------------------
 
 # Main title and page instructions.
-st.title("ðŸ“ˆ Predictions")
+st.title("📈 Predictions")
 st.markdown("Use your cleaned dataset to train a model and preview results.")
 
 if "dataframe" not in st.session_state:
@@ -257,7 +257,7 @@ if "dataframe" not in st.session_state:
 # Pull the cleaned dataframe from session state.
 df = st.session_state["dataframe"]
 
-st.markdown("### ðŸŽ¯ Step 1: Choose a Target Variable")
+st.markdown("### 🎯 Step 1: Choose a Target Variable")
 st.caption("The app will try to detect whether your problem is classification or regression.")
 
 # The target is the column the user wants the model to predict.
@@ -282,7 +282,7 @@ problem_type = st.radio(
 st.divider()
 
 # Step 2 lets the user choose a model.
-st.markdown("### ðŸ’» Step 2: Choose a Model")
+st.markdown("### 💻 Step 2: Choose a Model")
 
 if problem_type == "Regression":
     # Regression currently uses Linear Regression only.
@@ -297,7 +297,7 @@ else:
 
 # Sidebar contains settings that depend on the selected model.
 with st.sidebar:
-    st.subheader("âš™ï¸ Model Options")
+    st.subheader("⚙️ Model Options")
 
     if model in ("Linear Regression", "Logistic Regression"):
         # Scaling matters most for linear and logistic regression.
@@ -314,7 +314,7 @@ st.divider()
 # Linear Regression
 # -----------------------------------------------------------------------------
 if model == "Linear Regression":
-    st.markdown("## ðŸ“ˆ Linear Regression")
+    st.markdown("## 📈 Linear Regression")
     st.caption("Best for predicting continuous numeric outcomes.")
 
     # Build the predictors and target based on user selections.
@@ -335,7 +335,7 @@ if model == "Linear Regression":
         # Split the combined dataframe back into predictors and target.
         X, y = mdf.drop(columns=[target]), mdf[target]
 
-        st.markdown("### âš™ï¸ Training Settings")
+        st.markdown("### ⚙️ Training Settings")
         test_size = get_test_size("linear_test_size")
 
         if scale_data:
@@ -355,13 +355,13 @@ if model == "Linear Regression":
         show_regression_results(y_test, model_obj.predict(X_test))
         show_coefficients(X.columns, model_obj.coef_, model_obj.intercept_)
 
-        st.success("âœ… Linear Regression model trained successfully.")
+        st.success("✅ Linear Regression model trained successfully.")
 
 # -----------------------------------------------------------------------------
 # Logistic Regression
 # -----------------------------------------------------------------------------
 elif model == "Logistic Regression":
-    st.markdown("## ðŸ“Š Logistic Regression")
+    st.markdown("## 📊 Logistic Regression")
     st.caption("Best for classification problems with labeled categories.")
 
     # Build the predictors and target based on user selections.
@@ -384,7 +384,7 @@ elif model == "Logistic Regression":
             st.warning("Logistic Regression needs at least two target classes.")
             st.stop()
 
-        st.markdown("### âš™ï¸ Training Settings")
+        st.markdown("### ⚙️ Training Settings")
         test_size = get_test_size("logistic_test_size")
 
         if scale_data:
@@ -420,13 +420,13 @@ elif model == "Logistic Regression":
                 "Average Feature Coefficients"
             )
 
-        st.success("âœ… Logistic Regression model trained successfully.")
+        st.success("✅ Logistic Regression model trained successfully.")
 
 # -----------------------------------------------------------------------------
 # Decision Tree Classifier
 # -----------------------------------------------------------------------------
 elif model == "Decision Tree Classifier":
-    st.markdown("## ðŸŒ³ Decision Tree Classifier")
+    st.markdown("## 🌳 Decision Tree Classifier")
     st.caption("Useful for interpretable classification models with branching logic.")
 
     # Build the predictors and target based on user selections.
@@ -449,11 +449,11 @@ elif model == "Decision Tree Classifier":
             st.warning("Decision Tree needs at least two target classes.")
             st.stop()
 
-        st.markdown("### âš™ï¸ Training Settings")
+        st.markdown("### ⚙️ Training Settings")
         test_size = get_test_size("tree_clf_test_size")
 
         # max_depth controls how complex the tree is allowed to become.
-        max_depth = st.slider("ðŸŒ² Max depth", 1, 15, 3, key="tree_clf_depth")
+        max_depth = st.slider("🌲 Max depth", 1, 15, 3, key="tree_clf_depth")
 
         X_train, X_test, y_train, y_test = train_test_split(
             X, y,
@@ -470,13 +470,13 @@ elif model == "Decision Tree Classifier":
         show_classification_results(y_test, y_pred, y_score)
         show_importances(X.columns, model_obj.feature_importances_)
 
-        st.success("âœ… Decision Tree model trained successfully.")
+        st.success("✅ Decision Tree model trained successfully.")
 
 # -----------------------------------------------------------------------------
 # XGBoost Classifier
 # -----------------------------------------------------------------------------
 elif model == "XGBoost Classifier":
-    st.markdown("## âš¡ XGBoost Classifier")
+    st.markdown("## ⚡ XGBoost Classifier")
     st.caption("A powerful boosting model for classification tasks.")
 
     # Build the predictors and target based on user selections.
@@ -489,7 +489,7 @@ elif model == "XGBoost Classifier":
         # so the user is informed instead of being forced to drop rows.
         missing = int(pd.concat([X, y], axis=1).isnull().any(axis=1).sum())
         if missing:
-            st.info(f"â„¹ï¸ {missing} rows have missing values. XGBoost can usually still run without dropping them first.")
+            st.info(f"ℹ️ {missing} rows have missing values. XGBoost can usually still run without dropping them first.")
 
         if y.nunique() < 2:
             st.warning("XGBoost needs at least two target classes.")
@@ -499,12 +499,12 @@ elif model == "XGBoost Classifier":
         le = LabelEncoder()
         y_enc = le.fit_transform(y)
 
-        st.markdown("### âš™ï¸ Training Settings")
+        st.markdown("### ⚙️ Training Settings")
         test_size = get_test_size("xgb_clf_test_size")
 
         # These sliders let the user experiment with model complexity.
-        n_estimators = st.slider("ðŸŒ² Number of trees", 50, 300, 100, step=25, key="xgb_clf_estimators")
-        max_depth = st.slider("ðŸ“ Max depth", 1, 10, 3, key="xgb_clf_depth")
+        n_estimators = st.slider("🌲 Number of trees", 50, 300, 100, step=25, key="xgb_clf_estimators")
+        max_depth = st.slider("📏 Max depth", 1, 10, 3, key="xgb_clf_depth")
 
         X_train, X_test, y_train, y_test = train_test_split(
             X, y_enc,
@@ -529,4 +529,4 @@ elif model == "XGBoost Classifier":
         show_classification_results(y_test_labels, y_pred_labels, y_score)
         show_importances(X.columns, model_obj.feature_importances_)
 
-        st.success("âœ… XGBoost model trained successfully.")
+        st.success("✅ XGBoost model trained successfully.")

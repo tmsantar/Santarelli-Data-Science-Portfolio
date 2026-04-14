@@ -3,7 +3,7 @@ import streamlit as st
 
 
 # Configure the Data Cleaning page.
-st.set_page_config(page_title="Data Cleaning", page_icon="ðŸ§¹", layout="wide")
+st.set_page_config(page_title="Data Cleaning", page_icon="🧹", layout="wide")
 
 
 # Page title and short instructions.
@@ -76,7 +76,7 @@ if dataframe is not None:
     st.session_state["dataframe"] = working_df
 
     # Show the current version of the dataset.
-    st.subheader("ðŸ“Š Current Working Data")
+    st.subheader("📊 Current Working Data")
     st.dataframe(working_df)
 
     # This overview helps the user understand data types and missingness by column.
@@ -90,7 +90,7 @@ if dataframe is not None:
     st.dataframe(dtype_df, height=250)
 
     # Missing-data summary for the current cleaned version of the dataset.
-    st.subheader("âš ï¸ Missing Data Overview")
+    st.subheader("⚠️ Missing Data Overview")
     st.write("These numbers reflect the current cleaned version of your dataset.")
 
     missing_counts = working_df.isnull().sum()
@@ -106,14 +106,14 @@ if dataframe is not None:
     missing_df = missing_df[missing_df["Missing Values"] > 0]
 
     if missing_df.empty:
-        st.success("âœ… No missing values detected in the current working dataset.")
+        st.success("✅ No missing values detected in the current working dataset.")
     else:
         # Show the remaining missing-value problem columns.
         st.write("The following columns still have missing data:")
         st.dataframe(missing_df)
 
         # Preview rows that contain at least one missing value.
-        st.subheader("ðŸ” Preview Rows with Missing Data")
+        st.subheader("🔍 Preview Rows with Missing Data")
         st.dataframe(working_df[working_df.isnull().any(axis=1)], height=200)
 
     # These metrics show how much the cleaned dataframe changed from the original.
@@ -128,7 +128,7 @@ if dataframe is not None:
         st.metric("Missing Now", int(working_df.isnull().sum().sum()))
 
     # This section lets the user apply one cleaning action at a time.
-    st.subheader("ðŸ› ï¸ Apply a Cleaning Step")
+    st.subheader("🛠️ Apply a Cleaning Step")
     st.write("Each time you click the button below, the change will be applied to the current working dataset.")
 
     # These lists are used for the fill operations later in the page.
@@ -216,7 +216,7 @@ if dataframe is not None:
     # Final preview of the current cleaned dataframe.
     st.subheader("Current Cleaned Data")
     st.dataframe(working_df.head(10), height=250)
-    st.success("Your data is clean and ready for modeling! Select the predictions tab from the sidebar ðŸ‘ˆ")
+    st.success("Your data is clean and ready for modeling! Select the predictions tab from the sidebar 👈")
 else:
     # Message shown before any dataset is loaded.
     st.info("Upload a CSV file or choose a sample dataset from the sidebar to begin.")
