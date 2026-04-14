@@ -156,6 +156,7 @@ def show_classification_results(y_test, y_pred, y_score=None):
         st.markdown("### 🧾 Confusion Matrix")
         cm = confusion_matrix(y_test, y_pred, labels=[1, 0])
         disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels, )
+        fig, ax = plt.subplots()
         disp.plot(ax=ax, cmap="Blues", colorbar=False)
         ax.set_aspect("equal", adjustable="box")
         fig.subplots_adjust(left=0.16, right=0.96, bottom=0.16, top=0.92)
