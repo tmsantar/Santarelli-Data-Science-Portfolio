@@ -3,15 +3,17 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
+
+DATA_FILE = Path(__file__).parent / "data" / "nextgen_receiving_stats.csv"
+IMAGE_FILE = Path(__file__).parent / "images" / "Next_Gen_Logo.jpg"
+
 # Set page configuration which gives the browser tab a title and icon, and sets the layout to wide.
 st.set_page_config( page_title="NFL Receiving Stats Explorer", page_icon="🏈", layout="wide")
 
 # Load data in a cached function for performance
 @st.cache_data
 def load_data():
-    app_dir = Path(__file__).resolve().parent
-    data_file = app_dir / "data" / "nextgen_receiving_stats.csv"
-    return pd.read_csv(data_file)
+    return pd.read_csv(DATA_FILE)
 
 receiving_df = load_data()
 
@@ -34,9 +36,7 @@ col1, col2 = st.columns([3, 1])
 with col1:
     st.title("NFL Receiving Stats Explorer 🏈")
 with col2:
-    app_dir = Path(__file__).resolve().parent
-    image_file = app_dir / "images" / "Next_Gen_Logo.jpg"
-    st.image(str(image_file), width="stretch")
+    st.image(str(IMAGE_FILE), width="stretch")
 
 # Introduction and app description
 st.write("""

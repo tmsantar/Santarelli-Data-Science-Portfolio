@@ -5,15 +5,16 @@ import pandas as pd
 import seaborn as sns
 import streamlit as st
 
+
+DATA_FILE = Path(__file__).parent.parent / "data" / "nextgen_receiving_stats.csv"
+
 # Set page configuration which gives the browser tab a title and icon, and sets the layout to wide.
 st.set_page_config(page_title="Season Stats", page_icon="📈", layout="wide")
 
 # Load data in a cached function for performance
 @st.cache_data
 def load_data():
-    app_dir = Path(__file__).resolve().parents[1]
-    data_file = app_dir / "data" / "nextgen_receiving_stats.csv"
-    return pd.read_csv(data_file)
+    return pd.read_csv(DATA_FILE)
 
 receiving_df = load_data()
 
