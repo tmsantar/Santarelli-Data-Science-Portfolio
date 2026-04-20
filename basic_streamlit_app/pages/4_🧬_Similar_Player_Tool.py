@@ -21,7 +21,7 @@ STAT_COLUMNS = [
     "Avg Expected YAC",
 ]
 
-st.set_page_config(page_title="Similar Players", page_icon="🎯", layout="wide")
+st.set_page_config(page_title="Similar Player Tool", page_icon="🧬", layout="wide")
 
 
 @st.cache_data
@@ -41,8 +41,6 @@ def render_player(player_data, title, distance=None):
             f"#### {player_data['Player Name']} | {player_data['Position']}"
         )
         st.markdown(f"##### Team: {player_data['Team Abbreviation']}")
-        if distance is not None:
-            st.markdown(f"##### Similarity Distance: {format_stat(distance)}")
         if pd.notna(player_data.get("Headshot")) and player_data["Headshot"]:
             st.image(player_data["Headshot"], width=250)
     with stats_col:
@@ -124,4 +122,8 @@ tabs = st.tabs(
 
 for i, (tab, rec) in enumerate(zip(tabs, recommendations), start=1):
     with tab:
-        render_player(rec["player_data"], f"🎯 Match #{i}", rec["distance"])
+        render_player(
+            rec["player_data"],
+            f"🎯 Match #{i} | Similarity Distance: {format_stat(rec['distance'])}",
+            rec["distance"],
+        )
