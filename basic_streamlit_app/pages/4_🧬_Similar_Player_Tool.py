@@ -41,20 +41,20 @@ def render_player(player_data, title, distance=None):
     with stats_col:
         col1, col2 = st.columns(2)
         with col1:
-            st.markdown(f"##### 📊 Yards: {format_stat(player_data['Yards'])}")
-            st.markdown(f"##### 🎯 Targets: {format_stat(player_data['Targets'])}")
-            st.markdown(f"##### 🙌 Receptions: {format_stat(player_data['Receptions'])}")
-            st.markdown(f"##### 🔥 Receiving TDs: {format_stat(player_data['Receiving Touchdowns'])}")
-            st.markdown(f"##### ✅ Catch %: {format_stat(player_data['Catch Percentage'])}")
+            st.markdown(f"##### 🎯 Yards: {format_stat(player_data['Yards'])}")
+            st.markdown(f"##### 👀 Targets: {format_stat(player_data['Targets'])}")
+            st.markdown(f"##### ✋ Receptions: {format_stat(player_data['Receptions'])}")
+            st.markdown(f"##### 🔥 Receiving Touchdowns: {format_stat(player_data['Receiving Touchdowns'])}")
+            st.markdown(f"##### 💯 Catch Percentage: {format_stat(player_data['Catch Percentage'])}")
             st.markdown(f"##### 💨 Avg YAC: {format_stat(player_data['Avg Yards After Catch'])}")
 
         with col2:
             st.markdown(f"##### ⚡ YAC Above Expectation: {format_stat(player_data['YAC Above Expectation'])}")
             st.markdown(f"##### 📏 Avg Cushion: {format_stat(player_data['Avg Cushion'])}")
             st.markdown(f"##### 🏃 Avg Separation: {format_stat(player_data['Avg Separation'])}")
-            st.markdown(f"##### 🚀 Avg Intended Air Yards: {format_stat(player_data['Avg Intended Air Yards'])}")
-            st.markdown(f"##### 📈 Share of Intended Air Yards: {format_stat(player_data['Share of Intended Air Yards (%)'])}")
-            st.markdown(f"##### 🔍 Avg Expected YAC: {format_stat(player_data['Avg Expected YAC'])}")
+            st.markdown(f"##### ✈️ Avg Intended Air Yards: {format_stat(player_data['Avg Intended Air Yards'])}")
+            st.markdown(f"##### 📊 Share of Intended Air Yards (%): {format_stat(player_data['Share of Intended Air Yards (%)'])}")
+            st.markdown(f"##### 📈 Avg Expected YAC: {format_stat(player_data['Avg Expected YAC'])}")
 
 
 receiving_df = load_data()
