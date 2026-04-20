@@ -3,132 +3,125 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 from sklearn.neighbors import NearestNeighbors
-from scipy.sparse import csr_matrix
 from sklearn.preprocessing import StandardScaler
 
 DATA_FILE = Path(__file__).parent.parent / "data" / "nextgen_receiving_stats.csv"
+STAT_COLUMNS = [
+    "Yards",
+    "Targets",
+    "Receptions",
+    "Receiving Touchdowns",
+    "Catch Percentage",
+    "Avg Yards After Catch",
+    "YAC Above Expectation",
+    "Avg Cushion",
+    "Avg Separation",
+    "Avg Intended Air Yards",
+    "Share of Intended Air Yards (%)",
+    "Avg Expected YAC",
+]
 
-# Set page configuration which gives the browser tab a title and icon, and sets the layout to wide.
 st.set_page_config(page_title="Similar Players", page_icon="🎯", layout="wide")
+
 
 @st.cache_data
 def load_data():
     return pd.read_csv(DATA_FILE)
 
+
+def format_stat(value):
+    return f"{float(value):.2f}"
+
+
+def render_player(player_data, title, distance=None):
+    st.markdown(f"### {title}")
+    info_col, stats_col = st.columns([1, 2])
+    with info_col:
+        st.markdown(
+            f"#### {player_data['Player Name']} | {player_data['Position']}"
+        )
+        st.markdown(f"##### Team: {player_data['Team Abbreviation']}")
+        if distance is not None:
+            st.markdown(f"##### Similarity Distance: {format_stat(distance)}")
+        if pd.notna(player_data.get("Headshot")) and player_data["Headshot"]:
+            st.image(player_data["Headshot"], width=250)
+    with stats_col:
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown(f"##### 📊 Yards: {format_stat(player_data['Yards'])}")
+            st.markdown(f"##### 🎯 Targets: {format_stat(player_data['Targets'])}")
+            st.markdown(f"##### 🙌 Receptions: {format_stat(player_data['Receptions'])}")
+            st.markdown(
+                f"##### 🔥 Receiving TDs: {format_stat(player_data['Receiving Touchdowns'])}"
+            )
+            st.markdown(
+                f"##### ✅ Catch %: {format_stat(player_data['Catch Percentage'])}"
+            )
+            st.markdown(
+                f"##### 💨 Avg YAC: {format_stat(player_data['Avg Yards After Catch'])}"
+            )
+
+        with col2:
+            st.markdown(
+                f"##### ⚡ YAC Above Expectation: {format_stat(player_data['YAC Above Expectation'])}"
+            )
+            st.markdown(f"##### 📏 Avg Cushion: {format_stat(player_data['Avg Cushion'])}")
+            st.markdown(
+                f"##### 🏃 Avg Separation: {format_stat(player_data['Avg Separation'])}"
+            )
+            st.markdown(
+                f"##### 🚀 Avg Intended Air Yards: {format_stat(player_data['Avg Intended Air Yards'])}"
+            )
+            st.markdown(
+                f"##### 📈 Share of Intended Air Yards: {format_stat(player_data['Share of Intended Air Yards (%)'])}"
+            )
+            st.markdown(
+                f"##### 🔍 Avg Expected YAC: {format_stat(player_data['Avg Expected YAC'])}"
+            )
+
+
 receiving_df = load_data()
-receiving_df = receiving_df[receiving_df['Week'] == 0].copy()
+receiving_df = receiving_df[receiving_df["Week"] == 0].copy()
 
+st.markdown("## 🎯 Similar Player Tool")
+st.caption("Pick a receiver and explore the three closest statistical matches.")
 
-# Display the title of the Streamlit app interface.
-st.markdown("### Player Recommendation")
+player = st.selectbox(
+    "Choose a player",
+    options=sorted(receiving_df["Player Name"].unique()),
+)
 
-# Allow the user to select a player from a dropdown menu.
-# The options are limited to the first 500 entries because of Streamlit limit.
-player = st.selectbox('Type Target Player to View Similar Players:')
+scaled_stats = StandardScaler().fit_transform(receiving_df[STAT_COLUMNS])
+knn_model = NearestNeighbors(metric="cosine", algorithm="brute")
+knn_model.fit(scaled_stats)
 
+selected_index = receiving_df.index[receiving_df["Player Name"] == player][0]
+distances, indices = knn_model.kneighbors(
+    [scaled_stats[receiving_df.index.get_loc(selected_index)]],
+    n_neighbors=4,
+)
 
-# Specify the columns from the DataFrame that are used for the KNN model.
-# These columns represent player attributes considered in the recommendation algorithm.
-df_columns = ['Yards', 'Targets', 'Receptions', 'Receiving Touchdowns', 'Catch Percentage', 
-         'Avg Yards After Catch', 'YAC Above Expectation', 'Avg Cushion', 'Avg Separation',
-         'Avg Intended Air Yards', 'Share of Intended Air Yards (%)', 'Avg Expected YAC']
+selected_player = receiving_df.loc[selected_index]
+recommendations = [
+    {
+        "player_data": receiving_df.loc[neighbor_index],
+        "distance": distance_score,
+    }
+    for neighbor_index, distance_score in zip(indices.flatten()[1:], distances.flatten()[1:])
+]
 
-# Prepare data for KNN model
-knn_df = receiving_df[df_columns]
+st.markdown("---")
+render_player(selected_player, "🌟 Selected Player")
+st.markdown("---")
 
-# Normalize the feature data using StandardScaler to have a mean of 0 and a variance of 1.
-# This standardization improves the performance and accuracy of the KNN model.
-scaler = StandardScaler()
-knn_scaled = scaler.fit_transform(knn_df)
+st.subheader(f"Top 3 Similar Players to {player}")
+tabs = st.tabs(
+    [
+        f"#{i} {rec['player_data']['Player Name']}"
+        for i, rec in enumerate(recommendations, start=1)
+    ]
+)
 
-# Convert the normalized data back into a DataFrame to retain the original structure.
-# This step allows for easier manipulation and access to the data moving forward.
-knn_final = pd.DataFrame(data=knn_scaled, index=knn_df.index, columns=knn_df.columns)
-
-# Convert the DataFrame to a compressed sparse row matrix to optimize memory usage.
-# Sparse matrices are particularly useful when dealing with a large number of features.
-feature_matrix = csr_matrix(knn_final.values)
-
-# Initialize and fit the NearestNeighbors model using the cosine similarity metric.
-# The 'brute' algorithm is specified for simplicity, but other algorithms could be considered for optimization.
-knn_model = NearestNeighbors(metric='cosine', algorithm='brute')
-knn_model.fit(feature_matrix)
-
-# Initialize lists to store the results of the player recommendation algorithm.
-player_list = []
-rec_list = []
-
-# Iterate through each player in the filtered DataFrame to find and store their nearest neighbors.
-for _ in knn_final.index:
-    player_data = knn_final.loc[_, :].values.reshape(1, -1)
-    
-    # Skip any players whose data does not match the expected shape (1, 71), indicating a potential issue with the data.
-    if player_data.shape[1] != 71:
-        print(f"Skipping {_} due to unexpected shape: {player_data.shape}")
-        continue
-    # Use the KNN model to find the 11 nearest neighbors for each player, based on the cosine similarity of their attributes.
-    distances, indices = knn_model.kneighbors(knn_final.loc[_, :].values.reshape(1, -1), n_neighbors=11)
-
-    # Store the results in lists, separating the first entry (the player themselves) from their recommendations.
-    for elem in range(0, len(distances.flatten())):
-        if elem == 0:
-            # For the first element, which is the player itself, append to player_list
-            player_list.append([player])
-        else:
-            # For other elements, which are the recommended neighbors, append to rec_list
-            rec_list.append([_, elem, knn_final.index[indices.flatten()[elem]], distances.flatten()[elem]])
-            
-# Convert the list of recommendations into a DataFrame for easier display and manipulation in the Streamlit app.            
-rec_df = pd.DataFrame(rec_list, columns=['search_player', 'rec_number', 'rec_player', 'distance_score'])
-
-# Extract the top recommendations for the user-selected player to be displayed in the app.
-top_recs = list(rec_df[rec_df['search_player'] == player]['rec_player'])
-
-
-st.markdown(f"#### {player}")
-st.markdown(f"##### Value: {receiving_df.loc[player]['Yards']}")
-st.markdown(f"##### Targets: {receiving_df.loc[player]['Targets']}")
-st.markdown(f"##### Receptions: {receiving_df.loc[player]['Receptions']}")
-st.markdown(f"##### Receiving Touchdowns: {receiving_df.loc[player]['Receiving Touchdowns']}")
-st.markdown(f"##### Catch Percentage: {receiving_df.loc[player]['Catch Percentage']}")
-st.markdown(f"##### Avg Yards After Catch: {receiving_df.loc[player]['Avg Yards After Catch']}")
-st.markdown(f"##### YAC Above Expectation: {receiving_df.loc[player]['YAC Above Expectation']}")
-st.markdown(f"##### Avg Cushion: {receiving_df.loc[player]['Avg Cushion']}")
-st.markdown(f"##### Avg Separation: {receiving_df.loc[player]['Avg Separation']}")
-st.markdown(f"##### Avg Intended Air Yards: {receiving_df.loc[player]['Avg Intended Air Yards']}")
-st.markdown(f"##### Share of Intended Air Yards (%): {receiving_df.loc[player]['Share of Intended Air Yards (%)']}")
-st.markdown(f"##### Avg Expected YAC: {receiving_df.loc[player]['Avg Expected YAC']}")
-
-
-
-
-st.markdown('***')
-
-# Display a subheader in the app to introduce the section where the top 10 player recommendations will be shown.
-st.subheader(f'10 Players Most Like {player}:')
-
-# Loop through the list of recommended players. The enumerate function is used to get both the index (starting from 1) and the player name.
-for i, rec_player in enumerate(top_recs, start=1):
-    # Create two columns in the Streamlit interface using the columns method. This layout will display each player's photo on the left and their information on the right.
-    col_left, col_right = st.columns(2)
-
-
-        # Display the ranking number and player name as a header.
-    st.markdown(f"#### {player}")
-    st.markdown(f"##### Value: {receiving_df.loc[player]['Yards']}")
-    st.markdown(f"##### Targets: {receiving_df.loc[player]['Targets']}")
-    st.markdown(f"##### Receptions: {receiving_df.loc[player]['Receptions']}")
-    st.markdown(f"##### Receiving Touchdowns: {receiving_df.loc[player]['Receiving Touchdowns']}")
-    st.markdown(f"##### Catch Percentage: {receiving_df.loc[player]['Catch Percentage']}")
-    st.markdown(f"##### Avg Yards After Catch: {receiving_df.loc[player]['Avg Yards After Catch']}")
-    st.markdown(f"##### YAC Above Expectation: {receiving_df.loc[player]['YAC Above Expectation']}")
-    st.markdown(f"##### Avg Cushion: {receiving_df.loc[player]['Avg Cushion']}")
-    st.markdown(f"##### Avg Separation: {receiving_df.loc[player]['Avg Separation']}")
-    st.markdown(f"##### Avg Intended Air Yards: {receiving_df.loc[player]['Avg Intended Air Yards']}")
-    st.markdown(f"##### Share of Intended Air Yards (%): {receiving_df.loc[player]['Share of Intended Air Yards (%)']}")
-    st.markdown(f"##### Avg Expected YAC: {receiving_df.loc[player]['Avg Expected YAC']}")
-
-
-
-    # After displaying each player's details, insert a horizontal rule (markdown) as a visual separator before moving on to the next player.
-    st.markdown('***')
+for i, (tab, rec) in enumerate(zip(tabs, recommendations), start=1):
+    with tab:
+        render_player(rec["player_data"], f"🎯 Match #{i}", rec["distance"])
