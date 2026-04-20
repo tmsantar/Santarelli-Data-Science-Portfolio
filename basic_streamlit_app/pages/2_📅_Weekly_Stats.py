@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
@@ -9,7 +11,8 @@ st.set_page_config(page_title="Weekly Stats", page_icon="📅", layout="wide")
 # Load data in a cached function for performance
 @st.cache_data
 def load_data():
-    data_file = "basic_streamlit_app/data/nextgen_receiving_stats.csv"
+    app_dir = Path(__file__).resolve().parents[1]
+    data_file = app_dir / "data" / "nextgen_receiving_stats.csv"
     return pd.read_csv(data_file)
 
 receiving_df = load_data()

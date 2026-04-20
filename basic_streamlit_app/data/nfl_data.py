@@ -1,5 +1,9 @@
 import nflreadpy as nfl
 import pandas as pd
+from pathlib import Path
+
+
+output_file = Path(__file__).resolve().parent / "nextgen_receiving_stats.csv"
 
 # Load season-level stats for a specific season (e.g., 2025)
 print("Loading Next Gen receiving stats...")
@@ -43,4 +47,4 @@ print("\nRenamed columns:")
 print(list(ng.columns))
 
 # Save the cleaned and renamed DataFrame to a new CSV file
-ng.to_csv("basic_streamlit_app/data/nextgen_receiving_stats.csv", index=False)
+ng.to_csv(output_file, index=False)

@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 import streamlit as st
 
@@ -7,7 +9,8 @@ st.set_page_config( page_title="NFL Receiving Stats Explorer", page_icon="🏈",
 # Load data in a cached function for performance
 @st.cache_data
 def load_data():
-    data_file = "basic_streamlit_app/data/nextgen_receiving_stats.csv"
+    app_dir = Path(__file__).resolve().parent
+    data_file = app_dir / "data" / "nextgen_receiving_stats.csv"
     return pd.read_csv(data_file)
 
 receiving_df = load_data()
@@ -31,7 +34,9 @@ col1, col2 = st.columns([3, 1])
 with col1:
     st.title("NFL Receiving Stats Explorer 🏈")
 with col2:
-    st.image("basic_streamlit_app/images/Next_Gen_Logo.jpg", width="stretch")
+    app_dir = Path(__file__).resolve().parent
+    image_file = app_dir / "images" / "Next_Gen_Logo.jpg"
+    st.image(str(image_file), width="stretch")
 
 # Introduction and app description
 st.write("""
