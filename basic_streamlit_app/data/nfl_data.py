@@ -4,6 +4,7 @@ from pathlib import Path
 
 
 output_file = Path(__file__).resolve().parent / "nextgen_receiving_stats.csv"
+headshots_file = Path(__file__).resolve().parent / "player_headshots.csv"
 
 # Load season-level stats for a specific season (e.g., 2025)
 print("Loading Next Gen receiving stats...")
@@ -45,6 +46,12 @@ ng = ng.rename(columns={
 # Display the renamed columns
 print("\nRenamed columns:")
 print(list(ng.columns))
+
+# Merge in player headshots by GSIS ID so the app can display up-to-date player images.
+headshots_df = pd.read_csv(headshots_file).rename(
+    columns={"gsis_id": "Player GSIS ID", "headshot": "Headshot"}
+)
+ng = ng.merge(headshots_df, on="Player GSIS ID", how="left")
 
 # Save the cleaned and renamed DataFrame to a new CSV file
 ng.to_csv(output_file, index=False)
