@@ -1,6 +1,6 @@
 # Santarelli Data Science Portfolio
 
-Welcome to my data science portfolio! This repository highlights the projects and learning experiences I’m completing throughout my data science journey. You'll find work related to exploratory data analysis, visualizations, machine learning, and more.
+Welcome to my data science portfolio! This repository highlights the projects and learning experiences I’m completing throughout my data science journey. You'll find work related to exploratory data analysis, visualizations, machine learning, interactive dashboards, and more.
 
 ---
 
@@ -15,11 +15,11 @@ Here are some of the projects I’ve built:
 
 ### 🏈 [NFL Receiving Stats Explorer](basic_streamlit_app/)
 
-**Description**: This project is an interactive Streamlit dashboard that analyzes NFL receiving performance using 2025 Next Gen Stats tracking data. Users can explore season and weekly statistics, filter players by team or position, and compare receivers using advanced metrics like separation, cushion, and yards after catch. The goal is to turn tracking data into a tool used to help identify the best players and uncover trends.
+**Description**: This project is an interactive Streamlit dashboard that analyzes NFL receiving performance using 2025 Next Gen Stats tracking data. Users can explore season and weekly statistics, filter players by team or position, compare receivers using advanced metrics like separation, cushion, and yards after catch, and use a Similar Player Tool to find the closest statistical matches for any player. The project also enriches the dataset with player headshots by merging on GSIS ID, making the app more visual and user-friendly.
 
-**Portfolio Impact**: This project complements my overall portfolio by demonstrating my ability to build interactive, user-facing data applications. It highlights my skills in combining data analysis with visualization and deployment, showing that I can turn raw data into a tool that provides meaningful insights for users.
+**Portfolio Impact**: This project complements my overall portfolio by demonstrating my ability to build interactive, user-facing data applications. It highlights my skills in combining data analysis, feature engineering, unsupervised learning, visualization, and deployment, showing that I can turn raw tracking data into a polished tool that provides meaningful insights for users.
 
-**Skills**: Python, Pandas, Streamlit, Data Visualization, Sports Analytics, Interactive Dashboards  
+**Skills**: Python, Pandas, Streamlit, Scikit-learn, Unsupervised Learning, Nearest Neighbors, Feature Scaling, Data Merging, Data Visualization, Sports Analytics, Interactive Dashboards
 
 **Link to Project**: https://github.com/tmsantar/Santarelli-Data-Science-Portfolio/tree/main/basic_streamlit_app
 
@@ -49,8 +49,6 @@ Here are some of the projects I’ve built:
 
 **Link to Project**: https://github.com/tmsantar/Santarelli-Data-Science-Portfolio/tree/main/MLStreamlitApp
 
-<img width="400" src="https://raw.githubusercontent.com/tmsantar/Santarelli-Data-Science-Portfolio/main/images/Machine_Learning .jpeg">
+<img width="400" src="https://raw.githubusercontent.com/tmsantar/Santarelli-Data-Science-Portfolio/main/images/Machine_Learning%20.jpeg">
 
 <br>
-
-

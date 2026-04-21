@@ -18,7 +18,7 @@ This dashboard provides comprehensive analysis of NFL wide receiver and tight en
 - Search and filter by player, team, or position
 - Interactive bar charts showing league leaders
 
-### 📅 Weekly Statistics  
+### 📅 Weekly Statistics
 - Analyze week-by-week performance across all 18 weeks
 - Compare player performances in specific weeks
 - Track consistency and trend patterns
@@ -31,16 +31,22 @@ This dashboard provides comprehensive analysis of NFL wide receiver and tight en
 - Choose between season-long or weekly performance comparisons
 - View detailed comparison tables with rounded statistics
 
+### 🧬 Similar Player Tool
+- Find the top 3 statistically similar receivers for any selected player
+- Uses an unsupervised Nearest Neighbors model with cosine distance on standardized stats
+- Presents matches in tabs with headshots, team info, and key receiving metrics
+- Displays a profile match percentage derived from cosine distance
+
 ## 📋 Available Statistics
 
-### Basic Stats:
+### Basic Stats
 - **Yards**: Total receiving yards
 - **Targets**: Number of times the player was targeted
 - **Receptions**: Number of successful catches
 - **Receiving Touchdowns**: Touchdowns scored from receptions
 - **Catch Percentage**: Percentage of targets that resulted in catches
 
-### Next Gen Advanced Metrics:
+### Next Gen Advanced Metrics
 - **Avg Cushion**: Average distance (yards) between WR/TE and defender at snap
 - **Avg Separation**: Average distance (yards) between WR/TE and nearest defender at catch
 - **Avg Intended Air Yards**: Average air yards on all targets
@@ -49,21 +55,31 @@ This dashboard provides comprehensive analysis of NFL wide receiver and tight en
 - **Avg Expected YAC**: Expected yards after catch based on tracking data
 - **YAC Above Expectation**: Actual YAC compared to Expected YAC
 
+## 🤖 Modeling Approach
+
+The Similar Player Tool uses an unsupervised **Nearest Neighbors** model from scikit-learn. Player stat columns are standardized with `StandardScaler`, then cosine distance is used to identify the closest statistical matches. The app converts cosine distance into a readable profile match percentage for display.
+
+## 🖼️ Data Enrichment
+
+The dataset is enriched with player headshots by merging `player_headshots.csv` onto the Next Gen Stats data using **Player GSIS ID**. This allows the Similar Player Tool to display player images directly in the app.
+
 ## 📁 Project Structure
 
-```
+```text
 basic_streamlit_app/
-├── main.py                     # Main home page
-├── pages/                      # Multi-page app structure
-│   ├── 1_📈_Season_Stats.py   # Season statistics page
-│   ├── 2_📅_Weekly_Stats.py   # Weekly statistics page
-│   └── 3_🎯_Advanced_Stats.py # Advanced player comparisons
-├── data/                       # Dataset storage
-    ├── nfl_data.py             # Dataset creation using nflreadpy package        
-│   └── nextgen_receiving_stats.csv
-├── images/                     # Images 
+├── main.py                           # Main home page
+├── pages/                            # Multi-page app structure
+│   ├── 1_📈_Season_Stats.py          # Season statistics page
+│   ├── 2_📅_Weekly_Stats.py          # Weekly statistics page
+│   ├── 3_🎯_Advanced_Stats.py        # Advanced player comparisons
+│   └── 4_🧬_Similar_Player_Tool.py   # Similar player recommendation tool
+├── data/                             # Dataset storage
+│   ├── nfl_data.py                   # Dataset creation and enrichment script
+│   ├── nextgen_receiving_stats.csv   # Main app dataset
+│   └── player_headshots.csv          # Headshot URLs keyed by GSIS ID
+├── images/                           # Images
 │   └── Next_Gen_Logo.jpg
-└── README.md                   # This file
+└── README.md                         # This file
 ```
 
 ## 💡 How to Use
@@ -72,7 +88,8 @@ basic_streamlit_app/
 2. **Filter**: Use dropdown menus and sliders to filter data by player, team, position, or week
 3. **Search**: Use the search boxes in dataframe sections to find specific players or teams
 4. **Compare**: On the Advanced Stats page, select 2 players and choose metrics to compare
-5. **Analyze**: View interactive charts and tables to gain insights into player performance
+5. **Match**: On the Similar Player Tool page, select a player to view the top 3 closest profile matches
+6. **Analyze**: View interactive charts, tables, and profile matches to gain insights into player performance
 
 ## 👨‍💻 Author
 
