@@ -91,7 +91,7 @@ st.markdown("---")
 # Available pages section with descriptions of the different pages available in the app
 st.subheader("Available Pages")
 
-col1, col2, col3 = st.columns(3)
+col1, col2 = st.columns(2)
 
 with col1:
     st.markdown("### 📈 Season Stats")
@@ -101,9 +101,15 @@ with col2:
     st.markdown("### 📅 Weekly Stats")
     st.write("Analyze week-by-week performance throughout the season with advanced filtering.")
 
+col3, col4 = st.columns(2)
+
 with col3:
     st.markdown("### 🎯 Advanced Stats")
     st.write("Compare up to 2 players with interactive radar charts using Next Gen metrics.")
+
+with col4:
+    st.markdown("### 🧬 Similar Player Tool")
+    st.write("Find the top 3 most similar players for any receiver using standardized stats and profile matching.")
 
 st.markdown("---")
 
