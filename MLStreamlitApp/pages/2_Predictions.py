@@ -141,20 +141,35 @@ def show_regression_results(y_test, y_pred):
 
 
 def show_classification_results(y_test, y_pred, y_score=None):
-    # Display the main classification performance metrics.
     st.markdown("### 📊 Classification Results")
 
-    # These metrics are commonly used to evaluate classification models. Accuracy is the overall correctness, 
-    # while precision and recall provide insight into the types of errors the model is making. 
-    # F1 Score balances precision and recall, especially useful for imbalanced classes.
     col1, col2, col3, col4 = st.columns(4)
+
     col1.metric("Accuracy", f"{accuracy_score(y_test, y_pred):.2f}",
     help="The proportion of correct predictions made by a model out of the total number of predictions made")
-    col2.metric("Precision", f"{precision_score(y_test, y_pred, zero_division=0):.2f}",
+
+    # ✅ ADD THIS (1 line fix)
+    unique_classes = sorted(pd.Series(y_test).unique())
+
+    if len(unique_classes) == 2:
+        pos_label = unique_classes[-1]
+
+        precision = precision_score(y_test, y_pred, pos_label=pos_label, zero_division=0)
+        recall = recall_score(y_test, y_pred, pos_label=pos_label, zero_division=0)
+        f1 = f1_score(y_test, y_pred, pos_label=pos_label, zero_division=0)
+
+    else:
+        precision = precision_score(y_test, y_pred, average="weighted", zero_division=0)
+        recall = recall_score(y_test, y_pred, average="weighted", zero_division=0)
+        f1 = f1_score(y_test, y_pred, average="weighted", zero_division=0)
+
+    col2.metric("Precision", f"{precision:.2f}",
     help="The accuracy of positive predictions")
-    col3.metric("Recall", f"{recall_score(y_test, y_pred, zero_division=0):.2f}",
+
+    col3.metric("Recall", f"{recall:.2f}",
     help="The ability of the model to identify all relevant instances of a positive class")
-    col4.metric("F1 Score", f"{f1_score(y_test, y_pred, zero_division=0):.2f}",
+
+    col4.metric("F1 Score", f"{f1:.2f}",
     help="The harmonic mean of precision and recall")
 
     st.divider()
