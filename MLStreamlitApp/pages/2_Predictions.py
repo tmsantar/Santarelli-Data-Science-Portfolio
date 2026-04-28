@@ -166,7 +166,7 @@ def show_classification_results(y_test, y_pred, y_score=None):
     with chart_col1:
         # Confusion matrix shows where the classifier was correct and incorrect.
         # The rows of the confusion matrix represent the actual classes, while the columns represent the predicted classes.
-        st.markdown("### 🧾 Confusion Matrix")
+        st.markdown("### Confusion Matrix")
         cm = confusion_matrix(y_test, y_pred)
         disp = ConfusionMatrixDisplay(confusion_matrix=cm)
         fig, ax = plt.subplots()
@@ -185,7 +185,7 @@ def show_classification_results(y_test, y_pred, y_score=None):
         # ROC/AUC is only shown for binary classification when probability scores exist.
         # The ROC curve plots the true positive rate against the false positive rate at various threshold settings,
         # while the AUC score summarizes the overall ability of the model to discriminate between classes.
-        st.markdown("### 📈 ROC Curve")
+        st.markdown("### ROC Curve")
         if y_score is not None and len(pd.Series(y_test).unique()) == 2:
             positive_label = sorted(pd.Series(y_test).unique())[-1]
             y_true_binary = (pd.Series(y_test) == positive_label).astype(int)
