@@ -150,11 +150,11 @@ def show_classification_results(y_test, y_pred, y_score=None):
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Accuracy", f"{accuracy_score(y_test, y_pred):.2f}",
     help="The proportion of correct predictions made by a model out of the total number of predictions made")
-    col2.metric("Precision", f"{precision_score(y_test, y_pred, average='weighted', zero_division=0):.2f}",
+    col2.metric("Precision", f"{precision_score(y_test, y_pred, zero_division=0):.2f}",
     help="The accuracy of positive predictions")
-    col3.metric("Recall", f"{recall_score(y_test, y_pred, average='weighted', zero_division=0):.2f}",
+    col3.metric("Recall", f"{recall_score(y_test, y_pred, zero_division=0):.2f}",
     help="The ability of the model to identify all relevant instances of a positive class")
-    col4.metric("F1 Score", f"{f1_score(y_test, y_pred, average='weighted', zero_division=0):.2f}",
+    col4.metric("F1 Score", f"{f1_score(y_test, y_pred, zero_division=0):.2f}",
     help="The harmonic mean of precision and recall")
 
     st.divider()
