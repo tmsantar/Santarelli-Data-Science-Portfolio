@@ -11,13 +11,13 @@ st.markdown("### Welcome 👋")
 st.write("Use the sidebar to navigate between pages for data cleaning and predictions.")
 
 # Short overview of the pages inside the app.
-st.markdown("### 📂 Available Pages")
+st.markdown("### Available Pages 📂")
 
 st.markdown("""
-- **🧹 Data Cleaning**  
+- **Data Cleaning**  
   Upload a CSV or choose a sample dataset and review missing values.
 
-- **📈 Predictions**  
+- **Unsupervised Learning Lab**  
   Utilize different unsupervised machine learning algorithms to discover 
     hidden patterns, underlying structures, and relationships.
 """)
@@ -29,7 +29,7 @@ with st.sidebar:
 
     # Sidebar section with author information and portfolio links.
     st.markdown("Built by **Tommy Santarelli**")
-    st.caption("Business Analytics Major at Notre Dame")
+    st.caption("Business Analytics Major and Data Science Minor at Notre Dame")
     st.markdown("🔗 [LinkedIn](https://www.linkedin.com/in/tommy-santarelli-792651329/)")
     st.markdown("🐙 [GitHub](https://github.com/tmsantar)")
     st.markdown("---")
