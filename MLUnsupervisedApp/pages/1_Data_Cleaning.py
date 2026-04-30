@@ -1,5 +1,9 @@
 import pandas as pd
 import streamlit as st
+from pathlib import Path
+
+
+DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
 
 # Configure the Data Cleaning page.
@@ -39,19 +43,19 @@ with st.sidebar:
 
         # Load the sample dataset the user selected.
         if sample_choice == "Student Performance":
-            dataframe = pd.read_csv("MLUnsupervisedApp/data/Student_Performance.csv")
+            dataframe = pd.read_csv(DATA_DIR / "Student_Performance.csv")
             dataset_name = "Student Performance"
         elif sample_choice == "Soccer Injury Predictor":
-            dataframe = pd.read_csv("MLUnsupervisedApp/data/Soccer_injuries.csv")
+            dataframe = pd.read_csv(DATA_DIR / "Soccer_injuries.csv")
             dataset_name = "Soccer Injury Predictor"
         elif sample_choice == "Titanic Survival":
-            dataframe = pd.read_csv("MLUnsupervisedApp/data/titanic-1.csv")
+            dataframe = pd.read_csv(DATA_DIR / "titanic-1.csv")
             dataset_name = "Titanic Survival"
         elif sample_choice == "Baseball Success":
-            dataframe = pd.read_csv("MLUnsupervisedApp/data/baseball.csv")
+            dataframe = pd.read_csv(DATA_DIR / "baseball.csv")
             dataset_name = "Baseball Success"
         elif sample_choice == "Teen Mental Health":
-            dataframe = pd.read_csv("MLUnsupervisedApp/data/Teen_Mental_Health_Dataset.csv")
+            dataframe = pd.read_csv(DATA_DIR / "Teen_Mental_Health_Dataset.csv")
             dataset_name = "Teen Mental Health"
 
 # If the upload widget resets after switching pages,
