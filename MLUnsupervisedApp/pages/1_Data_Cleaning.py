@@ -5,6 +5,29 @@ from pathlib import Path
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
+SAMPLE_DATASETS = {
+    "Breast Cancer Measurements": {
+        "file": "breast_cancer.csv",
+        "description": "569 rows with 30 numeric medical measurements. Strong for PCA and clustering practice.",
+    },
+    "Soccer Injury Risk": {
+        "file": "Soccer_injuries.csv",
+        "description": "800 player records with training, fitness, recovery, and injury-risk variables.",
+    },
+    "Gaming and Academic Performance": {
+        "file": "Gaming_Academic_Performance.csv",
+        "description": "8,000 student records connecting gaming habits, study habits, wellness, and grades.",
+    },
+    "Teen Mental Health": {
+        "file": "Teen_Mental_Health_Dataset.csv",
+        "description": "1,200 records with screen time, sleep, stress, activity, and mental-health indicators.",
+    },
+    "Baseball Team Performance": {
+        "file": "baseball.csv",
+        "description": "1,232 team-season records with offensive, defensive, and success metrics.",
+    },
+}
+
 
 # Configure the Data Cleaning page.
 st.set_page_config(page_title="Data Cleaning", page_icon="🧹", layout="wide")
@@ -37,26 +60,14 @@ with st.sidebar:
         # Sample datasets let the user explore the app quickly.
         sample_choice = st.selectbox(
             "Choose a sample dataset",
-            ["Student Performance", "Soccer Injury Predictor",
-            "Titanic Survival", "Baseball Success", "Teen Mental Health"]
+            list(SAMPLE_DATASETS.keys())
         )
+        st.caption(SAMPLE_DATASETS[sample_choice]["description"])
 
         # Load the sample dataset the user selected.
-        if sample_choice == "Student Performance":
-            dataframe = pd.read_csv(DATA_DIR / "Student_Performance.csv")
-            dataset_name = "Student Performance"
-        elif sample_choice == "Soccer Injury Predictor":
-            dataframe = pd.read_csv(DATA_DIR / "Soccer_injuries.csv")
-            dataset_name = "Soccer Injury Predictor"
-        elif sample_choice == "Titanic Survival":
-            dataframe = pd.read_csv(DATA_DIR / "titanic-1.csv")
-            dataset_name = "Titanic Survival"
-        elif sample_choice == "Baseball Success":
-            dataframe = pd.read_csv(DATA_DIR / "baseball.csv")
-            dataset_name = "Baseball Success"
-        elif sample_choice == "Teen Mental Health":
-            dataframe = pd.read_csv(DATA_DIR / "Teen_Mental_Health_Dataset.csv")
-            dataset_name = "Teen Mental Health"
+        sample_file = SAMPLE_DATASETS[sample_choice]["file"]
+        dataframe = pd.read_csv(DATA_DIR / sample_file)
+        dataset_name = sample_choice
 
 # If the upload widget resets after switching pages,
 # fall back to the saved working dataframe.
@@ -222,7 +233,7 @@ if dataframe is not None:
     # Final preview of the current cleaned dataframe.
     st.subheader("Current Cleaned Data")
     st.dataframe(working_df.head(10), height=250)
-    st.success("Your data is clean and ready for modeling! Select the predictions tab from the sidebar 👈")
+    st.success("Your data is clean and ready for modeling. Select the Unsupervised Learning Lab from the sidebar.")
 else:
     # Message shown before any dataset is loaded.
     st.info("Upload a CSV file or choose a sample dataset from the sidebar to begin.")
