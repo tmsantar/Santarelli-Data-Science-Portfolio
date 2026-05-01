@@ -8,22 +8,21 @@ st.title("Unsupervised Machine Learning App 🧠")
 
 # Quick welcome text so users know how to begin.
 st.markdown("### Welcome 👋")
-st.write("Use the sidebar to navigate between pages for data cleaning and predictions.")
+st.write("Use the sidebar to clean a dataset, then explore clusters and PCA patterns in the unsupervised learning lab.")
 
 # Short overview of the pages inside the app.
 st.markdown("### Available Pages 📂")
 
 st.markdown("""
 - **Data Cleaning**  
-  Upload a CSV or choose a sample dataset and review missing values.
+  Upload a CSV or choose one of the curated sample datasets, then review and handle missing values.
 
 - **Unsupervised Learning Lab**  
-  Utilize different unsupervised machine learning algorithms to discover 
-    hidden patterns, underlying structures, and relationships.
+  Use K-Means clustering, hierarchical clustering, and PCA to discover hidden patterns, structures, and relationships.
 """)
 
 # Friendly reminder about the recommended workflow.
-st.info("💡 Tip: Start with Data Cleaning to prepare your dataset.")
+st.info("💡 Tip: Start with Data Cleaning so the modeling page has a prepared dataset to use.")
 
 with st.sidebar:
 
