@@ -126,8 +126,8 @@ if method == "K-Means Clustering":
             ax.legend()
             st.pyplot(fig)
             st.caption(
-                "Look for the bend in the line. That point is where adding more clusters "
-                "starts giving smaller improvements.")
+                "This elbow plot tests several K values for K-Means. Look for the bend in the line; "
+                "that point is where adding more clusters starts giving smaller improvements.")
 
         with silhouette_col:
             fig, ax = plt.subplots(figsize=(6, 4))
@@ -140,8 +140,8 @@ if method == "K-Means Clustering":
             ax.legend()
             st.pyplot(fig)
             st.caption(
-                "Look for a higher point on the graph. Higher values usually mean rows fit "
-                "better inside their own cluster than in other clusters.")
+                "This silhouette plot compares how well rows fit inside their assigned K-Means cluster. "
+                "Higher values usually mean rows fit better inside their own cluster than in other clusters.")
 
         st.subheader("Step 4: View Model Results")
 
@@ -183,6 +183,10 @@ if method == "K-Means Clustering":
         ax.grid(True, alpha=0.3)
         ax.legend(title="Cluster")
         st.pyplot(fig)
+        st.caption(
+            "This scatter plot uses PCA to compress the selected features into two axes. "
+            "Points close together have similar feature values, and the colors show the K-Means cluster assignments."
+        )
     else:
         st.warning("Please select at least 2 numeric features for K-Means.")
 
@@ -211,13 +215,6 @@ if method == "Hierarchical Clustering":
         "Linkage controls how distances between clusters are measured when groups are merged. "
         "'ward' tries to create compact, balanced clusters, 'complete' uses the farthest points, "
         "'average' uses average distance, and 'single' uses the closest points."))
-
-    label_column = st.selectbox(
-        "Choose dendrogram labels",
-        ["Row Number"] + df.columns.tolist(),
-        help=(
-            "Choose what text appears under each dendrogram leaf. Pick a name, ID, "
-            "category, or other identifying column when your dataset has one."))
 
     if len(selected_features) >= 2:
         X = df[selected_features].dropna()
@@ -270,8 +267,8 @@ if method == "Hierarchical Clustering":
             ax.legend()
             st.pyplot(fig)
             st.caption(
-                "Look for the bend in the line. That suggests a cluster count where the "
-                "groups improve less after that point.")
+                "This elbow plot tests several cluster counts for hierarchical clustering. "
+                "Look for the bend in the line, where the groups improve less after that point.")
 
         with silhouette_col:
             fig, ax = plt.subplots(figsize=(6, 4))
@@ -284,8 +281,8 @@ if method == "Hierarchical Clustering":
             ax.legend()
             st.pyplot(fig)
             st.caption(
-                "Look for a higher point on the graph. Higher values usually mean the "
-                "clusters are more clearly separated.")
+                "This silhouette plot compares how clearly the hierarchical clusters separate from each other. "
+                "Higher values usually mean the clusters are more distinct.")
 
         st.subheader("Step 4: View Model Results")
 
@@ -330,6 +327,36 @@ if method == "Hierarchical Clustering":
         ax.grid(True, alpha=0.3)
         ax.legend(title="Cluster")
         st.pyplot(fig)
+        st.caption(
+            "This scatter plot uses PCA to show the hierarchical clustering results in two dimensions. "
+            "Nearby points are more similar based on the selected features, and each color represents a cluster."
+        )
+
+        st.divider()
+
+        label_options = ["Row Number"] + df.select_dtypes(exclude="number").columns.tolist()
+        label_options += [col for col in df.columns.tolist() if col not in label_options]
+        default_label_index = label_options.index("country_name") if "country_name" in label_options else 0
+
+        label_column = st.selectbox(
+            "Choose dendrogram labels",
+            label_options,
+            index=default_label_index,
+            help=(
+                "Choose what text appears under each dendrogram leaf. Pick a name, ID, "
+                "category, or other identifying column when your dataset has one."))
+
+        if label_column == "Row Number":
+            st.caption("The dendrogram will label each row by its row number.")
+        else:
+            sample_values = df[label_column].dropna().astype(str).head(3).tolist()
+            sample_text = ", ".join(sample_values) if sample_values else "no examples available"
+            unique_count = df[label_column].nunique(dropna=True)
+            st.caption(
+                f"The dendrogram will label each row using `{label_column}`. "
+                f"This column has {unique_count} unique values. Examples: {sample_text}."
+            )
+
 
         st.subheader("Dendrogram")
         dendrogram_size = min(50, len(X))
@@ -353,6 +380,10 @@ if method == "Hierarchical Clustering":
         ax.set_ylabel("Distance")
         plt.tight_layout()
         st.pyplot(fig)
+        st.caption(
+            "The dendrogram shows how rows merge together from most similar to less similar. "
+            "Shorter branches mean observations joined earlier, while taller merges show larger differences between groups."
+        )
 
         if len(X) > dendrogram_size:
             st.caption("Showing a random sample of 50 rows in the dendrogram so the chart stays readable.")
@@ -418,6 +449,10 @@ if method == "PCA":
         st.write("Explained variance tells you how much information each component keeps.")
         st.dataframe(variance_df)
         st.bar_chart(variance_df.set_index("Principal Component")["Explained Variance Ratio"])
+        st.caption(
+            "This bar chart shows how much of the dataset's variation each principal component captures. "
+            "Taller bars mean that component keeps more information from the original features."
+        )
 
         st.subheader("PCA Scatter Plot")
 
@@ -461,6 +496,10 @@ if method == "PCA":
         ax.set_title("PCA Scatter Plot")
         ax.grid(True, alpha=0.3)
         st.pyplot(fig)
+        st.caption(
+            "This scatter plot places each row using the first two principal components. "
+            "Rows that appear close together have similar patterns across the selected numeric features."
+        )
 
         st.write("PCA transformed data:")
         st.dataframe(pca_df)
