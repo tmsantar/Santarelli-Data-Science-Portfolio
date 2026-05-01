@@ -6,25 +6,25 @@ from pathlib import Path
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
 SAMPLE_DATASETS = {
+    "Country Democracy Indicators": {
+        "file": "country_democracy_2020.csv",
+        "description": "184 countries from 2020 with democracy, election, and government-structure indicators. Best for hierarchical clustering because the dendrogram can show how countries group together.",
+    },
     "Breast Cancer Measurements": {
         "file": "breast_cancer.csv",
-        "description": "569 rows with 30 numeric medical measurements. Strong for PCA and clustering practice.",
+        "description": "569 rows with 30 numeric medical measurements. Good for all three methods: PCA, K-Means, and hierarchical clustering.",
     },
     "Soccer Injury Risk": {
         "file": "Soccer_injuries.csv",
-        "description": "800 player records with training, fitness, recovery, and injury-risk variables.",
+        "description": "800 player records with training, fitness, recovery, and injury-risk variables. Good for K-Means and PCA to find player risk profiles.",
     },
     "Gaming and Academic Performance": {
         "file": "Gaming_Academic_Performance.csv",
-        "description": "8,000 student records connecting gaming habits, study habits, wellness, and grades.",
+        "description": "8,000 student records connecting gaming habits, study habits, wellness, and grades. Good for K-Means and PCA because it has many behavior-based numeric features.",
     },
     "Teen Mental Health": {
         "file": "Teen_Mental_Health_Dataset.csv",
-        "description": "1,200 records with screen time, sleep, stress, activity, and mental-health indicators.",
-    },
-    "Baseball Team Performance": {
-        "file": "baseball.csv",
-        "description": "1,232 team-season records with offensive, defensive, and success metrics.",
+        "description": "1,200 records with screen time, sleep, stress, activity, and mental-health indicators. Good for all three methods to explore wellness-related groups and patterns.",
     },
 }
 
@@ -151,7 +151,6 @@ if dataframe is not None:
     # since mean/median/zero filling only makes sense for those.
     numeric_columns = working_df.select_dtypes(include=["number"]).columns
     numeric_missing_columns = [col for col in numeric_columns if working_df[col].isnull().sum() > 0]
-
     # Main cleaning-method selector.
     method = st.selectbox(
         "Choose how to handle missing values:",
@@ -217,7 +216,6 @@ if dataframe is not None:
             elif method == "Fill with Zero" and column is not None:
                 # Fill missing values with 0.
                 updated_df[column] = updated_df[column].fillna(0)
-
             # Save the cleaned dataframe so the changes persist across reruns/pages.
             st.session_state["working_df"] = updated_df
             st.session_state["dataframe"] = updated_df
@@ -233,6 +231,7 @@ if dataframe is not None:
     # Final preview of the current cleaned dataframe.
     st.subheader("Current Cleaned Data")
     st.dataframe(working_df.head(10), height=250)
+
     st.success("Your data is clean and ready for modeling. Select the Unsupervised Learning Lab from the sidebar.")
 else:
     # Message shown before any dataset is loaded.
