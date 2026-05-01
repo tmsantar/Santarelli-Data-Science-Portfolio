@@ -50,5 +50,17 @@ Here are some of the projects I’ve built:
 **Link to Project**: https://github.com/tmsantar/Santarelli-Data-Science-Portfolio/tree/main/MLStreamlitApp
 
 <img width="400" src="https://raw.githubusercontent.com/tmsantar/Santarelli-Data-Science-Portfolio/main/images/Machine_Learning%20.jpeg">
+<br>
 
+### 🧠 [Unsupervised Learning Streamlit App](MLUnsupervisedApp/)
+
+**Description**: The Machine Learning Streamlit App takes a CSV file and allows users to run a model to predict a target variable. First, users upload a CSV file or select from a few sample datasets. Then, users have the ability to view their dataset and can remove or impute missing values. After cleaning the data, users can make predictions using their new dataset. The predictions can be regression or classification problems, and users can choose from a variety of machine learning models. After selecting the target variable, choosing the model, and selecting input variables, users can review their model’s performance. Overall, this app provides a simple and interactive way for users to explore machine learning on their own datasets.
+
+**Portfolio Impact**: This project complements my overall data science portfolio by showcasing my ability to create an interactive app that responds to and assists users. It demonstrates my ability to build an application that adapts based on user inputs. Additionally, this project highlights my ability to incorporate and develop machine learning models. The interactive app utilizes both regression and classification models and offers four different options in total. This project strengthened my understanding of preprocessing, model selection, and evaluating machine learning performance.
+
+**Skills**: Python, Pandas, Scikit-learn, Streamlit, Data Cleaning, Data Wrangling, Categorical Encoding, Train-Test Splitting, Unsupervised Machine Learning, Clustering, PCA, Model Evaluation, Hyperparameter Tuning, Data Visualization (Matplotlib)
+
+**Link to Project**: https://github.com/tmsantar/Santarelli-Data-Science-Portfolio/tree/main/MLUnsupervisedApp
+
+<img width="400" src="https://github.com/tmsantar/Santarelli-Data-Science-Portfolio/blob/main/images/unsupervised.png">
 <br>
