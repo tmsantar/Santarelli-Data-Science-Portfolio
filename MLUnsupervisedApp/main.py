@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Set the page title, icon, and layout for the app's home page.
-st.set_page_config(page_title="Unsupermvised Machine Learning App", page_icon="🤖", layout="wide")
+st.set_page_config(page_title="Unsupervised Machine Learning App", page_icon="🤖", layout="wide")
 
 # Main title shown at the top of the landing page.
 st.title("Unsupervised Machine Learning App 🧠")
