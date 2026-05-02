@@ -6,6 +6,12 @@ Interactive Streamlit application for exploring unsupervised machine learning. U
 
 ---
 
+## 🌐 Live App
+
+[Click here to open the deployed Streamlit app](https://santarelli-data-science-portfolio-garp5kqrpygarvb7jyqqto.streamlit.app/)
+
+---
+
 ## 📌 Project Overview
 
 The goal of this project is to give users a hands-on way to explore unsupervised learning without needing to write code. Instead of predicting a target variable, this app focuses on discovering structure in data.
