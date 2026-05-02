@@ -63,11 +63,6 @@ st.markdown("Use your cleaned dataset to view patterns in your data using an uns
 
 st.info("Hover over the small question mark icons next to controls for extra help while exploring the app.")
 
-st.subheader("Dataset Overview")
-st.write("Rows:", df.shape[0], "Columns:", df.shape[1])
-st.write("Numeric columns available:", len(numeric_columns))
-
-
 if method == "K-Means Clustering":
     st.subheader("Step 1: Select Features")
 
