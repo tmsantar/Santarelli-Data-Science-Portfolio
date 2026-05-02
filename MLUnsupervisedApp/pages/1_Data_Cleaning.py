@@ -36,7 +36,6 @@ st.set_page_config(page_title="Data Cleaning", page_icon="🧹", layout="wide")
 # Page title and short instructions.
 st.title("Data Cleaning")
 st.markdown("Upload a dataset or choose one of the sample CSV files from the sidebar.")
-st.info("Hover over the small question mark icons next to controls for extra help while exploring the app.")
 
 with st.sidebar:
     # Let the user decide whether to upload their own CSV or work from one of the sample datasets
