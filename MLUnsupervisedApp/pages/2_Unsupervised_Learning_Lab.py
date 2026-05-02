@@ -61,6 +61,8 @@ with st.sidebar:
 st.title(f"📈 Unsupervised Learning Lab: {method}")
 st.markdown("Use your cleaned dataset to view patterns in your data using an unsupervised model.")
 
+st.info("Hover over the small question mark icons next to controls for extra help while exploring the app.")
+
 st.subheader("Dataset Overview")
 st.write("Rows:", df.shape[0], "Columns:", df.shape[1])
 st.write("Numeric columns available:", len(numeric_columns))
