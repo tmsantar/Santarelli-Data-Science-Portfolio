@@ -10,6 +10,10 @@ SAMPLE_DATASETS = {
         "file": "country_democracy_2020.csv",
         "description": "184 countries from 2020 with democracy, election, and government-structure indicators. Best for hierarchical clustering because the dendrogram can show how countries group together.",
     },
+    "NFL Next Gen Receiving Stats": {
+        "file": "nextgen_receiving_stats.csv",
+        "description": "120 full-season receiver records with Next Gen Stats metrics like separation, cushion, air yards, targets, receptions, and yards after catch. Good for K-Means and PCA to find similar receiver performance profiles.",
+    },
     "Breast Cancer Measurements": {
         "file": "breast_cancer.csv",
         "description": "569 rows with 30 numeric medical measurements. Good for all three methods: PCA, K-Means, and hierarchical clustering.",
@@ -17,10 +21,6 @@ SAMPLE_DATASETS = {
     "Soccer Injury Risk": {
         "file": "Soccer_injuries.csv",
         "description": "800 player records with training, fitness, recovery, and injury-risk variables. Good for K-Means and PCA to find player risk profiles.",
-    },
-    "Gaming and Academic Performance": {
-        "file": "Gaming_Academic_Performance.csv",
-        "description": "8,000 student records connecting gaming habits, study habits, wellness, and grades. Good for K-Means and PCA because it has many behavior-based numeric features.",
     },
     "Teen Mental Health": {
         "file": "Teen_Mental_Health_Dataset.csv",

@@ -60,14 +60,14 @@ The app includes five sample datasets so users can test different unsupervised l
 - **Country Democracy Indicators**  
   Best for hierarchical clustering because the dendrogram can show how countries group together based on democracy, election, and government-structure features.
 
+- **NFL Next Gen Receiving Stats**  
+  Good for K-Means and PCA because users can find full-season receiver performance profiles based on separation, cushion, air yards, targets, receptions, and yards after catch.
+
 - **Breast Cancer Measurements**  
   Good for all three methods: PCA, K-Means, and hierarchical clustering. The dataset has many numeric medical measurement columns.
 
 - **Soccer Injury Risk**  
   Good for K-Means and PCA because users can look for player risk profiles based on training, fitness, recovery, and injury-related variables.
-
-- **Gaming and Academic Performance**  
-  Good for K-Means and PCA because it includes many behavior-based numeric features related to gaming, studying, wellness, and grades.
 
 - **Teen Mental Health**  
   Good for all three methods because users can explore wellness-related groups and patterns using screen time, sleep, stress, activity, and mental-health indicators.

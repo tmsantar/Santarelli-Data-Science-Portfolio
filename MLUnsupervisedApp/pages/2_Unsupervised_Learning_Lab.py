@@ -157,6 +157,13 @@ if method == "K-Means Clustering":
         st.write("Cluster labels for each row:")
         st.dataframe(results_df)
 
+        st.download_button(
+            "Download K-Means Clustered Dataset",
+            data=results_df.to_csv(index=False).encode("utf-8"),
+            file_name="kmeans_clustered_dataset.csv",
+            mime="text/csv"
+        )
+
         st.subheader("Cluster Scatter Plot")
         pca = PCA(n_components=2)
         X_pca = pca.fit_transform(X_array)
@@ -301,6 +308,13 @@ if method == "Hierarchical Clustering":
         st.write("Cluster labels for each row:")
         st.dataframe(results_df)
 
+        st.download_button(
+            "Download Hierarchical Clustered Dataset",
+            data=results_df.to_csv(index=False).encode("utf-8"),
+            file_name="hierarchical_clustered_dataset.csv",
+            mime="text/csv"
+        )
+
         st.subheader("Cluster Scatter Plot")
         pca = PCA(n_components=2)
         X_pca = pca.fit_transform(X_array)
@@ -416,11 +430,6 @@ if method == "PCA":
                 "make the data easier to visualize, while more components keep more of "
                 "the original dataset's information."))
 
-        label_column = st.selectbox(
-            "Optional color column for PCA scatter plot",
-            ["None"] + df.columns.tolist(),
-            help="Choose a column to color the PCA scatter plot. This is only for visualization.")
-
         X = df[selected_features].dropna()
 
         if scale_data:
@@ -456,40 +465,62 @@ if method == "PCA":
 
         st.subheader("PCA Scatter Plot")
 
+        label_column = st.selectbox(
+            "Optional color column for PCA scatter plot",
+            ["None"] + df.columns.tolist(),
+            help="Choose a column to color the PCA scatter plot. This is only for visualization.")
+
         fig, ax = plt.subplots(figsize=(8, 5))
 
         if label_column == "None":
             ax.scatter(pca_df["PC1"], pca_df["PC2"], alpha=0.75, edgecolors="white", linewidths=0.5)
         else:
             plot_df = pca_df.copy()
-            plot_df["Label"] = df.loc[pca_df.index, label_column].astype(str)
+            plot_df["Label"] = df.loc[pca_df.index, label_column]
 
-            if plot_df["Label"].nunique() <= 10:
-                for label in sorted(plot_df["Label"].dropna().unique()):
-                    label_data = plot_df[plot_df["Label"] == label]
-                    ax.scatter(
-                        label_data["PC1"],
-                        label_data["PC2"],
-                        label=label,
-                        alpha=0.75,
-                        edgecolors="white",
-                        linewidths=0.5)
-
-                ax.legend(title=label_column)
-            else:
-                label_codes, label_names = pd.factorize(plot_df["Label"])
+            if pd.api.types.is_numeric_dtype(plot_df["Label"]):
                 scatter = ax.scatter(
                     plot_df["PC1"],
                     plot_df["PC2"],
-                    c=label_codes,
-                    cmap="tab20",
-                    alpha=0.75,
+                    c=plot_df["Label"],
+                    cmap="YlOrRd",
+                    alpha=0.80,
                     edgecolors="white",
                     linewidths=0.5)
-                fig.colorbar(scatter, ax=ax, label=f"{label_column} code")
+                fig.colorbar(scatter, ax=ax, label=label_column)
                 st.caption(
-                    "The selected color column has more than 10 unique values, so the plot "
-                    "uses color codes instead of a long legend.")
+                    f"The selected color column is numeric, so the plot uses a light-to-dark scale. "
+                    f"Darker points have higher `{label_column}` values."
+                )
+            else:
+                plot_df["Label"] = plot_df["Label"].astype(str)
+
+                if plot_df["Label"].nunique() <= 10:
+                    for label in sorted(plot_df["Label"].dropna().unique()):
+                        label_data = plot_df[plot_df["Label"] == label]
+                        ax.scatter(
+                            label_data["PC1"],
+                            label_data["PC2"],
+                            label=label,
+                            alpha=0.75,
+                            edgecolors="white",
+                            linewidths=0.5)
+
+                    ax.legend(title=label_column)
+                else:
+                    label_codes, label_names = pd.factorize(plot_df["Label"])
+                    scatter = ax.scatter(
+                        plot_df["PC1"],
+                        plot_df["PC2"],
+                        c=label_codes,
+                        cmap="tab20",
+                        alpha=0.75,
+                        edgecolors="white",
+                        linewidths=0.5)
+                    fig.colorbar(scatter, ax=ax, label=f"{label_column} code")
+                    st.caption(
+                        "The selected color column is categorical and has more than 10 unique values, "
+                        "so the plot uses color codes instead of a long legend.")
 
         ax.set_xlabel("Principal Component 1")
         ax.set_ylabel("Principal Component 2")
@@ -501,7 +532,5 @@ if method == "PCA":
             "Rows that appear close together have similar patterns across the selected numeric features."
         )
 
-        st.write("PCA transformed data:")
-        st.dataframe(pca_df)
     else:
         st.warning("Please select at least 2 numeric features for PCA.")
