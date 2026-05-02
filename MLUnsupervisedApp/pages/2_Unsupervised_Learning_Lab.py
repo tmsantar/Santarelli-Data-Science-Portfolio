@@ -479,19 +479,38 @@ if method == "PCA":
             plot_df["Label"] = df.loc[pca_df.index, label_column]
 
             if pd.api.types.is_numeric_dtype(plot_df["Label"]):
-                scatter = ax.scatter(
-                    plot_df["PC1"],
-                    plot_df["PC2"],
-                    c=plot_df["Label"],
-                    cmap="YlOrRd",
-                    alpha=0.80,
-                    edgecolors="white",
-                    linewidths=0.5)
-                fig.colorbar(scatter, ax=ax, label=label_column)
-                st.caption(
-                    f"The selected color column is numeric, so the plot uses a light-to-dark scale. "
-                    f"Darker points have higher `{label_column}` values."
-                )
+                unique_values = sorted(plot_df["Label"].dropna().unique())
+
+                if len(unique_values) <= 10:
+                    for label in unique_values:
+                        label_data = plot_df[plot_df["Label"] == label]
+                        ax.scatter(
+                            label_data["PC1"],
+                            label_data["PC2"],
+                            label=str(label),
+                            alpha=0.75,
+                            edgecolors="white",
+                            linewidths=0.5)
+
+                    ax.legend(title=label_column)
+                    st.caption(
+                        f"The selected color column has {len(unique_values)} numeric groups, "
+                        "so the plot uses a regular legend instead of a continuous scale."
+                    )
+                else:
+                    scatter = ax.scatter(
+                        plot_df["PC1"],
+                        plot_df["PC2"],
+                        c=plot_df["Label"],
+                        cmap="YlOrRd",
+                        alpha=0.80,
+                        edgecolors="white",
+                        linewidths=0.5)
+                    fig.colorbar(scatter, ax=ax, label=label_column)
+                    st.caption(
+                        f"The selected color column has many numeric values, so the plot uses a light-to-dark scale. "
+                        f"Darker points have higher `{label_column}` values."
+                    )
             else:
                 plot_df["Label"] = plot_df["Label"].astype(str)
 
