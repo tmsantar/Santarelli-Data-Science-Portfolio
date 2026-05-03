@@ -383,7 +383,7 @@ if method == "Hierarchical Clustering":
                 .astype(str)
                 .str.slice(0, 25))
 
-        fig, ax = plt.subplots(figsize=(10, 5))
+        fig, ax = plt.subplots(figsize=(10, 6))
         linked = linkage(dendrogram_data, method=linkage_method)
         dendrogram(linked, ax=ax, labels=dendrogram_labels.tolist(), leaf_rotation=90)
         ax.set_title("Hierarchical Clustering Dendrogram")
