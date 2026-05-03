@@ -207,7 +207,7 @@ if method == "Hierarchical Clustering":
     st.subheader("Step 2: Choose Model Settings")
 
     n_clusters = st.slider(
-    "Select the number of clusters",
+    "Select the number of clusters (k)",
         min_value=2,
         max_value=10,
         value=3,
