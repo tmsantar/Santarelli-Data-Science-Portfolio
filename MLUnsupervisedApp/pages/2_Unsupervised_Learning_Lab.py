@@ -61,7 +61,7 @@ with st.sidebar:
 st.title(f"📈 Unsupervised Learning Lab: {method}")
 st.markdown("Use your cleaned dataset to view patterns in your data using an unsupervised model.")
 
-st.info("❔ Hover over the small question mark icons next to controls for extra help while exploring the app.")
+st.info("❓ Hover over the small question mark icons next to controls for extra help while exploring the app.")
 
 if method == "K-Means Clustering":
     st.subheader("Step 1: Select Features")
