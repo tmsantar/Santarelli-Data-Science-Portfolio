@@ -32,7 +32,7 @@ with text_col:
 with image_col:
     st.write("")
     st.write("")
-    st.image(HOME_IMAGE, use_container_width=True)
+    st.image(HOME_IMAGE, width="stretch")
 
 
     # Short overview of the pages inside the app.
