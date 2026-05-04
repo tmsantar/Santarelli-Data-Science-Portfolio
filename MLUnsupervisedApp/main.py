@@ -40,8 +40,6 @@ st.markdown("""
 # Friendly reminder about the recommended workflow.
 st.info("💡 Tip: Start with Data Cleaning so the modeling page has a prepared dataset to use.")
 
-st.info("❓ Hover over the small question mark icons next to controls for extra help while exploring the app.")
-
 image_col, spacer_col = st.columns([2, 1])
 with image_col:
     st.image(HOME_IMAGE)
