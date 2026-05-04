@@ -27,7 +27,7 @@ st.write(
 )
 
 # Short overview of the pages inside the app.
-st.markdown("### Available Pages 📂")
+st.markdown("### What You Can Do 📂")
 
 st.markdown("""
 - **Data Cleaning**  
