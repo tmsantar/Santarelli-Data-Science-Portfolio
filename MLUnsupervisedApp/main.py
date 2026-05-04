@@ -11,7 +11,7 @@ st.set_page_config(page_title="Unsupervised Machine Learning App", page_icon="ðŸ
 # Main title shown at the top of the landing page.
 st.title("Unsupervised Machine Learning App ðŸ§ ")
 
-text_col, image_col = st.columns([1, 1])
+text_col, image_col = st.columns([1, 1], gap = "medium")
 
 with text_col:
     # Quick welcome text so users know how to begin.
@@ -32,7 +32,7 @@ with text_col:
 with image_col:
     st.write("")
     st.write("")
-    st.image(HOME_IMAGE, use_container_width=True)
+    st.image(HOME_IMAGE, width="stretch")
 
 
     # Short overview of the pages inside the app.
