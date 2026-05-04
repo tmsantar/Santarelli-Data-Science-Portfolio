@@ -39,7 +39,7 @@ with image_col:
 st.markdown("### What You Can Do 📂")
 
 st.markdown("""
-- **Data Cleaning**: Upload a CSV or choose one of the curated sample datasets, then inspect the data before modeling. This step helps you check what columns are available, see if any values are missing, and fix missing data so the app can analyze it properly.
+- **Data Cleaning**: Upload a CSV or choose one of the sample datasets, then inspect the data before modeling. This step helps you check what columns are available, see if any values are missing, and fix missing data so the app can analyze it properly.
 
 - **Unsupervised Learning Lab**: Use K-Means clustering, hierarchical clustering, and PCA to discover hidden patterns, structures, and relationships.
 """)
