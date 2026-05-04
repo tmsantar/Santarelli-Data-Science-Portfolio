@@ -11,38 +11,42 @@ st.set_page_config(page_title="Unsupervised Machine Learning App", page_icon="�
 # Main title shown at the top of the landing page.
 st.title("Unsupervised Machine Learning App 🧠")
 
+text_col, image_col = st.columns([1, 1])
 
-# Quick welcome text so users know how to begin.
-st.markdown("### Welcome 👋")
-st.write("Use the sidebar to clean a dataset, then explore clusters and PCA patterns in the unsupervised learning lab.")
+with text_col:
+    # Quick welcome text so users know how to begin.
+    st.markdown("### Welcome 👋")
+    st.write("Use the sidebar to clean a dataset, then explore clusters and PCA patterns in the unsupervised learning lab.")
 
-st.write(
-    "This app helps users find hidden groups and patterns in a dataset. "
-    "Instead of predicting one answer, it looks for rows that are similar to each other and shows those patterns with charts."
-)
+    st.write(
+        "This app helps users find hidden groups and patterns in a dataset. "
+        "Instead of predicting one answer, it looks for rows that are similar to each other and shows those patterns with charts."
+    )
 
-st.write(
-    "You can start with one of the sample datasets or upload your own CSV file. "
-    "After cleaning the data, the app lets you explore how different rows group together and which features help explain those patterns."
-)
+    st.write(
+        "You can start with one of the sample datasets or upload your own CSV file. "
+        "After cleaning the data, the app lets you explore how different rows group together and which features help explain those patterns."
+    )
 
-# Short overview of the pages inside the app.
+
+with image_col:
+    st.write("")
+    st.write("")
+    st.image(HOME_IMAGE, use_container_width=True)
+
+
+    # Short overview of the pages inside the app.
 st.markdown("### What You Can Do 📂")
 
 st.markdown("""
-- **Data Cleaning**  
-  Upload a CSV or choose one of the curated sample datasets, then review and handle missing values.
+- **Data Cleaning**: Upload a CSV or choose one of the curated sample datasets, then review and handle missing values.
 
-- **Unsupervised Learning Lab**  
-  Use K-Means clustering, hierarchical clustering, and PCA to discover hidden patterns, structures, and relationships.
+- **Unsupervised Learning Lab**: Use K-Means clustering, hierarchical clustering, and PCA to discover hidden patterns, structures, and relationships.
 """)
+
 
 # Friendly reminder about the recommended workflow.
 st.info("💡 Tip: Start with Data Cleaning so the modeling page has a prepared dataset to use.")
-
-image_col, spacer_col = st.columns([2, 1])
-with image_col:
-    st.image(HOME_IMAGE)
 
 with st.sidebar:
 
