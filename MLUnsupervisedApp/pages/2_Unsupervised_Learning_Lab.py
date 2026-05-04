@@ -10,7 +10,7 @@ from sklearn.metrics import silhouette_score
 from scipy.cluster.hierarchy import dendrogram, linkage
 
 
-st.set_page_config(page_title="Unsupervised Learning Lab", page_icon="📈", layout="wide")
+st.set_page_config(page_title="Unsupervised Learning Lab", page_icon="🧪", layout="wide")
 
 
 if "dataframe" not in st.session_state:
@@ -58,7 +58,7 @@ with st.sidebar:
             "Use it to simplify your dataset while keeping as much information as possible.")
 
 # Main title and page instructions.
-st.title(f"📈 Unsupervised Learning Lab: {method}")
+st.title(f"🧪 Unsupervised Learning Lab: {method}")
 st.markdown("Use your cleaned dataset to view patterns in your data using an unsupervised model.")
 
 st.info("❓ Hover over the small question mark icons next to controls for extra help while exploring the app.")
