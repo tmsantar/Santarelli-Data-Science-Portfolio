@@ -16,6 +16,16 @@ st.title("Unsupervised Machine Learning App 🧠")
 st.markdown("### Welcome 👋")
 st.write("Use the sidebar to clean a dataset, then explore clusters and PCA patterns in the unsupervised learning lab.")
 
+st.write(
+    "This app helps users find hidden groups and patterns in a dataset. "
+    "Instead of predicting one answer, it looks for rows that are similar to each other and shows those patterns with charts."
+)
+
+st.write(
+    "You can start with one of the sample datasets or upload your own CSV file. "
+    "After cleaning the data, the app lets you explore how different rows group together and which features help explain those patterns."
+)
+
 # Short overview of the pages inside the app.
 st.markdown("### Available Pages 📂")
 
