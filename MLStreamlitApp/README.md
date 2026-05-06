@@ -58,13 +58,15 @@ Streamlit Community Cloud App:
 
 ### 📉 Regression
 
-- Linear Regression
+- **Linear Regression**: Predicts a numeric value by finding the best-fitting straight-line relationship between the selected input features and the target variable. This is useful for outcomes such as prices, scores, totals, or other continuous values.
 
 ### 🗂️ Classification
 
-- Logistic Regression
-- Decision Tree Classifier
-- XGBoost Classifier
+- **Logistic Regression**: Predicts a category by estimating the probability that a row belongs to a class. This is useful for classification problems such as yes/no outcomes or group labels.
+
+- **Decision Tree Classifier**: Splits the data into decision rules based on feature values. This model is easy to understand because it works like a flowchart of questions that lead to a predicted class.
+
+- **XGBoost Classifier**: Builds many decision trees in sequence, with each tree trying to improve on the mistakes of the previous ones. This model is often strong for classification because it can capture more complex patterns in the data.
 
 ---
 
@@ -121,6 +123,26 @@ Users can experiment with model behavior through Streamlit widgets.
 
 ---
 
+## 🖼️ Visual Examples
+
+### Dataset Upload and Selection
+
+![CSV Upload](images/Csv_upload.png)
+
+### Selecting Target Variable and Model
+
+![App Overview](images/Overview.png)
+
+### Decision Tree Example
+
+![Decision Tree](images/decision_tree.png)
+
+### Confusion Matrix Example (From Decision Tree Above)
+
+![Confusion Matrix](images/confusion_matrix.png)
+
+---
+
 ## 🚀 How to Run Locally
 
 1. Open a terminal in the portfolio repository.
@@ -168,26 +190,6 @@ These course notebooks helped guide the models and app logic used in this projec
 - [Week 9: Logistic Regression](../Week%209/IDS%20Week%209_1_FINAL.ipynb)
 - [Week 9: Decision Tree Classifier](../Week%209/IDS%20Week%209_2_FINAL.ipynb)
 - [Week 10: XGBoost Classifier](../Week%2010/IDS%20Week%2010_1_FINAL.ipynb)
-
----
-
-## 🖼️ Visual Examples
-
-### Dataset Upload and Selection
-
-![CSV Upload](images/Csv_upload.png)
-
-### Selecting Target Variable and Model
-
-![App Overview](images/Overview.png)
-
-### Decision Tree Example
-
-![Decision Tree](images/decision_tree.png)
-
-### Confusion Matrix Example (From Decision Tree Above)
-
-![Confusion Matrix](images/confusion_matrix.png)
 
 ---
 
