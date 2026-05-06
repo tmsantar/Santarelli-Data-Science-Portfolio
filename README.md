@@ -13,6 +13,16 @@ The purpose of this repository is to organize and showcase the skills I’m deve
 
 Here are some of the projects I’ve built:
 
+### At a Glance
+
+| Project | Type | Brief Description | Links |
+|---|---|---|---|
+| NFL Receiving Stats Explorer | Streamlit App | Interactive dashboard for exploring NFL receiving performance, advanced metrics, player comparisons, and similar-player matching. | [Project](basic_streamlit_app/) · [Live App](https://santarelli-data-science-portfolio-k5rzpsrn6jbhxdv8udvkuq.streamlit.app/) |
+| Machine Learning Streamlit App | Streamlit App | Supervised machine learning app where users clean data, choose a target, train models, and evaluate predictions. | [Project](MLStreamlitApp/) · [Live App](https://santarelli-data-science-portfolio-npyaadvr3rdd7mlympdfeh.streamlit.app/) |
+| Unsupervised Learning Streamlit App | Streamlit App | App for exploring hidden patterns with K-Means clustering, hierarchical clustering, PCA, silhouette scores, and dendrograms. | [Project](MLUnsupervisedApp/) · [Live App](https://santarelli-data-science-portfolio-garp5kqrpygarvb7jyqqto.streamlit.app/) |
+| Tidy Data Project | Notebook Project | Jupyter Notebook project that cleans federal R&D and GDP data into tidy format and visualizes spending trends. | [Project](TidyData-Project/) · [Notebook](TidyData-Project/main.ipynb) |
+
+
 ### 🏈 [NFL Receiving Stats Explorer](basic_streamlit_app/)
 
 **At a Glance**: Interactive NFL receiving dashboard with filters, advanced metrics, player comparisons, and a similar-player tool.
