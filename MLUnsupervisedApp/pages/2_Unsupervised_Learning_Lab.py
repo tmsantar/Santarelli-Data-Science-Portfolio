@@ -146,7 +146,7 @@ if method == "K-Means Clustering":
         clusters = kmeans.fit_predict(X_array)
 
         results_df = X.copy()
-        results_df["Cluster"] = clusters
+        results_df.insert(0, "Cluster", clusters)
 
         st.write("Number of rows in each cluster:")
         st.dataframe(results_df["Cluster"].value_counts().sort_index())
@@ -297,7 +297,7 @@ if method == "Hierarchical Clustering":
         clusters = hierarchical.fit_predict(X_array)
 
         results_df = X.copy()
-        results_df["Cluster"] = clusters
+        results_df.insert(0, "Cluster", clusters)
 
         st.write("Number of rows in each cluster:")
         st.dataframe(results_df["Cluster"].value_counts().sort_index())
