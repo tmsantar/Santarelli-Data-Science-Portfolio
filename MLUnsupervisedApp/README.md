@@ -110,6 +110,20 @@ Each graph includes a short explanation below it so users can understand what th
 
 ---
 
+## Visual Examples
+
+These screenshots show the main workflow and visual outputs in the deployed app.
+
+| App View | Screenshot |
+|---|---|
+| Home page overview | <img src="images/Home_Page.png" width="360"> |
+| Data cleaning workflow | <img src="images/Data_Cleaning.png" width="360"> |
+| K-Means clustering results | <img src="images/Clustering.png" width="360"> |
+| Elbow and silhouette plots | <img src="images/Elbow_Silhouette_plots.png" width="360"> |
+| Hierarchical dendrogram | <img src="images/Dendrogram.png" width="360"> |
+
+---
+
 ## 🚀 How to Run Locally
 
 1. Open a terminal in the portfolio repository.
