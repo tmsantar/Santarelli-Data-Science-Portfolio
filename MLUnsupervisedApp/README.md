@@ -202,8 +202,8 @@ These are the main libraries used by the app:
 
 These course notebooks helped guide the unsupervised learning methods used in this project:
 
-- [Week 12: PCA](../Week%2012/IDS_12_2_IN_CLASS.ipynb)
-- [Week 13: Hierarchical Clustering](../Week%2013/IDS_13_2_IN_CLASS.ipynb)
+- [Week 12: PCA](../Weekly%20Assignments/Week%2012/IDS_12_2_IN_CLASS.ipynb)
+- [Week 13: Hierarchical Clustering](../Weekly%20Assignments/Week%2013/IDS_13_2_IN_CLASS.ipynb)
 
 ---
 

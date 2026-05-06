@@ -186,10 +186,10 @@ These are the main libraries used by the app:
 
 These course notebooks helped guide the models and app logic used in this project:
 
-- [Week 7: Linear Regression](../Week%207/IDS_Week_7_FINAL.ipynb)
-- [Week 9: Logistic Regression](../Week%209/IDS%20Week%209_1_FINAL.ipynb)
-- [Week 9: Decision Tree Classifier](../Week%209/IDS%20Week%209_2_FINAL.ipynb)
-- [Week 10: XGBoost Classifier](../Week%2010/IDS%20Week%2010_1_FINAL.ipynb)
+- [Week 7: Linear Regression](../Weekly%20Assignments/Week%207/IDS_Week_7_FINAL.ipynb)
+- [Week 9: Logistic Regression](../Weekly%20Assignments/Week%209/IDS%20Week%209_1_FINAL.ipynb)
+- [Week 9: Decision Tree Classifier](../Weekly%20Assignments/Week%209/IDS%20Week%209_2_FINAL.ipynb)
+- [Week 10: XGBoost Classifier](../Weekly%20Assignments/Week%2010/IDS%20Week%2010_1_FINAL.ipynb)
 
 ---
 
