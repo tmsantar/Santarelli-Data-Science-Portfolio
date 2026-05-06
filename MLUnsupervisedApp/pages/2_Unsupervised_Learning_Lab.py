@@ -145,7 +145,7 @@ if method == "K-Means Clustering":
             st.pyplot(fig)
             st.caption(
                 "This silhouette plot compares how well rows fit inside their assigned K-Means cluster. "
-                "Higher values usually mean rows fit better inside their own cluster than in other clusters.")
+                "Higher silhouette scores usually mean rows fit better inside their own cluster than in other clusters.")
 
         st.subheader("Step 4: View Model Results")
 
