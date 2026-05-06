@@ -114,13 +114,19 @@ Each graph includes a short explanation below it so users can understand what th
 
 These screenshots show the main workflow and visual outputs in the deployed app.
 
-| App View | Screenshot |
-|---|---|
-| Home page overview | <img src="images/Home_Page.png" width="360"> |
-| Data cleaning workflow | <img src="images/Data_Cleaning.png" width="360"> |
-| K-Means clustering results | <img src="images/Clustering.png" width="360"> |
-| Elbow and silhouette plots | <img src="images/Elbow_Silhouette_plots.png" width="360"> |
-| Hierarchical dendrogram | <img src="images/Dendrogram.png" width="360"> |
+<p>
+  <img src="images/Home_Page.png" width="420" alt="Home page overview">
+  <img src="images/Data_Cleaning.png" width="420" alt="Data cleaning workflow">
+</p>
+
+<p>
+  <img src="images/Clustering.png" width="420" alt="K-Means clustering results">
+  <img src="images/Elbow_Silhouette_plots.png" width="420" alt="Elbow and silhouette plots">
+</p>
+
+<p>
+  <img src="images/Dendrogram.png" width="620" alt="Hierarchical dendrogram">
+</p>
 
 ---
 
