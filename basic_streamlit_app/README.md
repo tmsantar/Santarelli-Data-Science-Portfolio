@@ -176,32 +176,6 @@ These are the main libraries used by the app:
 
 ---
 
-## 📁 Project Structure
-
-```text
-basic_streamlit_app/
-├── main.py
-├── pages/
-│   ├── 1_📈_Season_Stats.py
-│   ├── 2_📅_Weekly_Stats.py
-│   ├── 3_🎯_Advanced_Stats.py
-│   └── 4_🧬_Similar_Player_Tool.py
-├── data/
-│   ├── nfl_data.py
-│   ├── nextgen_receiving_stats.csv
-│   └── player_headshots.csv
-├── images/
-│   ├── Next_Gen_Logo.jpg
-│   ├── Season_Stats.png
-│   ├── Weekly_Stats.png
-│   ├── Player_Comparison_Radar.png
-│   └── Player_Match_KMeans.png
-├── requirements.txt
-└── README.md
-```
-
----
-
 ## 👨‍💻 Author
 
 **Tommy Santarelli**  
