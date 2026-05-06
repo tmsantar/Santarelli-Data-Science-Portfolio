@@ -2,6 +2,7 @@ import streamlit as st
 from pathlib import Path
 
 
+# Build paths relative to this file so the image loads locally and on Streamlit Cloud.
 APP_DIR = Path(__file__).resolve().parent
 HOME_IMAGE = APP_DIR / "images" / "unsupervised.png"
 
@@ -11,6 +12,7 @@ st.set_page_config(page_title="Unsupervised Machine Learning App", page_icon="ðŸ
 # Main title shown at the top of the landing page.
 st.title("Unsupervised Machine Learning App ðŸ§ ")
 
+# Keep the first page compact by placing the introduction beside the main image.
 text_col, image_col = st.columns([1, 1], gap = "medium")
 
 with text_col:

@@ -5,6 +5,7 @@ from pathlib import Path
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
+# Each sample option stores both the CSV filename and a short explanation for users.
 SAMPLE_DATASETS = {
     "Country Democracy Indicators": {
         "file": "country_democracy_2020.csv",
@@ -87,7 +88,7 @@ if dataframe is not None:
     original_df = st.session_state["original_df"]
     working_df = st.session_state["working_df"]
 
-    # Save the current cleaned dataframe so the Predictions page can use it.
+    # Save the current cleaned dataframe so the modeling page can use it.
     st.session_state["dataframe"] = working_df
 
     # Show the current version of the dataset.

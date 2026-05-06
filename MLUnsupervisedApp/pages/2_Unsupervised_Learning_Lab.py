@@ -13,6 +13,7 @@ from scipy.cluster.hierarchy import dendrogram, linkage
 st.set_page_config(page_title="Unsupervised Learning Lab", page_icon="🧪", layout="wide")
 
 
+# This page depends on the cleaned dataframe saved by the Data Cleaning page.
 if "dataframe" not in st.session_state:
     # Stop here if the user has not loaded or cleaned a dataset yet.
     st.info("No dataset loaded yet. Go to the **Data Cleaning** page first.")
@@ -22,6 +23,7 @@ if "dataframe" not in st.session_state:
 df = st.session_state["dataframe"]
 numeric_columns = df.select_dtypes(include="number").columns.tolist()
 
+# K-Means, hierarchical clustering, and PCA all need numeric inputs.
 if len(numeric_columns) < 2:
     st.warning("This page needs at least 2 numeric columns for unsupervised learning.")
     st.stop()
@@ -82,12 +84,15 @@ if method == "K-Means Clustering":
         help="This is the number of distinct groups you want to categorize your data into.")
 
     if len(selected_features) >= 2:
+        # Drop rows with missing selected features so scikit-learn receives complete numeric data.
         X = df[selected_features].dropna()
 
+        # K-Means cannot create more clusters than the number of usable rows.
         if len(X) <= n_clusters:
             st.warning("Please choose fewer clusters or select features with fewer missing values.")
             st.stop()
 
+        # Scaling keeps large-unit features from overpowering smaller-unit features.
         if scale_data:
             scaler = StandardScaler()
             X_std = scaler.fit_transform(X)
@@ -99,12 +104,14 @@ if method == "K-Means Clustering":
 
         st.subheader("Step 3: Compare Cluster Options")
 
+        # Test several k values so users can compare possible cluster counts.
         max_k = min(10, len(X) - 1)
         k_values = list(range(2, max_k + 1))
         inertia_values = []
         silhouette_values = []
 
         for k in k_values:
+            # Inertia supports the elbow plot; silhouette supports separation feedback.
             test_kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
             test_clusters = test_kmeans.fit_predict(X_array)
             inertia_values.append(test_kmeans.inertia_)
@@ -145,6 +152,7 @@ if method == "K-Means Clustering":
         kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
         clusters = kmeans.fit_predict(X_array)
 
+        # Put cluster assignments first so they are easy to scan and export.
         results_df = X.copy()
         results_df.insert(0, "Cluster", clusters)
 
@@ -162,6 +170,7 @@ if method == "K-Means Clustering":
         )
 
         st.subheader("Cluster Scatter Plot")
+        # PCA is used here only to visualize multi-feature clusters in two dimensions.
         pca = PCA(n_components=2)
         X_pca = pca.fit_transform(X_array)
 
@@ -221,12 +230,15 @@ if method == "Hierarchical Clustering":
         "'average' uses average distance, and 'single' uses the closest points."))
 
     if len(selected_features) >= 2:
+        # Use only rows that are complete for the selected numeric features.
         X = df[selected_features].dropna()
 
+        # The selected cluster count must be smaller than the number of usable observations.
         if len(X) <= n_clusters:
             st.warning("Please choose fewer clusters or select features with fewer missing values.")
             st.stop()
 
+        # Scaling is recommended because hierarchical clustering is distance-based.
         if scale_data:
             scaler = StandardScaler()
             X_std = scaler.fit_transform(X)
@@ -238,6 +250,7 @@ if method == "Hierarchical Clustering":
 
         st.subheader("Step 3: Compare Cluster Options")
 
+        # Compare multiple cluster counts before fitting the final hierarchical model.
         max_k = min(10, len(X) - 1)
         k_values = list(range(2, max_k + 1))
         elbow_values = []
@@ -249,6 +262,7 @@ if method == "Hierarchical Clustering":
                 linkage=linkage_method)
             test_clusters = test_hierarchical.fit_predict(X_array)
 
+            # Approximate an elbow-style score by measuring spread around each cluster average.
             cluster_total = 0
             for cluster in np.unique(test_clusters):
                 cluster_rows = X_array[test_clusters == cluster]
@@ -296,6 +310,7 @@ if method == "Hierarchical Clustering":
 
         clusters = hierarchical.fit_predict(X_array)
 
+        # Put cluster assignments first so the result table and CSV are easier to read.
         results_df = X.copy()
         results_df.insert(0, "Cluster", clusters)
 
@@ -313,6 +328,7 @@ if method == "Hierarchical Clustering":
         )
 
         st.subheader("Cluster Scatter Plot")
+        # PCA gives a two-dimensional view of the hierarchical cluster assignments.
         pca = PCA(n_components=2)
         X_pca = pca.fit_transform(X_array)
 
@@ -349,6 +365,7 @@ if method == "Hierarchical Clustering":
         label_options += [col for col in df.columns.tolist() if col not in label_options]
         default_label_index = label_options.index("country_name") if "country_name" in label_options else 0
 
+        # Let users choose readable labels for dendrogram leaves when an ID/name column exists.
         label_column = st.selectbox(
             "Choose dendrogram labels",
             label_options,
@@ -370,6 +387,7 @@ if method == "Hierarchical Clustering":
 
 
         st.subheader("Dendrogram")
+        # Limit the dendrogram to a random sample so labels remain readable.
         dendrogram_size = min(50, len(X))
         rng = np.random.default_rng(42)
         dendrogram_positions = np.sort(rng.choice(len(X), size=dendrogram_size, replace=False))
@@ -416,6 +434,7 @@ if method == "PCA":
     st.subheader("Step 2: Choose Model Settings")
 
     if len(selected_features) >= 2:
+        # PCA can create at most one component per selected feature, capped here for readability.
         max_components = min(10, len(selected_features))
         n_components = st.slider(
             "Number of PCA components",
@@ -429,6 +448,7 @@ if method == "PCA":
 
         X = df[selected_features].dropna()
 
+        # PCA is sensitive to feature magnitude, so scaling is usually helpful.
         if scale_data:
             scaler = StandardScaler()
             X_for_pca = scaler.fit_transform(X)
@@ -443,6 +463,7 @@ if method == "PCA":
         pca = PCA(n_components=n_components)
         X_pca = pca.fit_transform(X_array)
 
+        # Store PCA output in a dataframe so it can be displayed and plotted.
         pca_columns = [f"PC{i + 1}" for i in range(n_components)]
         pca_df = pd.DataFrame(X_pca, columns=pca_columns, index=X.index)
 
@@ -469,6 +490,7 @@ if method == "PCA":
 
         fig, ax = plt.subplots(figsize=(8, 5))
 
+        # The optional color column is only for interpretation; it is not used to fit PCA.
         if label_column == "None":
             ax.scatter(pca_df["PC1"], pca_df["PC2"], alpha=0.75, edgecolors="white", linewidths=0.5)
         else:
@@ -478,6 +500,7 @@ if method == "PCA":
             if pd.api.types.is_numeric_dtype(plot_df["Label"]):
                 unique_values = sorted(plot_df["Label"].dropna().unique())
 
+                # Numeric columns with only a few values are easier to read as groups.
                 if len(unique_values) <= 10:
                     for label in unique_values:
                         label_data = plot_df[plot_df["Label"] == label]
@@ -495,6 +518,7 @@ if method == "PCA":
                         "so the plot uses a regular legend instead of a continuous scale."
                     )
                 else:
+                    # Numeric columns with many values use a continuous light-to-dark color scale.
                     scatter = ax.scatter(
                         plot_df["PC1"],
                         plot_df["PC2"],
@@ -512,6 +536,7 @@ if method == "PCA":
                 plot_df["Label"] = plot_df["Label"].astype(str)
 
                 if plot_df["Label"].nunique() <= 10:
+                    # Categorical columns with a few groups get a normal legend.
                     for label in sorted(plot_df["Label"].dropna().unique()):
                         label_data = plot_df[plot_df["Label"] == label]
                         ax.scatter(
@@ -524,6 +549,7 @@ if method == "PCA":
 
                     ax.legend(title=label_column)
                 else:
+                    # Too many categories would make the legend unreadable, so codes are used.
                     label_codes, label_names = pd.factorize(plot_df["Label"])
                     scatter = ax.scatter(
                         plot_df["PC1"],
