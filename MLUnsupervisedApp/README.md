@@ -114,18 +114,44 @@ Each graph includes a short explanation below it so users can understand what th
 
 These screenshots show the main workflow and visual outputs in the deployed app.
 
-<p>
-  <img src="images/Home_Page.png" width="420" alt="Home page overview">
-  <img src="images/Data_Cleaning.png" width="420" alt="Data cleaning workflow">
+### Home Page
+
+The home page introduces the purpose of the app and points users toward the data cleaning and unsupervised learning pages.
+
+<p align="center">
+  <img src="images/Home_Page.png" width="720" alt="Home page overview">
 </p>
 
-<p>
-  <img src="images/Clustering.png" width="420" alt="K-Means clustering results">
-  <img src="images/Elbow_Silhouette_plots.png" width="420" alt="Elbow and silhouette plots">
+### Data Cleaning Workflow
+
+Users can select a sample dataset or upload their own CSV file, then review columns, missing values, and cleaning options.
+
+<p align="center">
+  <img src="images/Data_Cleaning.png" width="720" alt="Data cleaning workflow">
 </p>
 
-<p>
-  <img src="images/Dendrogram.png" width="620" alt="Hierarchical dendrogram">
+### K-Means Clustering
+
+The clustering section lets users select numeric features, choose the number of clusters, and review the resulting cluster assignments.
+
+<p align="center">
+  <img src="images/Clustering.png" width="720" alt="K-Means clustering results">
+</p>
+
+### Elbow and Silhouette Plots
+
+These plots help users compare cluster counts and evaluate how clearly the data separates into groups.
+
+<p align="center">
+  <img src="images/Elbow_Silhouette_plots.png" width="720" alt="Elbow and silhouette plots">
+</p>
+
+### Hierarchical Dendrogram
+
+The dendrogram shows how rows merge together based on similarity, giving users a visual way to explore hierarchical clustering.
+
+<p align="center">
+  <img src="images/Dendrogram.png" width="720" alt="Hierarchical dendrogram">
 </p>
 
 ---
