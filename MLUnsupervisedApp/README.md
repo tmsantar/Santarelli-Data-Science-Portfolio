@@ -112,7 +112,7 @@ Each graph includes a short explanation below it so users can understand what th
 
 ---
 
-## Visual Examples
+## 🖼️ Visual Examples
 
 These screenshots show the main workflow and visual outputs in the deployed app.
 
