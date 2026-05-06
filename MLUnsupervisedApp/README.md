@@ -2,7 +2,9 @@
 
 Interactive Streamlit application for exploring unsupervised machine learning. Users can upload their own CSV file or choose from curated sample datasets, clean the data, select numeric features, and explore hidden patterns using K-Means clustering, hierarchical clustering, and Principal Component Analysis.
 
-![Unsupervised Learning](images/unsupervised.png)
+<p align="center">
+  <img src="images/unsupervised.png" width="720" alt="Unsupervised Learning">
+</p>
 
 ---
 
